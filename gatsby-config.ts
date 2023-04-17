@@ -3,6 +3,8 @@ import type { GatsbyConfig } from "gatsby";
 const config: GatsbyConfig = {
   siteMetadata: {
     title: `Logan Garay Portfolio`,
+    description: `Software Developer on a mission to create beautifully simple web applications.`,
+    auuthor: `@L-Garay`,
     siteUrl: `https://www.yourdomain.tld`
   },
   // More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense.
@@ -16,7 +18,31 @@ const config: GatsbyConfig = {
       "path": "./src/images/"
     },
     __key: "images"
-  }]
+  }, {
+    resolve: `gatsby-plugin-webfonts`,
+    options: {
+      fonts: {
+        google: [
+          // pairs found on (https://www.fontpair.co/all)
+          {
+            family: "Roboto Mono",
+            strategy: "selfHosted",
+          },
+          {
+            family: "Rubik",
+            strategy: "selfHosted",
+          },
+          {
+            family: "Karla",
+            strategy: "selfHosted",
+          },
+        ],
+      },
+      useMinify: true,
+      usePreload: true,
+      usePreconnect: false,
+    },
+  },]
 };
 
 export default config;
