@@ -8,6 +8,22 @@ import styled from 'styled-components'
 // the one on the right will be the site navigation (home, about, skills, etc)
 // since all three of those should be visible no matter what section you are on, they should be in the layout
 
+const HomeIconContainer = styled.header`
+  position: fixed;
+  top: 3.5%;
+  left: 2.5%;
+  padding: 10px;
+  background-color: red; // testing
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const HomeIcon = styled.a`
+  text-decoration: none;
+  color: white;
+`;
+
 const SocialLinks = styled.div`
   position: fixed;
   bottom: 0;
@@ -53,8 +69,8 @@ const LinkLine = styled.div`
     position: absolute;
     left: 50%;
     top: 0;
-    border-left: 1px solid black;
-    background-color: black;
+    border-left: 1px solid white;
+    background-color: white;
     width: 1px;
     height: 100%;
     transform: translateX(-50%);
@@ -73,14 +89,9 @@ const TestLink = styled.div`
 const Layout = ({ pageTitle, children }: Record<string, any>) => {
   return (
     <>
-    <header id='header'>
-      <div className="home-icon">
-        <a href="#home">
-          {/* svg icon goes here */}
-          test
-        </a>
-      </div>
-    </header>
+    <HomeIconContainer id='header'>
+      <HomeIcon href='#home'>Home</HomeIcon>
+    </HomeIconContainer>
     <main id="main">
       <SocialLinks>
         <TestLink></TestLink>
