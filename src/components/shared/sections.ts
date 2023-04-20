@@ -1,12 +1,5 @@
+import { SectionProps, SectionContentProps } from '../../constants/sharedTypes';
 import styled from 'styled-components';
-
-export type SectionProps = {
-  height?: number;
-};
-
-export type SectionContentProps = {
-  width: number;
-};
 
 export const Section = styled.section<SectionProps>`
   height: ${(props) => `${props.height}px` || '100vh'};
