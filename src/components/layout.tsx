@@ -7,8 +7,14 @@ import styled from 'styled-components';
 // the one on the right will be the site navigation (home, about, skills, etc)
 // since all three of those should be visible no matter what section you are on, they should be in the layout
 
+const Main = styled.main`
+  position: relative;
+  background-color: black;
+`;
+
 const HomeIconContainer = styled.header`
   position: fixed;
+  z-index: 100;
   top: 3.5%;
   left: 2.5%;
   padding: 10px;
@@ -66,10 +72,8 @@ const LinkLine = styled.div`
     content: '';
     position: absolute;
     left: 50%;
-    top: 0;
     border-left: 1px solid white;
     background-color: white;
-    width: 1px;
     height: 100%;
     transform: translateX(-50%);
   }
@@ -80,7 +84,18 @@ const TestLink = styled.div`
   width: 50px;
   background-color: red; // testing
   margin: 10px;
-  // display: inline-block;
+`;
+
+const Footer = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 75px; // will need to change on device size
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Layout = ({ pageTitle, children }: Record<string, any>) => {
@@ -89,7 +104,7 @@ const Layout = ({ pageTitle, children }: Record<string, any>) => {
       <HomeIconContainer id="header">
         <HomeIcon href="#home">Home</HomeIcon>
       </HomeIconContainer>
-      <main id="main">
+      <Main id="main">
         <SocialLinks>
           <TestLink></TestLink>
           <TestLink></TestLink>
@@ -114,12 +129,12 @@ const Layout = ({ pageTitle, children }: Record<string, any>) => {
             <SiteLink href="#about">05</SiteLink>
           </SiteLinkContainer>
         </SiteLinks>
-      </main>
-      <footer id="footer">
-        <div className="footer-content">
-          <small>This will be the footer</small>
-        </div>
-      </footer>
+        <Footer id="footer" role="contentinfo">
+          <div className="footer-content">
+            <small>copyright Logan Garay</small>
+          </div>
+        </Footer>
+      </Main>
     </>
   );
 };

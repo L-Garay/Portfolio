@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   *, 
@@ -12,12 +12,10 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     font-family: Karla, sans-serif;
     scroll-behavior: smooth;
-    height: 100%;
   }
 
   body {
     margin: 0;
-    height: 100%;
   }
 `;
 

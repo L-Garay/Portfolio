@@ -11,7 +11,6 @@ export type SectionContentProps = {
 export const Section = styled.section<SectionProps>`
   height: ${(props) => `${props.height}px` || '100vh'};
   width: 100%;
-  background-color: black;
   color: white;
   border-bottom: 1px solid white; // testing
 `;
