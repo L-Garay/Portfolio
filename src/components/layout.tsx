@@ -1,6 +1,5 @@
-import * as React from 'react'
-import styled from 'styled-components'
-
+import * as React from 'react';
+import styled from 'styled-components';
 
 // This layout will be solely responsible for the 'home' icon in the top left corner
 // it will also be responsible for the two vertical links/menus on either side of the page
@@ -44,7 +43,6 @@ const SiteLinkContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  
 `;
 
 const SiteLink = styled.a`
@@ -85,36 +83,45 @@ const TestLink = styled.div`
   // display: inline-block;
 `;
 
-
 const Layout = ({ pageTitle, children }: Record<string, any>) => {
   return (
     <>
-    <HomeIconContainer id='header'>
-      <HomeIcon href='#home'>Home</HomeIcon>
-    </HomeIconContainer>
-    <main id="main">
-      <SocialLinks>
-        <TestLink></TestLink>
-        <TestLink></TestLink>
-        <TestLink></TestLink>
-        <LinkLine />
-      </SocialLinks>
-      {children}
-      <SiteLinks>
-        <SiteLinkContainer><SiteLink href='#home'>01</SiteLink></SiteLinkContainer>
-        <SiteLinkContainer><SiteLink href='#skills'>02</SiteLink></SiteLinkContainer>
-        <SiteLinkContainer><SiteLink href='#experience'>03</SiteLink></SiteLinkContainer>
-        <SiteLinkContainer><SiteLink href='#journey'>04</SiteLink></SiteLinkContainer>
-        <SiteLinkContainer><SiteLink href='#about'>05</SiteLink></SiteLinkContainer>
-      </SiteLinks>
-    </main>
-    <footer id='footer'>
-      <div className="footer-content">
-        <small>This will be the footer</small>
-      </div>
-    </footer>
+      <HomeIconContainer id="header">
+        <HomeIcon href="#home">Home</HomeIcon>
+      </HomeIconContainer>
+      <main id="main">
+        <SocialLinks>
+          <TestLink></TestLink>
+          <TestLink></TestLink>
+          <TestLink></TestLink>
+          <LinkLine />
+        </SocialLinks>
+        {children}
+        <SiteLinks>
+          <SiteLinkContainer>
+            <SiteLink href="#introduction">01</SiteLink>
+          </SiteLinkContainer>
+          <SiteLinkContainer>
+            <SiteLink href="#skills">02</SiteLink>
+          </SiteLinkContainer>
+          <SiteLinkContainer>
+            <SiteLink href="#experience">03</SiteLink>
+          </SiteLinkContainer>
+          <SiteLinkContainer>
+            <SiteLink href="#journey">04</SiteLink>
+          </SiteLinkContainer>
+          <SiteLinkContainer>
+            <SiteLink href="#about">05</SiteLink>
+          </SiteLinkContainer>
+        </SiteLinks>
+      </main>
+      <footer id="footer">
+        <div className="footer-content">
+          <small>This will be the footer</small>
+        </div>
+      </footer>
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

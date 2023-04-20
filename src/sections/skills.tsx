@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Section, SectionContent } from '../components/shared/sections';
 
-const Introduction = () => {
+const Skills = () => {
   // TODO: use context and provider to pass window height and width to all sections
   const [windowHeight, setWindowHeight] = React.useState(0);
   const [windowWidth, setWindowWidth] = React.useState(0);
@@ -13,12 +13,12 @@ const Introduction = () => {
   }, []);
 
   return (
-    <Section id="introduction" height={windowHeight}>
+    <Section id="skills" height={windowHeight}>
       <SectionContent width={windowWidth - 200}>
-        <h1 style={{ margin: 0 }}>introduction section</h1>
+        <h1 style={{ margin: 0 }}>skills section</h1>
       </SectionContent>
     </Section>
   );
 };
 
-export default Introduction;
+export default Skills;
