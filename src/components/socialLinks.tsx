@@ -15,14 +15,23 @@ const LinksContainer = styled.div`
   left: 0;
 `;
 
-const TestLink = styled.div`
-  height: 50px;
-  width: 50px;
+type SocialLinkProps = {
+  isHovering: boolean;
+};
+
+const LinkWrapper = styled.div<SocialLinkProps>`
+  height: 40px;
+  width: 40px;
   background-color: transparent; // testing
-  margin: 10px;
+  margin: 10px auto;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-bottom: ${(props) => (props.isHovering ? '7px' : '0')};
+  transition: padding-bottom 0.25s linear;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const LinkLine = styled.div`
@@ -54,59 +63,58 @@ const SocialLinks = () => {
 
   return (
     <LinksContainer>
-      <TestLink>
-        <Link
-          href={SOCIALS.github}
-          onMouseEnter={() => {
-            setIsHoveringGithub(true);
-          }}
-          onMouseLeave={() => {
-            setIsHoveringGithub(false);
-          }}
-        >
+      <LinkWrapper
+        isHovering={isHoveringGithub}
+        onMouseEnter={() => {
+          setIsHoveringGithub(true);
+        }}
+        onMouseLeave={() => {
+          setIsHoveringGithub(false);
+        }}
+      >
+        <Link href={SOCIALS.github}>
           <GithubSVG fill={isHoveringGithub ? fillColor : defaultColor} />
         </Link>
-      </TestLink>
-      <TestLink>
-        <Link
-          href={SOCIALS.linkedIn}
-          onMouseEnter={() => {
-            setIsHoveringLinkedIn(true);
-          }}
-          onMouseLeave={() => {
-            setIsHoveringLinkedIn(false);
-          }}
-        >
+      </LinkWrapper>
+      <LinkWrapper
+        isHovering={isHoveringLinkedIn}
+        onMouseEnter={() => {
+          setIsHoveringLinkedIn(true);
+        }}
+        onMouseLeave={() => {
+          setIsHoveringLinkedIn(false);
+        }}
+      >
+        <Link href={SOCIALS.linkedIn}>
           <LinkedInSVG fill={isHoveringLinkedIn ? fillColor : defaultColor} />
         </Link>
-      </TestLink>
-      <TestLink>
-        <Link
-          href="../assets/resume.pdf"
-          download={true}
-          onMouseEnter={() => {
-            setIsHoveringResume(true);
-          }}
-          onMouseLeave={() => {
-            setIsHoveringResume(false);
-          }}
-        >
+      </LinkWrapper>
+      <LinkWrapper
+        isHovering={isHoveringResume}
+        onMouseEnter={() => {
+          setIsHoveringResume(true);
+        }}
+        onMouseLeave={() => {
+          setIsHoveringResume(false);
+        }}
+      >
+        <Link href="../assets/resume.pdf" download={true}>
           <DownloadSVG fill={isHoveringResume ? fillColor : defaultColor} />
         </Link>
-      </TestLink>
-      <TestLink>
-        <Link
-          href={SOCIALS.email}
-          onMouseEnter={() => {
-            setIsHoveringEmail(true);
-          }}
-          onMouseLeave={() => {
-            setIsHoveringEmail(false);
-          }}
-        >
+      </LinkWrapper>
+      <LinkWrapper
+        isHovering={isHoveringEmail}
+        onMouseEnter={() => {
+          setIsHoveringEmail(true);
+        }}
+        onMouseLeave={() => {
+          setIsHoveringEmail(false);
+        }}
+      >
+        <Link href={SOCIALS.email}>
           <EmailSVG fill={isHoveringEmail ? fillColor : defaultColor} />
         </Link>
-      </TestLink>
+      </LinkWrapper>
       <LinkLine />
     </LinksContainer>
   );
