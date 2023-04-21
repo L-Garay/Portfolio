@@ -2,7 +2,7 @@ import { SectionProps, SectionContentProps } from '../../constants/sharedTypes';
 import styled from 'styled-components';
 
 export const Section = styled.section<SectionProps>`
-  height: ${(props) => `${props.height}px` || '100vh'};
+  height: ${(props) => (props.height ? `${props.height}px` : '100vh')};
   width: 100%;
   color: white;
   border-bottom: 1px solid white; // testing
