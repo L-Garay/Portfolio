@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import SocialLinks from './socialLinks';
 
 // This layout will be solely responsible for the 'home' icon in the top left corner
 // it will also be responsible for the two vertical links/menus on either side of the page
@@ -29,12 +30,6 @@ const HomeIcon = styled.a`
   color: white;
 `;
 
-const SocialLinks = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-`;
-
 const SiteLinks = styled.div`
   position: fixed;
   bottom: 35%;
@@ -61,31 +56,6 @@ const SiteLink = styled.a`
   }
 `;
 
-const LinkLine = styled.div`
-  height: 100px;
-  width: 50px;
-  background-color: transparent;
-  position: relative;
-  margin: 0 10px;
-
-  &:after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    border-left: 1px solid white;
-    background-color: white;
-    height: 100%;
-    transform: translateX(-50%);
-  }
-`;
-
-const TestLink = styled.div`
-  height: 50px;
-  width: 50px;
-  background-color: red; // testing
-  margin: 10px;
-`;
-
 const Footer = styled.div`
   position: absolute;
   bottom: 0;
@@ -105,12 +75,7 @@ const Layout = ({ pageTitle, children }: Record<string, any>) => {
         <HomeIcon href="#home">Home</HomeIcon>
       </HomeIconContainer>
       <Main id="main">
-        <SocialLinks>
-          <TestLink></TestLink>
-          <TestLink></TestLink>
-          <TestLink></TestLink>
-          <LinkLine />
-        </SocialLinks>
+        <SocialLinks />
         {children}
         <SiteLinks>
           <SiteLinkContainer>

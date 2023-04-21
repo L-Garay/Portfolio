@@ -13,3 +13,9 @@ export const Paragraph = styled.p`
   margin: 0;
   font-family: ${theme.fonts.robotoMono};
 `;
+
+export const Link = styled.a`
+  color: ${theme.colors.BLUE_1};
+  text-decoration: none;
+  cursor: pointer;
+`;
