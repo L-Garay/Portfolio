@@ -11,12 +11,9 @@ import React, {
 export interface DeviceContextProps {
   windowWidth: number;
   windowHeight: number;
-  isMobile: boolean;
-  isDesktop: boolean;
-  isAndroid: boolean;
-  isIos: boolean;
-  isWindows: boolean;
-  useIsWindowWidthAboveOrBetweenThreshold: (
+  isMobileDevice: boolean;
+  isDesktopDevice: boolean;
+  isWindowWidthAboveOrBetweenThreshold: (
     minThreshold: number,
     maxThreshold?: number
   ) => boolean | undefined;
@@ -26,25 +23,22 @@ export interface DeviceContextProps {
 export const DeviceContext = createContext<DeviceContextProps>({
   windowWidth: 0,
   windowHeight: 0,
-  isMobile: false,
-  isDesktop: false,
-  isAndroid: false,
-  isIos: false,
-  isWindows: false,
-  useIsWindowWidthAboveOrBetweenThreshold: () => undefined,
+  isMobileDevice: false,
+  isDesktopDevice: false,
+  isWindowWidthAboveOrBetweenThreshold: () => undefined,
   isClientReady: false,
 } as DeviceContextProps);
 export const DeviceProvider = ({ children }: { children: ReactNode }) => {
   console.log('HITTING THE CONTEXT');
   const [windowWidth, setWindowWidth] = useState(0);
   const [windowHeight, setWindowHeight] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
-  const [isAndroid, setIsAndroid] = useState(false);
-  const [isIos, setIsIos] = useState(false);
-  const [isWindows, setIsWindows] = useState(false);
-  const [isOpera, setIsOpera] = useState(false);
-  const [isSSR, setIsSSR] = useState(false);
+  const [isMobileDevice, setIsMobile] = useState(false);
+  const [isDesktopDevice, setIsDesktop] = useState(false);
+  const [isAndroidDevice, setIsAndroid] = useState(false);
+  const [isIosDevice, setIsIos] = useState(false);
+  const [isWindowsDevice, setIsWindows] = useState(false);
+  const [isOperaDevice, setIsOpera] = useState(false);
+  const [isSSRDevice, setIsSSR] = useState(false);
 
   function handleResize(e: Event) {
     const target = e.target as Window;
@@ -72,39 +66,21 @@ export const DeviceProvider = ({ children }: { children: ReactNode }) => {
     setIsOpera(Boolean(userAgent.match(/Opera Mini/i)));
     setIsWindows(Boolean(userAgent.match(/IEMobile/i)));
     setIsSSR(Boolean(userAgent.match(/SSR/i)));
-    setIsMobile(Boolean(isAndroid || isIos || isOpera || isWindows));
-    setIsDesktop(Boolean(!isMobile && !isSSR));
+    setIsMobile(
+      Boolean(
+        isAndroidDevice || isIosDevice || isOperaDevice || isWindowsDevice
+      )
+    );
+    setIsDesktop(Boolean(!isMobileDevice && !isSSRDevice));
   }, [userAgent]);
 
-  const useIsWindowWidthAboveOrBetweenThreshold = (
+  const isWindowWidthAboveOrBetweenThreshold = (
     minThreshold: number,
     maxThreshold: number | null = null
   ): boolean | undefined => {
-    const [isWindowWidthAboveOrBetweenThreshold, calculate] = useState<
-      boolean | undefined
-    >(undefined);
-    console.log(minThreshold, 'minThreshold');
-    const handleWindowResize = useCallback((): void => {
-      const width = window.innerWidth;
-      console.log(width, 'width');
-      calculate(
-        maxThreshold !== null
-          ? width >= minThreshold && width < maxThreshold
-          : width >= minThreshold
-      );
-    }, [minThreshold, maxThreshold]);
-
-    useEffect(() => {
-      handleWindowResize();
-
-      window.addEventListener('resize', handleWindowResize);
-
-      return () => {
-        window.removeEventListener('resize', handleWindowResize);
-      };
-    }, [handleWindowResize]);
-
-    return isWindowWidthAboveOrBetweenThreshold;
+    return maxThreshold !== null
+      ? windowWidth >= minThreshold && windowWidth < maxThreshold
+      : windowWidth >= minThreshold;
   };
 
   const isClientReady =
@@ -115,12 +91,9 @@ export const DeviceProvider = ({ children }: { children: ReactNode }) => {
   const state = {
     windowWidth,
     windowHeight,
-    isMobile,
-    isDesktop,
-    isAndroid,
-    isIos,
-    isWindows,
-    useIsWindowWidthAboveOrBetweenThreshold,
+    isMobileDevice,
+    isDesktopDevice,
+    isWindowWidthAboveOrBetweenThreshold,
     isClientReady,
   };
 

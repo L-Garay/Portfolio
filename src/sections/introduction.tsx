@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Section, SectionContent } from '../components/shared/sections';
+import { Section, SectionContent } from '../components/sections';
 import theme from '../styles/theme';
 import { Heading2, Paragraph } from '../components/shared';
 import { useDeviceContext } from '../contexts/deviceContext';
@@ -30,13 +30,11 @@ const Introduction = () => {
   const {
     windowWidth,
     windowHeight,
-    isMobile: isMobileDevice,
-    useIsWindowWidthAboveOrBetweenThreshold,
+    isMobileDevice,
+    isWindowWidthAboveOrBetweenThreshold,
   } = useDeviceContext();
 
-  const isAboveSmall = useIsWindowWidthAboveOrBetweenThreshold(
-    SCREEN_SIZES.SMALL
-  );
+  const isAboveSmall = isWindowWidthAboveOrBetweenThreshold(SCREEN_SIZES.SMALL);
 
   const isMobile = isMobileDevice && !isAboveSmall;
 
