@@ -1,4 +1,4 @@
-import { SectionProps, SectionContentProps } from '../../constants/sharedTypes';
+import { SectionProps, SectionContentProps } from '../constants/sharedTypes';
 import styled from 'styled-components';
 
 export const Section = styled.section<SectionProps>`
