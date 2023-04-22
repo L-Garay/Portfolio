@@ -49,7 +49,7 @@ type SectionNameBannerProps = SiteLinkWrapperProps & {};
 
 const SectionNameBanner = styled.div<SectionNameBannerProps>`
   position: absolute;
-  top: 0;
+  top: -1px;
   right: 100%;
   background-color: grey;
   opacity: 0;

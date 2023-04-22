@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import GithubSVG from './svgs/githubSVG';
 import styled from 'styled-components';
-import COLORS from '../styles/color';
+import theme from '../styles/theme';
 import SOCIALS from '../constants/socials';
 import { Link } from '../components/shared';
 import LinkedInSVG from './svgs/linkedInSVG';
@@ -60,8 +60,8 @@ const SocialLinks = () => {
   const [isHoveringResume, setIsHoveringResume] = useState(false);
   const [isHoveringEmail, setIsHoveringEmail] = useState(false);
 
-  const defaultColor = COLORS.ORANGE_2;
-  const fillColor = COLORS.BLUE_1;
+  const defaultColor = theme.colors.ORANGE_2;
+  const fillColor = theme.colors.BLUE_1;
 
   return (
     <LinksContainer>
