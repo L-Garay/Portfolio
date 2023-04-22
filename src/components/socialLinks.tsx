@@ -52,6 +52,8 @@ const LinkLine = styled.div`
   }
 `;
 
+const SocialLink = styled(Link)``;
+
 const SocialLinks = () => {
   const [isHoveringGithub, setIsHoveringGithub] = useState(false);
   const [isHoveringLinkedIn, setIsHoveringLinkedIn] = useState(false);
@@ -72,9 +74,9 @@ const SocialLinks = () => {
           setIsHoveringGithub(false);
         }}
       >
-        <Link href={SOCIALS.github}>
+        <SocialLink href={SOCIALS.github} target="_blank">
           <GithubSVG fill={isHoveringGithub ? fillColor : defaultColor} />
-        </Link>
+        </SocialLink>
       </LinkWrapper>
       <LinkWrapper
         isHovering={isHoveringLinkedIn}
@@ -85,9 +87,9 @@ const SocialLinks = () => {
           setIsHoveringLinkedIn(false);
         }}
       >
-        <Link href={SOCIALS.linkedIn}>
+        <SocialLink href={SOCIALS.linkedIn} target="_blank">
           <LinkedInSVG fill={isHoveringLinkedIn ? fillColor : defaultColor} />
-        </Link>
+        </SocialLink>
       </LinkWrapper>
       <LinkWrapper
         isHovering={isHoveringResume}
@@ -98,9 +100,9 @@ const SocialLinks = () => {
           setIsHoveringResume(false);
         }}
       >
-        <Link href="../assets/resume.pdf" download={true}>
+        <SocialLink href="../assets/resume.pdf" download={true}>
           <DownloadSVG fill={isHoveringResume ? fillColor : defaultColor} />
-        </Link>
+        </SocialLink>
       </LinkWrapper>
       <LinkWrapper
         isHovering={isHoveringEmail}
@@ -111,9 +113,9 @@ const SocialLinks = () => {
           setIsHoveringEmail(false);
         }}
       >
-        <Link href={SOCIALS.email}>
+        <SocialLink href={SOCIALS.email}>
           <EmailSVG fill={isHoveringEmail ? fillColor : defaultColor} />
-        </Link>
+        </SocialLink>
       </LinkWrapper>
       <LinkLine />
     </LinksContainer>

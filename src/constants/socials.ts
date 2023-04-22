@@ -1,5 +1,5 @@
 const github = 'https://github.com/L-Garay';
-const linkedIn = 'https://www.linkedin.com/in/logan-garay/';
+const linkedIn = 'https://www.linkedin.com/in/logangaray/';
 const resume = '../assets/Logan_Garay_Resume.pdf';
 const email = 'mailto:garay.logan@gmail.com?subject=Hello%20Logan!';
 

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import SocialLinks from './socialLinks';
+import SiteLinks from './siteLinks';
 
 // This layout will be solely responsible for the 'home' icon in the top left corner
 // it will also be responsible for the two vertical links/menus on either side of the page
@@ -30,32 +31,6 @@ const HomeIcon = styled.a`
   color: white;
 `;
 
-const SiteLinks = styled.div`
-  position: fixed;
-  bottom: 35%;
-  right: 0;
-`;
-
-const SiteLinkContainer = styled.div`
-  height: 50px;
-  width: 50px; // will expand out on hover to fit name of section
-  margin: 10px;
-  background-color: red; // testing
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const SiteLink = styled.a`
-  text-decoration: none;
-  color: white;
-
-  &:hover {
-    cursor: pointer;
-    color: black;
-  }
-`;
-
 const Footer = styled.div`
   position: absolute;
   bottom: 0;
@@ -77,23 +52,7 @@ const Layout = ({ pageTitle, children }: Record<string, any>) => {
       <Main id="main">
         <SocialLinks />
         {children}
-        <SiteLinks>
-          <SiteLinkContainer>
-            <SiteLink href="#introduction">01</SiteLink>
-          </SiteLinkContainer>
-          <SiteLinkContainer>
-            <SiteLink href="#skills">02</SiteLink>
-          </SiteLinkContainer>
-          <SiteLinkContainer>
-            <SiteLink href="#experience">03</SiteLink>
-          </SiteLinkContainer>
-          <SiteLinkContainer>
-            <SiteLink href="#journey">04</SiteLink>
-          </SiteLinkContainer>
-          <SiteLinkContainer>
-            <SiteLink href="#about">05</SiteLink>
-          </SiteLinkContainer>
-        </SiteLinks>
+        <SiteLinks />
         <Footer id="footer" role="contentinfo">
           <div className="footer-content">
             <small>copyright Logan Garay</small>
