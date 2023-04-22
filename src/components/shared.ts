@@ -15,6 +15,7 @@ export const Paragraph = styled.p`
 `;
 
 export const Link = styled.a`
+  font-family: ${theme.fonts.robotoMono};
   color: ${theme.colors.BLUE_1};
   text-decoration: none;
   cursor: pointer;

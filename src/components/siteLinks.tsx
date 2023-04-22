@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from './shared';
+import { Link, Paragraph } from './shared';
 import theme from '../styles/theme';
 
 const SiteLinksContainer = styled.div`
@@ -82,7 +82,7 @@ const SectionNameBanner = styled.div<SectionNameBannerProps>`
   }}
 `;
 
-const SectionName = styled.p`
+const SectionName = styled(Paragraph)`
   font-size: 1rem; // will change based on screen size
 `;
 
