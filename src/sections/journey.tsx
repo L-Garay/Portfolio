@@ -12,7 +12,9 @@ const Journey = () => {
     isWindowWidthAboveOrBetweenThreshold,
   } = useDeviceContext();
 
-  const isAboveSmall = isWindowWidthAboveOrBetweenThreshold(SCREEN_SIZES.SMALL);
+  const isAboveSmall = isWindowWidthAboveOrBetweenThreshold(
+    SCREEN_SIZES.MOBILE
+  );
 
   const isMobile = isMobileDevice && !isAboveSmall;
 
