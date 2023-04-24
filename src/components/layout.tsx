@@ -3,9 +3,11 @@ import styled from 'styled-components';
 import SocialLinks from './socialLinks';
 import SiteLinks from './siteLinks';
 import theme from '../styles/theme';
-import { Paragraph } from './shared';
+import { ButtonAsLink, Link, Paragraph } from './shared';
 import { useDeviceContext } from '../contexts/deviceContext';
 import SCREEN_SIZES from '../constants/screenSizes';
+import HamburgerMenu from './hamburger';
+import SOCIALS from '..//constants/socials';
 
 const Main = styled.main`
   position: relative;
@@ -22,20 +24,9 @@ const HomeIconContainer = styled.header<HeaderProps>`
   position: fixed;
   z-index: 100;
   width: 100%;
+  height: 62px;
   top: ${(props) => (props.isMobile ? '0' : '3.5%')};
   left: ${(props) => (props.isMobile ? '0' : '2.5%')};
-`;
-
-type IconLetterProps = SharedHeaderProps & {
-  color: string;
-};
-
-const HomeIconLetter = styled(Paragraph)<IconLetterProps>`
-  color: ${(props) => props.color};
-  transition: color 0.2s linear;
-  font-size: 2rem; // will need to clamp on device size changes
-  padding: 0;
-  font-weight: 900;
 `;
 
 type IconWrapperProps = SharedHeaderProps & {
@@ -48,9 +39,12 @@ const IconWrapper = styled.div<IconWrapperProps>`
   align-items: center;
   border: 2px solid ${theme.colors.BLUE_1};
   border-radius: 12.5px;
-  width: 75px;
-  margin: 0 auto 0 0;
+  width: ${(props) => (props.isMobile ? '60px' : '75px')};
+  height: ${(props) => (props.isMobile ? '45px' : '55px')};
+  margin: ${(props) => (props.isMobile ? 'auto auto auto 10px' : '0 auto 0 0')};
+  /* margin: 0 auto 0 0; */
   cursor: pointer;
+  transition: all 0.25s linear;
 
   ${(props) => {
     if (props.isHovering) {
@@ -61,13 +55,21 @@ const IconWrapper = styled.div<IconWrapperProps>`
                       0 0.5em 0.5em -0.4em ${theme.colors.ORANGE_1};
           transform: translateY(-0.25em);
         }
-        transition: all .25s linear;
       `;
-    } else
-      return `
-      transition: all .25s linear;
-    `;
+    } else return ``;
   }}
+`;
+
+type IconLetterProps = SharedHeaderProps & {
+  color: string;
+};
+
+const HomeIconLetter = styled(Paragraph)<IconLetterProps>`
+  color: ${(props) => props.color};
+  transition: color 0.2s linear;
+  font-size: clamp(1.5rem, 2vw, 2.2rem);
+  padding: 0;
+  font-weight: 900;
 `;
 
 const Footer = styled.div`
@@ -84,63 +86,119 @@ const Footer = styled.div`
 
 const MobileNavContainer = styled.div`
   display: flex;
-  border-bottom: 2px solid ${theme.colors.ORANGE_1};
   padding: 0.5rem 0;
-  background: lightgrey; //testing
+  background: rgb(10, 27, 32, 0.7);
+  backdrop-filter: blur(5px);
 `;
 
-type HamburgerProps = {
-  isHoveringHamburger: boolean;
+type MobileMenuProps = {
   isMenuOpen: boolean;
 };
 
-const HamburgerMenu = styled.div`
-  background-color: lightgrey; //testing
-  width: 25%;
-  display: flex;
-  justify-content: center;
-`; // TODO add id="mobile-nav" to this
-
-const HamburgerButton = styled.button.attrs({
-  type: 'button',
-  ariaControls: 'mobile-nav',
-})`
-  background: red; //testing
-  border-radius: 12.5px;
-  border: 5px solid;
+const MobileMenuBG = styled.div<MobileMenuProps>`
+  position: fixed;
+  top: 62px; // height of header
+  right: 0;
+  width: 100%;
+  height: calc(100vh - 62px);
+  background: rgb(10, 27, 32);
   overflow: hidden;
-`; // TODO add aria-expanded={isMobileNavOpen} to this for accessibility
-
-const HamburgerSVG = styled.svg.attrs({
-  viewBox: '-10 -10 120 120',
-})<HamburgerProps>`
-  width: 50px;
-  fill: none;
-  stroke: black; //testing
-  transition: translate 0.5s, rotate 0.5s;
-  translate: ${(props) => (props.isMenuOpen ? '2.5px 0px;' : '0px 2.5px;')};
-  rotate: ${(props) => (props.isMenuOpen ? '0.125turn;' : ';')};
 `;
 
-const SVGPath = styled.path.attrs({
-  d: 'm 20 40 h 60 a 1 1 0 0 1 0 20 h -60 a 1 1 0 0 1 0 -40 h 30 v 70',
-})<HamburgerProps>`
-  stroke-width: 10;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  transition: 0.5s;
-  stroke-dasharray: ${(props) =>
-    props.isMenuOpen ? '60 105 60 300;' : '60 31 60 300;'};
-  stroke-dashoffset: ${(props) => (props.isMenuOpen ? '-90;' : ';')};
+const MobileMenu = styled.div<MobileMenuProps>`
+  position: fixed;
+  top: 62px; // height of header
+  right: 0;
+  width: 100%;
+  width: ${(props) => (props.isMenuOpen ? '80%' : '0')};
+  opacity: ${(props) => (props.isMenuOpen ? '1' : '0')};
+  background: rgb(189, 86, 60, 0.8);
+  height: calc(100vh - 62px);
+  transition: all 0.2s linear;
 `;
+
+const MobileMenuLinkContainer = styled.div`
+  /* background: lightgrey; // testing */
+  margin: 0.5rem auto;
+`;
+
+const MenuLables = styled(Paragraph)`
+  font-size: 1rem;
+  font-weight: bolder;
+  align-self: start;
+`;
+
+const MenuSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 1.5rem 1rem;
+`;
+
+const MobileMenuLinkWrapper = styled.div`
+  padding: 0.5rem 0;
+  min-width: 125px;
+  display: flex;
+  align-items: center;
+`;
+
+const MobileMenuLink = styled(Link)`
+  max-width: max-content;
+  flex-grow: 1;
+  margin: 0 auto;
+`;
+
+type MobileExternalLinkProps = {
+  targetLink: string;
+  targetType: string;
+};
+
+const MobileExternalLinks = styled(ButtonAsLink).attrs<MobileExternalLinkProps>(
+  (props) => ({
+    href: props.targetLink,
+    target: props.targetType,
+    download: props.targetType === '_self' ? true : false,
+  })
+)<MobileExternalLinkProps>`
+  text-align: center;
+  cursor: pointer;
+  color: ${theme.colors.BLUE_1};
+`;
+
+const MenuLinkNumber = styled(Paragraph)`
+  font-size: 0.75rem;
+  flex-shrink: 1;
+`;
+
+const ContactLabel = styled.small`
+  font-size: 0.75rem;
+  font-weight: bold;
+`;
+
+const ContactLink = styled(Link)`
+  text-decoration: underline;
+  padding-left: 0.5rem;
+`;
+
+const ContactPhone = styled(Paragraph)`
+  display: inline;
+  font-size: 1rem;
+  padding-left: 0.5rem;
+`;
+
+// TODO list
+// 1. close menu when clicking a section link
+// 2. fix 'bug' where if you switch emulation mode back to desktop, the menu is still opne but hidden, and then if you switch back to mobile, the menu itself is visible but there's a glitch with the svg icon and the conditional style applied to body (svg icon thinks menu is closed, body thinks menu is open)
+// 3. fix style 'bug' where the content/text should expand on mobile-desktop (when the user manually shrinks desktop window size down to mobile breakpoints) but then shrink on actual-mobile (mobile device emulation)
+// 4. extract out Header components/code into separate file from this layout file
+// 5. update styling altogether
 
 const Layout = ({ pageTitle, children }: Record<string, any>) => {
   const [isHoveringIcon, setIsHoveringIcon] = React.useState(false);
-  const [isHoveringHamburger, setIsHoveringHamburger] = React.useState(false);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  // console.log('isMenuOpen', isMenuOpen);
-  const { windowWidth, windowHeight, isWindowWidthAboveOrBetweenThreshold } =
-    useDeviceContext();
+  const { isWindowWidthAboveOrBetweenThreshold } = useDeviceContext();
+
+  console.log('isMenuOpen', isMenuOpen);
 
   const isAboveMobile = isWindowWidthAboveOrBetweenThreshold(
     SCREEN_SIZES.MOBILE
@@ -155,7 +213,6 @@ const Layout = ({ pageTitle, children }: Record<string, any>) => {
       <HomeIconContainer id="header" isMobile={isMobile}>
         {isMobile ? (
           <MobileNavContainer>
-            {/* this will be the mobile header, an actual header with burger menu for section links, buttons for resume and email and icon */}
             <IconWrapper
               isMobile={isMobile}
               isHovering={isHoveringIcon}
@@ -169,23 +226,74 @@ const Layout = ({ pageTitle, children }: Record<string, any>) => {
                 G
               </HomeIconLetter>
             </IconWrapper>
-            <HamburgerMenu>
-              <HamburgerButton
-                onMouseEnter={() => setIsHoveringHamburger(true)}
-                onMouseLeave={() => setIsHoveringHamburger(false)}
-                onClick={() => setIsMenuOpen((prev) => !prev)}
-              >
-                <HamburgerSVG
-                  isHoveringHamburger={isHoveringHamburger}
-                  isMenuOpen={isMenuOpen}
-                >
-                  <SVGPath
-                    isMenuOpen={isMenuOpen}
-                    isHoveringHamburger={isHoveringHamburger}
-                  ></SVGPath>
-                </HamburgerSVG>
-              </HamburgerButton>
-            </HamburgerMenu>
+            <HamburgerMenu setParentIsMenuOpen={setIsMenuOpen} />
+            {isMenuOpen ? <MobileMenuBG isMenuOpen={isMenuOpen} /> : null}
+            <MobileMenu isMenuOpen={isMenuOpen}>
+              <MobileMenuLinkContainer>
+                <MenuSection>
+                  <MobileMenuLinkWrapper>
+                    <MenuLinkNumber>01.</MenuLinkNumber>
+                    <MobileMenuLink href="#intro">Intro</MobileMenuLink>
+                  </MobileMenuLinkWrapper>
+                  <MobileMenuLinkWrapper>
+                    <MenuLinkNumber>02.</MenuLinkNumber>
+                    <MobileMenuLink href="#skills">Skills</MobileMenuLink>
+                  </MobileMenuLinkWrapper>
+                  <MobileMenuLinkWrapper>
+                    <MenuLinkNumber>03.</MenuLinkNumber>
+                    <MobileMenuLink href="#experience">
+                      Experience
+                    </MobileMenuLink>
+                  </MobileMenuLinkWrapper>
+                  <MobileMenuLinkWrapper>
+                    <MenuLinkNumber>04.</MenuLinkNumber>
+                    <MobileMenuLink href="#journey">Journey</MobileMenuLink>
+                  </MobileMenuLinkWrapper>
+                  <MobileMenuLinkWrapper>
+                    <MenuLinkNumber>05.</MenuLinkNumber>
+                    <MobileMenuLink href="#about">About</MobileMenuLink>
+                  </MobileMenuLinkWrapper>
+                </MenuSection>
+
+                <MenuSection>
+                  <MenuLables>My stuff</MenuLables>
+                  <MobileExternalLinks
+                    targetLink={SOCIALS.linkedIn}
+                    targetType="_blank"
+                  >
+                    LinkedIn
+                  </MobileExternalLinks>
+                  <MobileExternalLinks
+                    targetLink={SOCIALS.resume}
+                    targetType="_self"
+                  >
+                    Resume
+                  </MobileExternalLinks>
+                  <MobileExternalLinks
+                    targetLink={SOCIALS.github}
+                    targetType="_blank"
+                  >
+                    Github
+                  </MobileExternalLinks>
+                </MenuSection>
+
+                <MenuSection>
+                  <MenuLables>Contact me</MenuLables>
+                  <div>
+                    <ContactLabel>Email:</ContactLabel>
+                    <ContactLink
+                      href={`mailto:${SOCIALS.email}?subject=Hello%20Logan!`}
+                    >
+                      {SOCIALS.email}
+                    </ContactLink>
+                  </div>
+                  <div>
+                    <ContactLabel>Phone:</ContactLabel>
+                    <ContactPhone>{SOCIALS.phone}</ContactPhone>
+                  </div>
+                </MenuSection>
+              </MobileMenuLinkContainer>
+            </MobileMenu>
           </MobileNavContainer>
         ) : (
           <IconWrapper
