@@ -5,18 +5,14 @@ import { useDeviceContext } from '../contexts/deviceContext';
 import SCREEN_SIZES from '../constants/screenSizes';
 
 const About = () => {
-  const {
-    windowWidth,
-    windowHeight,
-    isMobileDevice,
-    isWindowWidthAboveOrBetweenThreshold,
-  } = useDeviceContext();
+  const { windowWidth, windowHeight, isWindowWidthAboveOrBetweenThreshold } =
+    useDeviceContext();
 
   const isAboveSmall = isWindowWidthAboveOrBetweenThreshold(
     SCREEN_SIZES.MOBILE
   );
 
-  const isMobile = isMobileDevice && !isAboveSmall;
+  const isMobile = !isAboveSmall;
 
   return (
     <Section id="about" height={isMobile ? windowHeight : undefined}>

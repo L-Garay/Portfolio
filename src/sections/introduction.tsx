@@ -27,18 +27,14 @@ const IntroHeading2 = styled(Heading2)`
 `;
 
 const Introduction = () => {
-  const {
-    windowWidth,
-    windowHeight,
-    isMobileDevice,
-    isWindowWidthAboveOrBetweenThreshold,
-  } = useDeviceContext();
+  const { windowWidth, windowHeight, isWindowWidthAboveOrBetweenThreshold } =
+    useDeviceContext();
 
   const isAboveSmall = isWindowWidthAboveOrBetweenThreshold(
     SCREEN_SIZES.MOBILE
   );
 
-  const isMobile = isMobileDevice && !isAboveSmall;
+  const isMobile = !isAboveSmall;
 
   return (
     <Section id="introduction" height={isMobile ? windowHeight : undefined}>

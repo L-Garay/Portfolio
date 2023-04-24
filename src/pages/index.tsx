@@ -14,15 +14,13 @@ const IndexPage = () => {
   return (
     <>
       <GlobalStyle />
-      <DeviceProvider>
-        <Layout>
-          <Introduction />
-          <Skills />
-          <Experience />
-          <Journey />
-          <About />
-        </Layout>
-      </DeviceProvider>
+      <Layout>
+        <Introduction />
+        <Skills />
+        <Experience />
+        <Journey />
+        <About />
+      </Layout>
     </>
   );
 };
