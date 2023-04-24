@@ -16,6 +16,7 @@ const HamburgerButton = styled.button.attrs({
   border-radius: 12.5px;
   border: 2px solid ${theme.colors.BLUE_1};
   overflow: hidden;
+  cursor: pointer;
 `;
 
 type HamburgerProps = {
@@ -62,6 +63,8 @@ const HamburgerMenu = ({ setParentIsMenuOpen }: HamburgerMenuProps) => {
         onClick={() => {
           setIsMenuOpen((prev: boolean) => !prev);
           setParentIsMenuOpen((prev: boolean) => !prev);
+          // prevent scrolling when menu is open
+          // by setting overflow to hidden on entire body
           const body = document.getElementById('body');
           if (body && isMenuOpen == false) {
             body.setAttribute('style', 'overflow: hidden !important');
