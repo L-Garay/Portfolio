@@ -8,8 +8,15 @@ export const Heading2 = styled.h2`
 `;
 
 export const Paragraph = styled.p`
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   line-height: 1.5;
   margin: 0;
   font-family: ${theme.fonts.robotoMono};
+`;
+
+export const Link = styled.a`
+  font-family: ${theme.fonts.robotoMono};
+  color: ${theme.colors.BLUE_1};
+  text-decoration: none;
+  cursor: pointer;
 `;

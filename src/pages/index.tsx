@@ -7,6 +7,7 @@ import Journey from '../sections/journey';
 import About from '../sections/about';
 import Experience from '../sections/experience';
 import Skills from '../sections/skills';
+import { DeviceProvider } from '../contexts/deviceContext';
 
 // Step 2: Define your component
 const IndexPage = () => {

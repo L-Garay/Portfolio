@@ -1,7 +1,13 @@
+import { SVGProps } from 'react';
+
 export type SectionProps = {
   height?: number;
 };
 
 export type SectionContentProps = {
-  width: number;
+  calculatedWidth?: number;
+};
+
+export type CustomSVGProps = SVGProps<SVGSVGElement> & {
+  fill: string;
 };
