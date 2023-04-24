@@ -3,14 +3,18 @@ import styled from 'styled-components';
 
 export const Section = styled.section<SectionProps>`
   height: ${(props) => (props.height ? `${props.height}px` : '100vh')};
-  width: 100%;
   color: white;
   border-bottom: 1px solid white; // testing
 `;
 
-export const SectionContent = styled.div<SectionContentProps>`
+export const SectionContent = styled.div.attrs<SectionContentProps>(
+  (props) => ({
+    style: {
+      maxWidth: `${props.calculatedWidth}px`,
+    },
+  })
+)<SectionContentProps>`
   height: 100%;
-  width: ${(props) => `${props.width}px`};
   margin: 0 auto;
   min-width: 200px; // min-width for mobile (still TBD)
   display: flex;

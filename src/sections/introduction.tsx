@@ -38,7 +38,7 @@ const Introduction = () => {
 
   return (
     <Section id="introduction" height={isMobile ? windowHeight : undefined}>
-      <SectionContent width={windowWidth - 200}>
+      <SectionContent calculatedWidth={windowWidth - 200}>
         <IntroductionContent>
           <IntroParagraph>My name is, </IntroParagraph>
           <Heading>Logan Garay</Heading>

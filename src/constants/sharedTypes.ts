@@ -5,7 +5,7 @@ export type SectionProps = {
 };
 
 export type SectionContentProps = {
-  width: number;
+  calculatedWidth?: number;
 };
 
 export type CustomSVGProps = SVGProps<SVGSVGElement> & {
