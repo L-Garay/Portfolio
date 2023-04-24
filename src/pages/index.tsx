@@ -7,7 +7,6 @@ import Journey from '../sections/journey';
 import About from '../sections/about';
 import Experience from '../sections/experience';
 import Skills from '../sections/skills';
-import { DeviceProvider } from '../contexts/deviceContext';
 
 // Step 2: Define your component
 const IndexPage = () => {
@@ -26,7 +25,15 @@ const IndexPage = () => {
 };
 
 // You'll learn about this in the next task, just copy it for now
-export const Head = () => <title>Logan Garay Web Dev</title>;
+export const Head = () => {
+  return (
+    <>
+      <html lang="eng" />
+      <body id="body" />
+      <title>Logan Garay Web Dev</title>
+    </>
+  );
+};
 
 // Step 3: Export your component
 export default IndexPage;
