@@ -29,7 +29,7 @@ const MobileMenuBG = styled.div<MobileMenuProps>`
   right: 0;
   width: 100%;
   height: calc(100vh - 62px);
-  background: rgb(10, 27, 32);
+  background: rgb(10, 27, 32, 0.8);
   overflow: hidden;
 `;
 
@@ -40,7 +40,7 @@ const MobileMenu = styled.div<MobileMenuProps>`
   width: 100%;
   width: ${(props) => (props.isMenuOpen ? '80%' : '0')};
   opacity: ${(props) => (props.isMenuOpen ? '1' : '0')};
-  background: rgb(189, 86, 60, 0.8);
+  background: ${theme.colors.ORANGE_3};
   height: calc(100vh - 62px);
   transition: all 0.2s linear;
 `;

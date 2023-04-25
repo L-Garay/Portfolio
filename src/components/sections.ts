@@ -15,8 +15,8 @@ export const SectionContent = styled.div.attrs<SectionContentProps>(
   })
 )<SectionContentProps>`
   height: 100%;
-  margin: 0 auto;
-  min-width: 200px; // min-width for mobile (still TBD)
+  margin: ${(props) => (props.isMobile ? '0 1.5rem' : '0 auto')};
+  min-width: 325px;
   display: flex;
   flex-direction: column;
   justify-content: center;

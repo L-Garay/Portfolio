@@ -36,9 +36,14 @@ const Introduction = () => {
 
   const isMobile = !isAboveSmall;
 
+  const widthDeduction = isMobile ? 100 : 200;
+
   return (
     <Section id="introduction" height={isMobile ? windowHeight : undefined}>
-      <SectionContent calculatedWidth={windowWidth - 200}>
+      <SectionContent
+        isMobile={isMobile}
+        calculatedWidth={windowWidth - widthDeduction}
+      >
         <IntroductionContent>
           <IntroParagraph>My name is, </IntroParagraph>
           <Heading>Logan Garay</Heading>
