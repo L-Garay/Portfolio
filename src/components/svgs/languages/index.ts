@@ -1,0 +1,12 @@
+export { default as ApolloSVG } from './apollo';
+export { default as CssSVG } from './css';
+export { default as GraphQLSVG } from './graphQL';
+export { default as HtmlSVG } from './html';
+export { default as JavaScriptSVG } from './javaScript';
+export { default as NodeSVG } from './node';
+export { default as PrismaSVG } from './prisma';
+export { default as ReactSVG } from './react';
+export { default as RemixSVG } from './remix';
+export { default as SassSVG } from './sass';
+export { default as TypeScriptSVG } from './typeScript';
+export { default as PostgresSVG } from './postgres';
