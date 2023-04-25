@@ -16,7 +16,7 @@ const About = () => {
 
   return (
     <Section id="about" height={isMobile ? windowHeight : undefined}>
-      <SectionContent width={windowWidth - 200}>
+      <SectionContent isMobile={isMobile} calculatedWidth={windowWidth - 200}>
         <h1 style={{ margin: 0 }}>About section</h1>
       </SectionContent>
     </Section>

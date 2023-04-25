@@ -6,6 +6,8 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import SCREEN_SIZES from '../constants/screenSizes';
+import preventScroll from '../utils/preventScroll';
 // import useIsWindowWidthAboveOrBetweenThreshold from '../utils/hooks/useDetectWindowWidth';
 
 export interface DeviceContextProps {
@@ -43,6 +45,13 @@ export const DeviceProvider = ({ children }: { children: ReactNode }) => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  useEffect(() => {
+    const condition = windowWidth > SCREEN_SIZES.MOBILE;
+    if (condition) {
+      preventScroll(false);
+    }
+  }, [windowWidth]);
 
   const isWindowWidthAboveOrBetweenThreshold = (
     minThreshold: number,

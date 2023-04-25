@@ -113,7 +113,7 @@ const SocialLinks = () => {
           setIsHoveringEmail(false);
         }}
       >
-        <SocialLink href={SOCIALS.email}>
+        <SocialLink href={`mailto:${SOCIALS.email}?subject=Hello%20Logan!`}>
           <EmailSVG fill={isHoveringEmail ? fillColor : defaultColor} />
         </SocialLink>
       </LinkWrapper>

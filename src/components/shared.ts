@@ -20,3 +20,15 @@ export const Link = styled.a`
   text-decoration: none;
   cursor: pointer;
 `;
+
+export const ButtonAsLink = styled.button.attrs({
+  as: 'a',
+})`
+  font-family: ${theme.fonts.robotoMono};
+  border: 1px solid ${theme.colors.BLUE_1};
+  border-radius: 12.5px;
+  background: none;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem 0;
+  text-decoration: none;
+`;

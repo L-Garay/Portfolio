@@ -6,6 +6,7 @@ export type SectionProps = {
 
 export type SectionContentProps = {
   calculatedWidth?: number;
+  isMobile: boolean;
 };
 
 export type CustomSVGProps = SVGProps<SVGSVGElement> & {
