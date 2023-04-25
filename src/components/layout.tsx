@@ -1,7 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import SocialLinks from './socialLinks';
-import SiteLinks from './siteLinks';
+import { SocialLinks, SiteLinks } from './Links';
 import { useDeviceContext } from '../contexts/deviceContext';
 import SCREEN_SIZES from '../constants/screenSizes';
 import Header from './header';

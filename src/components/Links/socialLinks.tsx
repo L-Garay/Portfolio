@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { useState } from 'react';
-import GithubSVG from './svgs/githubSVG';
+import GithubSVG from '../svgs/githubSVG';
 import styled from 'styled-components';
-import theme from '../styles/theme';
-import SOCIALS from '../constants/socials';
-import { Link } from '../components/shared';
-import LinkedInSVG from './svgs/linkedInSVG';
-import DownloadSVG from './svgs/downloadSVG';
-import EmailSVG from './svgs/emailSVG';
+import theme from '../../styles/theme';
+import SOCIALS from '../../constants/socials';
+import { Link } from '../shared';
+import LinkedInSVG from '../svgs/linkedInSVG';
+import DownloadSVG from '../svgs/downloadSVG';
+import EmailSVG from '../svgs/emailSVG';
 
 const LinksContainer = styled.div`
   position: fixed;
