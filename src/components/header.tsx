@@ -181,6 +181,12 @@ const Header = () => {
   console.log('isAboveMobile', isAboveMobile);
   const isMobile = !isAboveMobile;
 
+  React.useEffect(() => {
+    if (isAboveMobile) {
+      setIsMenuOpen(false);
+    }
+  }, [isAboveMobile]);
+
   const fill = isHoveringIcon ? theme.colors.ORANGE_2 : theme.colors.BLUE_1;
 
   return (
