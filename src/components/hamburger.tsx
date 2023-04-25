@@ -1,6 +1,7 @@
 import React from 'react';
 import theme from '../styles/theme';
 import styled from 'styled-components';
+import preventScroll from '../utils/preventScroll';
 
 const MenuContainer = styled.div`
   width: 25%;
@@ -48,12 +49,12 @@ const SVGPath = styled.path.attrs({
 `;
 
 type HamburgerMenuProps = {
-  setParentIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isMenuOpen: boolean;
+  setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const HamburgerMenu = ({ setParentIsMenuOpen }: HamburgerMenuProps) => {
+const HamburgerMenu = ({ isMenuOpen, setIsMenuOpen }: HamburgerMenuProps) => {
   const [isHoveringHamburger, setIsHoveringHamburger] = React.useState(false);
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   return (
     <MenuContainer id="mobile-nav">
@@ -61,16 +62,10 @@ const HamburgerMenu = ({ setParentIsMenuOpen }: HamburgerMenuProps) => {
         onMouseEnter={() => setIsHoveringHamburger(true)}
         onMouseLeave={() => setIsHoveringHamburger(false)}
         onClick={() => {
-          setIsMenuOpen((prev: boolean) => !prev);
-          setParentIsMenuOpen((prev: boolean) => !prev);
-          // prevent scrolling when menu is open
-          // by setting overflow to hidden on entire body
-          const body = document.getElementById('body');
-          if (body && isMenuOpen == false) {
-            body.setAttribute('style', 'overflow: hidden !important');
-          } else {
-            body?.removeAttribute('style');
-          }
+          setIsMenuOpen((prev: boolean) => {
+            preventScroll(!prev);
+            return !prev;
+          });
         }}
         aria-expanded={isMenuOpen}
       >

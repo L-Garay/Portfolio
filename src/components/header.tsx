@@ -6,6 +6,7 @@ import { Paragraph, ButtonAsLink, Link } from './shared';
 import React from 'react';
 import SCREEN_SIZES from '../constants/screenSizes';
 import { useDeviceContext } from '../contexts/deviceContext';
+import preventScroll from '../utils/preventScroll';
 
 type SharedHeaderProps = {
   isMobile: boolean;
@@ -199,30 +200,73 @@ const Header = () => {
               G
             </HomeIconLetter>
           </IconWrapper>
-          <HamburgerMenu setParentIsMenuOpen={setIsMenuOpen} />
+          <HamburgerMenu
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+          />
           {isMenuOpen ? <MobileMenuBG isMenuOpen={isMenuOpen} /> : null}
           <MobileMenu isMenuOpen={isMenuOpen}>
             <MobileMenuLinkContainer>
               <MenuSection>
                 <MobileMenuLinkWrapper>
                   <MenuLinkNumber>01.</MenuLinkNumber>
-                  <MobileMenuLink href="#intro">Intro</MobileMenuLink>
+                  <MobileMenuLink
+                    href="#introduction"
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      preventScroll(false);
+                    }}
+                  >
+                    Intro
+                  </MobileMenuLink>
                 </MobileMenuLinkWrapper>
                 <MobileMenuLinkWrapper>
                   <MenuLinkNumber>02.</MenuLinkNumber>
-                  <MobileMenuLink href="#skills">Skills</MobileMenuLink>
+                  <MobileMenuLink
+                    href="#skills"
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      preventScroll(false);
+                    }}
+                  >
+                    Skills
+                  </MobileMenuLink>
                 </MobileMenuLinkWrapper>
                 <MobileMenuLinkWrapper>
                   <MenuLinkNumber>03.</MenuLinkNumber>
-                  <MobileMenuLink href="#experience">Experience</MobileMenuLink>
+                  <MobileMenuLink
+                    href="#experience"
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      preventScroll(false);
+                    }}
+                  >
+                    Experience
+                  </MobileMenuLink>
                 </MobileMenuLinkWrapper>
                 <MobileMenuLinkWrapper>
                   <MenuLinkNumber>04.</MenuLinkNumber>
-                  <MobileMenuLink href="#journey">Journey</MobileMenuLink>
+                  <MobileMenuLink
+                    href="#journey"
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      preventScroll(false);
+                    }}
+                  >
+                    Journey
+                  </MobileMenuLink>
                 </MobileMenuLinkWrapper>
                 <MobileMenuLinkWrapper>
                   <MenuLinkNumber>05.</MenuLinkNumber>
-                  <MobileMenuLink href="#about">About</MobileMenuLink>
+                  <MobileMenuLink
+                    href="#about"
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      preventScroll(false);
+                    }}
+                  >
+                    About
+                  </MobileMenuLink>
                 </MobileMenuLinkWrapper>
               </MenuSection>
 

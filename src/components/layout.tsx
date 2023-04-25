@@ -24,7 +24,6 @@ const Footer = styled.div`
 `;
 
 // TODO list
-// 1. close menu when clicking a section link
 // 2. fix 'bug' where if you switch emulation mode back to desktop, the menu is still opne but hidden, and then if you switch back to mobile, the menu itself is visible but there's a glitch with the svg icon and the conditional style applied to body (svg icon thinks menu is closed, body thinks menu is open)
 // 3. fix style 'bug' where the content/text should expand on mobile-desktop (when the user manually shrinks desktop window size down to mobile breakpoints) but then shrink on actual-mobile (mobile device emulation)
 // 5. update styling altogether
