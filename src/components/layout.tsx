@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { SocialLinks, SiteLinks } from './Links';
 import { useDeviceContext } from '../contexts/deviceContext';
 import SCREEN_SIZES from '../constants/screenSizes';
-import Header from './header';
+import { Header } from './Header';
 
 const Main = styled.main`
   position: relative;
