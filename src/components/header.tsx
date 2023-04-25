@@ -1,7 +1,7 @@
 import SOCIALS from '../constants/socials';
 import theme from '../styles/theme';
 import styled from 'styled-components';
-import HamburgerMenu from './hamburger';
+import HamburgerMenuButton from './hamburger';
 import { Paragraph, ButtonAsLink, Link } from './shared';
 import React from 'react';
 import SCREEN_SIZES from '../constants/screenSizes';
@@ -12,9 +12,120 @@ type SharedHeaderProps = {
   isMobile: boolean;
 };
 
-type HeaderProps = SharedHeaderProps & {};
+const MobileNavContainer = styled.div`
+  display: flex;
+  padding: 0.5rem 0;
+  background: rgb(10, 27, 32, 0.7);
+  backdrop-filter: blur(5px);
+`;
 
-const HomeIconContainer = styled.header<HeaderProps>`
+type MobileMenuProps = {
+  isMenuOpen: boolean;
+};
+
+const MobileMenuBG = styled.div<MobileMenuProps>`
+  position: fixed;
+  top: 62px; // height of header
+  right: 0;
+  width: 100%;
+  height: calc(100vh - 62px);
+  background: rgb(10, 27, 32);
+  overflow: hidden;
+`;
+
+const MobileMenu = styled.div<MobileMenuProps>`
+  position: fixed;
+  top: 62px; // height of header
+  right: 0;
+  width: 100%;
+  width: ${(props) => (props.isMenuOpen ? '80%' : '0')};
+  opacity: ${(props) => (props.isMenuOpen ? '1' : '0')};
+  background: rgb(189, 86, 60, 0.8);
+  height: calc(100vh - 62px);
+  transition: all 0.2s linear;
+`;
+
+const MobileMenuContainer = styled.div`
+  padding: 1rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const MenuSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 1.5rem 1rem;
+  &:nth-of-type(3) {
+    // TODO figure out if this is desired behavior
+    flex-grow: 1;
+    justify-content: end;
+  }
+`;
+
+// --------- Internal Links ------------
+const MobileMenuLinkWrapper = styled.div`
+  padding: 0.5rem 0;
+  min-width: 125px;
+  display: flex;
+  align-items: center;
+`;
+
+const MobileMenuLink = styled(Link)`
+  max-width: max-content;
+  flex-grow: 1;
+  margin: 0 auto;
+`;
+
+const MenuLinkNumber = styled(Paragraph)`
+  font-size: 0.75rem;
+  flex-shrink: 1;
+`;
+
+// --------- External Links ------------
+const MenuLables = styled(Paragraph)`
+  font-size: 1rem;
+  font-weight: bolder;
+  align-self: start;
+`;
+
+type MobileExternalLinkProps = {
+  targetLink: string;
+  targetType: string;
+};
+
+const MobileExternalLinks = styled(ButtonAsLink).attrs<MobileExternalLinkProps>(
+  (props) => ({
+    href: props.targetLink,
+    target: props.targetType,
+    download: props.targetType === '_self' ? true : false,
+  })
+)<MobileExternalLinkProps>`
+  text-align: center;
+  cursor: pointer;
+  color: ${theme.colors.BLUE_1};
+`;
+
+// --------- Contact Info ------------
+const ContactLabel = styled.small`
+  font-size: 0.75rem;
+  font-weight: bold;
+`;
+
+const ContactLink = styled(Link)`
+  text-decoration: underline;
+  padding-left: 0.5rem;
+`;
+
+const ContactPhone = styled(Paragraph)`
+  display: inline;
+  font-size: 1rem;
+  padding-left: 0.5rem;
+`;
+
+// --------- Icon ------------
+const HomeIconContainer = styled.header<SharedHeaderProps>`
   position: fixed;
   z-index: 100;
   width: 100%;
@@ -66,110 +177,29 @@ const HomeIconLetter = styled(Paragraph)<IconLetterProps>`
   font-weight: 900;
 `;
 
-const MobileNavContainer = styled.div`
-  display: flex;
-  padding: 0.5rem 0;
-  background: rgb(10, 27, 32, 0.7);
-  backdrop-filter: blur(5px);
-`;
+const Icon = ({ isMobile }: SharedHeaderProps) => {
+  const [isHoveringIcon, setIsHoveringIcon] = React.useState(false);
 
-type MobileMenuProps = {
-  isMenuOpen: boolean;
+  const fill = isHoveringIcon ? theme.colors.ORANGE_2 : theme.colors.BLUE_1;
+
+  return (
+    <IconWrapper
+      isMobile={isMobile}
+      isHovering={isHoveringIcon}
+      onMouseEnter={() => setIsHoveringIcon(true)}
+      onMouseLeave={() => setIsHoveringIcon(false)}
+    >
+      <HomeIconLetter isMobile={isMobile} color={fill}>
+        L
+      </HomeIconLetter>
+      <HomeIconLetter isMobile={isMobile} color={fill}>
+        G
+      </HomeIconLetter>
+    </IconWrapper>
+  );
 };
-
-const MobileMenuBG = styled.div<MobileMenuProps>`
-  position: fixed;
-  top: 62px; // height of header
-  right: 0;
-  width: 100%;
-  height: calc(100vh - 62px);
-  background: rgb(10, 27, 32);
-  overflow: hidden;
-`;
-
-const MobileMenu = styled.div<MobileMenuProps>`
-  position: fixed;
-  top: 62px; // height of header
-  right: 0;
-  width: 100%;
-  width: ${(props) => (props.isMenuOpen ? '80%' : '0')};
-  opacity: ${(props) => (props.isMenuOpen ? '1' : '0')};
-  background: rgb(189, 86, 60, 0.8);
-  height: calc(100vh - 62px);
-  transition: all 0.2s linear;
-`;
-
-const MobileMenuLinkContainer = styled.div`
-  /* background: lightgrey; // testing */
-  margin: 0.5rem auto;
-`;
-
-const MenuLables = styled(Paragraph)`
-  font-size: 1rem;
-  font-weight: bolder;
-  align-self: start;
-`;
-
-const MenuSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 1.5rem 1rem;
-`;
-
-const MobileMenuLinkWrapper = styled.div`
-  padding: 0.5rem 0;
-  min-width: 125px;
-  display: flex;
-  align-items: center;
-`;
-
-const MobileMenuLink = styled(Link)`
-  max-width: max-content;
-  flex-grow: 1;
-  margin: 0 auto;
-`;
-
-type MobileExternalLinkProps = {
-  targetLink: string;
-  targetType: string;
-};
-
-const MobileExternalLinks = styled(ButtonAsLink).attrs<MobileExternalLinkProps>(
-  (props) => ({
-    href: props.targetLink,
-    target: props.targetType,
-    download: props.targetType === '_self' ? true : false,
-  })
-)<MobileExternalLinkProps>`
-  text-align: center;
-  cursor: pointer;
-  color: ${theme.colors.BLUE_1};
-`;
-
-const MenuLinkNumber = styled(Paragraph)`
-  font-size: 0.75rem;
-  flex-shrink: 1;
-`;
-
-const ContactLabel = styled.small`
-  font-size: 0.75rem;
-  font-weight: bold;
-`;
-
-const ContactLink = styled(Link)`
-  text-decoration: underline;
-  padding-left: 0.5rem;
-`;
-
-const ContactPhone = styled(Paragraph)`
-  display: inline;
-  font-size: 1rem;
-  padding-left: 0.5rem;
-`;
 
 const Header = () => {
-  const [isHoveringIcon, setIsHoveringIcon] = React.useState(false);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const { isWindowWidthAboveOrBetweenThreshold } = useDeviceContext();
 
@@ -187,32 +217,19 @@ const Header = () => {
     }
   }, [isAboveMobile]);
 
-  const fill = isHoveringIcon ? theme.colors.ORANGE_2 : theme.colors.BLUE_1;
-
   return (
     <HomeIconContainer id="header" isMobile={isMobile}>
       {isMobile ? (
         <MobileNavContainer>
-          <IconWrapper
-            isMobile={isMobile}
-            isHovering={isHoveringIcon}
-            onMouseEnter={() => setIsHoveringIcon(true)}
-            onMouseLeave={() => setIsHoveringIcon(false)}
-          >
-            <HomeIconLetter isMobile={isMobile} color={fill}>
-              L
-            </HomeIconLetter>
-            <HomeIconLetter isMobile={isMobile} color={fill}>
-              G
-            </HomeIconLetter>
-          </IconWrapper>
-          <HamburgerMenu
+          <Icon isMobile={isMobile} />
+          <HamburgerMenuButton
             isMenuOpen={isMenuOpen}
             setIsMenuOpen={setIsMenuOpen}
           />
           {isMenuOpen ? <MobileMenuBG isMenuOpen={isMenuOpen} /> : null}
           <MobileMenu isMenuOpen={isMenuOpen}>
-            <MobileMenuLinkContainer>
+            <MobileMenuContainer>
+              {/* Site Links */}
               <MenuSection>
                 <MobileMenuLinkWrapper>
                   <MenuLinkNumber>01.</MenuLinkNumber>
@@ -276,6 +293,7 @@ const Header = () => {
                 </MobileMenuLinkWrapper>
               </MenuSection>
 
+              {/* My Stuff */}
               <MenuSection>
                 <MenuLables>My stuff</MenuLables>
                 <MobileExternalLinks
@@ -298,6 +316,7 @@ const Header = () => {
                 </MobileExternalLinks>
               </MenuSection>
 
+              {/* Contact Info */}
               <MenuSection>
                 <MenuLables>Contact me</MenuLables>
                 <div>
@@ -313,23 +332,11 @@ const Header = () => {
                   <ContactPhone>{SOCIALS.phone}</ContactPhone>
                 </div>
               </MenuSection>
-            </MobileMenuLinkContainer>
+            </MobileMenuContainer>
           </MobileMenu>
         </MobileNavContainer>
       ) : (
-        <IconWrapper
-          isMobile={isMobile}
-          isHovering={isHoveringIcon}
-          onMouseEnter={() => setIsHoveringIcon(true)}
-          onMouseLeave={() => setIsHoveringIcon(false)}
-        >
-          <HomeIconLetter isMobile={isMobile} color={fill}>
-            L
-          </HomeIconLetter>
-          <HomeIconLetter isMobile={isMobile} color={fill}>
-            G
-          </HomeIconLetter>
-        </IconWrapper>
+        <Icon isMobile={isMobile} />
       )}
     </HomeIconContainer>
   );

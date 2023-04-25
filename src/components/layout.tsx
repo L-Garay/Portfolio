@@ -23,10 +23,6 @@ const Footer = styled.div`
   align-items: center;
 `;
 
-// TODO list
-// 3. fix style 'bug' where the content/text should expand on mobile-desktop (when the user manually shrinks desktop window size down to mobile breakpoints) but then shrink on actual-mobile (mobile device emulation)
-// 5. update styling altogether
-
 const Layout = ({ pageTitle, children }: Record<string, any>) => {
   const { isWindowWidthAboveOrBetweenThreshold } = useDeviceContext();
   const isAboveMobile = isWindowWidthAboveOrBetweenThreshold(

@@ -53,7 +53,10 @@ type HamburgerMenuProps = {
   setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const HamburgerMenu = ({ isMenuOpen, setIsMenuOpen }: HamburgerMenuProps) => {
+const HamburgerMenuButton = ({
+  isMenuOpen,
+  setIsMenuOpen,
+}: HamburgerMenuProps) => {
   const [isHoveringHamburger, setIsHoveringHamburger] = React.useState(false);
 
   return (
@@ -83,4 +86,4 @@ const HamburgerMenu = ({ isMenuOpen, setIsMenuOpen }: HamburgerMenuProps) => {
   );
 };
 
-export default HamburgerMenu;
+export default HamburgerMenuButton;
