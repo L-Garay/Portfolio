@@ -1,10 +1,15 @@
 import * as React from 'react';
 import { CustomSVGProps } from '../../../constants/sharedTypes';
+import theme from '../../../styles/theme';
 
-const GraphQLSVG = ({ fill }: CustomSVGProps) => {
+const GraphQLSVG = ({ fill, id }: CustomSVGProps) => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-      <g fill={fill ? fill : '#E434AA'}>
+    <svg
+      id={id ? id : 'graphQLSVG'}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 128 128"
+    >
+      <g fill={fill ? fill : theme.colors.BLUE_5}>
         <path d="M18.39 96.852l-4.6-2.657L65.04 5.434l4.597 2.656zm0 0" />
         <path d="M12.734 87.105H115.23v5.31H12.734zm0 0" />
         <path d="M66.031 119.688L14.766 90.09l2.656-4.602 51.266 29.602zm0 0M110.566 42.543L59.301 12.941l2.656-4.597 51.266 29.597zm0 0" />

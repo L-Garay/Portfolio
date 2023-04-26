@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { CustomSVGProps } from '../../../constants/sharedTypes';
+import theme from '../../../styles/theme';
 
-const ApolloSVG = ({ fill }: CustomSVGProps) => {
+const ApolloSVG = ({ fill, id }: CustomSVGProps) => {
   return (
     <svg
-      fill={fill ? fill : '#311C87'}
+      id={id ? id : 'apolloSVG'}
+      fill={fill ? fill : theme.colors.BLUE_5}
       width="60px"
       height="60px"
       viewBox="0 0 24 24"
