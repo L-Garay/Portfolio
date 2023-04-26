@@ -69,7 +69,6 @@ const Skills = () => {
             isAboveLarge={isAboveLarge}
             shouldChangeFlexDirection={shouldChangeFlexDirection}
           />
-          {/* <Marquee isMobile={isMobile} marqueeWidth={marqueeWidth} /> */}
           <Languages
             isAboveSmall={isAboveSmall}
             isAboveMedium={isAboveMedium}

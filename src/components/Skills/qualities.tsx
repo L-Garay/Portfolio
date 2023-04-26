@@ -57,7 +57,7 @@ const QualitySection = styled.div<SkillsProps>`
     }
   }}
   div.gatsby-image-wrapper {
-    width: ${(props) => {
+    max-width: ${(props) => {
       if (props.isAboveLarge) return '250px';
       if (props.isAboveMedium) return '200px';
       if (props.isAboveSmall) return '150px';
@@ -135,7 +135,6 @@ const Qualities = ({
   const {
     allFile: { edges: images },
   } = useStaticQuery(imageDataQuery);
-  console.log(images[0].node.childImageSharp);
 
   return (
     <QualitiesContainer shouldChangeFlexDirection={shouldChangeFlexDirection}>

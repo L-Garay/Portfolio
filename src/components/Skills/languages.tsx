@@ -169,12 +169,11 @@ const Languages = ({
     <LanguageContainer isAboveLarge={isAboveLarge}>
       {LanguageList.map((language) => {
         return (
-          <ItemLink url={language.link}>
+          <ItemLink url={language.link} key={language.name}>
             <ItemContainer
               isAboveLarge={isAboveLarge}
               isAboveMedium={isAboveMedium}
               isAboveSmall={isAboveSmall}
-              key={language.name}
               id={language.name}
               onMouseEnter={() => {
                 setIsHoveringIcon(true);
