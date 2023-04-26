@@ -6,8 +6,8 @@ const RemixSVG = ({ fill, id }: CustomSVGProps) => {
   return (
     <svg
       id={id ? id : 'remixSVG'}
-      width="64"
-      height="64"
+      width="84"
+      height="84"
       viewBox="0 0 800 800"
       fill={fill ? fill : theme.colors.BLUE_5}
       xmlns="http://www.w3.org/2000/svg"

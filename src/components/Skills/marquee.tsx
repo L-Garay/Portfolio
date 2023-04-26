@@ -12,8 +12,8 @@ import {
   ApolloSVG,
   NodeSVG,
   PrismaSVG,
+  PostgresSVG,
 } from '../svgs/languages/';
-import PostgreSQLSVG from '../svgs/languages/postgres';
 import theme from '../../styles/theme';
 
 type MarqueeProps = {
@@ -34,7 +34,9 @@ const MarqueeContainer = styled.div<MarqueeProps>`
 
 const MarqueeGroup = styled.div<MarqueeGroupProps>`
   display: flex;
+  /* justify-content: space-between; */
   min-width: 100%;
+  margin: 0 10px; // will need to change horizontal margin based on screen size
   animation: scroll-left 10s linear infinite;
 
   ${(props) =>
@@ -57,18 +59,20 @@ const MarqueeGroup = styled.div<MarqueeGroupProps>`
 `;
 
 type MarqueeItemContainerProps = {
-  // link: string;
+  // link: string; // link to the language's documentation
   currentHoverId: string;
   isHoveringIcon: boolean;
 };
 
 const MarqueeItemContainer = styled.a.attrs({})<MarqueeItemContainerProps>`
-  height: 60px;
-  width: 60px;
+  height: 60px; // will likely need to change these based on screen size
+  width: 60px; // will likely need to change these based on screen size
   text-decoration: none;
-  margin: 10px 20px;
+  /* margin: 10px 20px; */
+  margin: 20px 0px 10px 0px;
   border: 1px solid white; // testing
   cursor: pointer;
+  display: flex;
 
   ${(props) => {
     const id = `#${props.currentHoverId}`;
@@ -136,7 +140,7 @@ const MarqueeItemList1 = [
     name: 'prismaSVG',
   },
   {
-    svg: <PostgreSQLSVG id="psqlSVG" />,
+    svg: <PostgresSVG id="psqlSVG" />,
     name: 'psqlSVG',
   },
 ];
@@ -187,7 +191,7 @@ const MarqueeItemList2 = [
     name: 'prismaSVG2',
   },
   {
-    svg: <PostgreSQLSVG id="psqlSVG2" />,
+    svg: <PostgresSVG id="psqlSVG2" />,
     name: 'psqlSVG2',
   },
 ];
