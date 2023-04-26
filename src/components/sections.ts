@@ -3,9 +3,11 @@ import styled from 'styled-components';
 import theme from '../styles/theme';
 
 export const Section = styled.section<SectionProps>`
-  height: ${(props) => (props.height ? `${props.height}px` : '100vh')};
+  min-height: ${(props) => (props.height ? `${props.height}px` : '100vh')};
   color: white;
   border-bottom: 1px solid white; // testing
+  display: flex;
+  align-items: center;
 `;
 
 export const SectionContent = styled.div.attrs<SectionContentProps>(
