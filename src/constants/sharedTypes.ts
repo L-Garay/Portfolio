@@ -9,6 +9,13 @@ export type SectionContentProps = {
   isMobile: boolean;
 };
 
+export type SharedPageProps = {
+  isAboveSmall?: boolean;
+  isAboveMedium?: boolean;
+  isAboveLarge?: boolean;
+  shouldChangeFlexDirection?: boolean;
+};
+
 export type CustomSVGProps = SVGProps<SVGSVGElement> & {
   fill?: string;
   id?: string;

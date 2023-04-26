@@ -27,6 +27,11 @@ export const SectionContent = styled.div.attrs<SectionContentProps>(
   align-items: center;
 `;
 
+export const SectionTitleContainer = styled.div`
+  /* background: lightblue; //testing */
+  margin: 30px 0 60px 0;
+`;
+
 export const SectionTitle = styled.h3`
   /* font-size: 2rem; */
   font-size: clamp(1.3rem, 5vw, 2rem);
