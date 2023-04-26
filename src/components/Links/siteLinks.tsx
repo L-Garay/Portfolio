@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link, Paragraph } from './shared';
-import theme from '../styles/theme';
+import { Link, Paragraph } from '../shared';
+import theme from '../../styles/theme';
 
 const SiteLinksContainer = styled.div`
   position: fixed;

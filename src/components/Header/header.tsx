@@ -1,12 +1,12 @@
-import SOCIALS from '../constants/socials';
-import theme from '../styles/theme';
+import SOCIALS from '../../constants/socials';
+import theme from '../../styles/theme';
 import styled from 'styled-components';
-import HamburgerMenuButton from './hamburger';
-import { Paragraph, ButtonAsLink, Link } from './shared';
+import { Hamburger } from './';
+import { Paragraph, ButtonAsLink, Link } from '../shared';
 import React from 'react';
-import SCREEN_SIZES from '../constants/screenSizes';
-import { useDeviceContext } from '../contexts/deviceContext';
-import preventScroll from '../utils/preventScroll';
+import SCREEN_SIZES from '../../constants/screenSizes';
+import { useDeviceContext } from '../../contexts/deviceContext';
+import preventScroll from '../../utils/preventScroll';
 
 type SharedHeaderProps = {
   isMobile: boolean;
@@ -222,10 +222,7 @@ const Header = () => {
       {isMobile ? (
         <MobileNavContainer>
           <Icon isMobile={isMobile} />
-          <HamburgerMenuButton
-            isMenuOpen={isMenuOpen}
-            setIsMenuOpen={setIsMenuOpen}
-          />
+          <Hamburger isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
           {isMenuOpen ? <MobileMenuBG isMenuOpen={isMenuOpen} /> : null}
           <MobileMenu isMenuOpen={isMenuOpen}>
             <MobileMenuContainer>

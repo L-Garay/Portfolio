@@ -1,4 +1,5 @@
 import type { GatsbyConfig } from 'gatsby';
+import SCREEN_SIZES from './src/constants/screenSizes';
 
 const config: GatsbyConfig = {
   siteMetadata: {
@@ -18,7 +19,21 @@ const config: GatsbyConfig = {
     'gatsby-plugin-styled-components',
     'gatsby-plugin-image',
     'gatsby-plugin-sharp',
-    'gatsby-transformer-sharp',
+    {
+      resolve: 'gatsby-transformer-sharp',
+      options: {
+        defaults: {
+          placeholder: 'blurred',
+          quality: 100,
+          breakpoints: [
+            SCREEN_SIZES.LARGE,
+            SCREEN_SIZES.MEDIUM,
+            SCREEN_SIZES.SMALL,
+            SCREEN_SIZES.MOBILE,
+          ],
+        },
+      },
+    },
     {
       resolve: 'gatsby-source-filesystem',
       options: {

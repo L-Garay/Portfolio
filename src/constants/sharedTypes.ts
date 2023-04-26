@@ -10,5 +10,6 @@ export type SectionContentProps = {
 };
 
 export type CustomSVGProps = SVGProps<SVGSVGElement> & {
-  fill: string;
+  fill?: string;
+  id?: string;
 };
