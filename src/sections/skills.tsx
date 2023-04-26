@@ -78,14 +78,28 @@ type DimensionProps = {
   isAboveSmall?: boolean;
   isAboveMedium?: boolean;
   isAboveLarge?: boolean;
+  shouldChangeFlexDirection?: boolean;
 };
 
-const SkillsContainer = styled.div`
-  background: lightgrey; //testing
+const SkillsContainer = styled.div<DimensionProps>`
+  /* background: lightgrey; //testing */
+  position: relative;
+  margin-bottom: 10px;
+  &:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 25%;
+    height: ${(props) => (props.shouldChangeFlexDirection ? '10%' : '25%')};
+    border-right: 1px solid ${theme.colors.ORANGE_1}; // testing
+    border-bottom: 1px solid ${theme.colors.ORANGE_1}; // testing
+  }
 `;
 
 const TitleContainer = styled.div`
-  background: lightblue; //testing
+  /* background: lightblue; //testing */
+  margin: 30px 0 60px 0;
 `;
 
 const LanguageContainer = styled.div<DimensionProps>`
@@ -93,7 +107,7 @@ const LanguageContainer = styled.div<DimensionProps>`
   flex-wrap: wrap;
   justify-content: space-evenly;
   width: ${({ isAboveLarge }) => (isAboveLarge ? '80%' : '100%')};
-  margin: 10px auto;
+  margin: 60px auto 50px auto;
 
   transition: all 0.2s linear;
 `;
@@ -148,12 +162,12 @@ const Qualities = [
   },
 ];
 
-type QualityProps = {
+type QualityProps = DimensionProps & {
   shouldChangeFlexDirection: boolean;
 };
 
 const QualitiesContainer = styled.div<QualityProps>`
-  background: lightpink; //testing
+  /* background: lightpink; //testing */
   display: flex;
   flex-direction: ${({ shouldChangeFlexDirection }) =>
     shouldChangeFlexDirection ? 'column' : 'row'};
@@ -164,12 +178,8 @@ const QualitySection = styled.div<QualityProps>`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px solid black; //testing
-  background-color: darkolivegreen; //testing
-  /* width: 33.33%; */
-  /* width: ${({ shouldChangeFlexDirection }) =>
-    shouldChangeFlexDirection ? '90%' : '33.33%'}; */
-  /* margin: 10px; */
+  /* border: 1px solid black; //testing */
+  /* background-color: darkolivegreen; //testing */
   ${(props) => {
     if (props.shouldChangeFlexDirection) {
       return `
@@ -183,20 +193,54 @@ const QualitySection = styled.div<QualityProps>`
     `;
     }
   }}
+  div.gatsby-image-wrapper {
+    width: ${(props) => {
+      if (props.isAboveLarge) return '250px';
+      if (props.isAboveMedium) return '200px';
+      if (props.isAboveSmall) return '150px';
+      return '100px';
+    }};
+    margin: 10px 10px 0 10px;
+    border-radius: 12.5px;
+    box-shadow: 0 15px 20px ${theme.colors.ORANGE_2}; //testing
+    transition: all 0.2s linear;
+  }
 `;
 
-const QualityTitle = styled.h4`
+const QualityTitle = styled.h4<DimensionProps>`
   text-align: center;
   font-size: clamp(1rem, 2vw, 1.35rem);
   color: ${theme.colors.BLUE_2};
-  margin: 30px 0 10px 0;
+  margin: ${(props) => {
+    if (props.isAboveLarge) return '50px 0 10px 0';
+    if (props.isAboveMedium) return '40px 0 10px 0';
+    if (props.isAboveSmall && !props.shouldChangeFlexDirection)
+      return '30px 0 10px 0';
+    if (props.isAboveSmall && props.shouldChangeFlexDirection)
+      return '30px 0 10px 0';
+    return '20px 0 10px 0';
+  }};
+  transition: all 0.2s linear;
+`;
+
+const DescriptionWrapper = styled.div<DimensionProps>`
+  display: flex;
+  align-items: center;
+  min-height: ${(props) => {
+    if (props.isAboveLarge) return '140px';
+    if (props.isAboveMedium) return '150px';
+    if (props.isAboveSmall && !props.shouldChangeFlexDirection) return '160px';
+    if (props.isAboveSmall && props.shouldChangeFlexDirection) return '80px';
+    return '80px';
+  }};
+  transition: all 0.2s linear;
 `;
 
 const QualityDescription = styled.p`
   text-align: center;
   font-size: clamp(0.8rem, 1.75vw, 1rem);
   color: white;
-  margin: 10px;
+  margin: 0 10px;
 `;
 
 const Skills = () => {
@@ -232,7 +276,7 @@ const Skills = () => {
           node {
             base
             childImageSharp {
-              gatsbyImageData(quality: 100)
+              gatsbyImageData
             }
           }
         }
@@ -248,7 +292,7 @@ const Skills = () => {
   return (
     <Section id="skills" height={isMobile ? windowHeight : undefined}>
       <SectionContent isMobile={isMobile} calculatedWidth={calcluatedWidth}>
-        <SkillsContainer>
+        <SkillsContainer shouldChangeFlexDirection={shouldChangeFlexDirection}>
           <TitleContainer>
             <SectionTitle> 01. What I'm good at</SectionTitle>
           </TitleContainer>
@@ -257,22 +301,40 @@ const Skills = () => {
             shouldChangeFlexDirection={shouldChangeFlexDirection}
           >
             {Qualities.map((quality) => {
-              const img = images.find((image: any) => {
-                console.log(image.node.base, quality.imgBase);
-                return image.node.base === quality.imgBase;
-              });
-              console.log(img);
+              const img = images.find(
+                (image: any) => image.node.base === quality.imgBase
+              );
               return (
                 <QualitySection
                   key={quality.title}
                   shouldChangeFlexDirection={shouldChangeFlexDirection}
+                  isAboveSmall={isAboveSmall}
+                  isAboveMedium={isAboveMedium}
+                  isAboveLarge={isAboveLarge}
                 >
                   <GatsbyImage
                     image={img.node.childImageSharp.gatsbyImageData}
                     alt={quality.imgAlt}
                   />
-                  <QualityTitle>{quality.title}</QualityTitle>
-                  <QualityDescription>{quality.description}</QualityDescription>
+                  <QualityTitle
+                    isAboveLarge={isAboveLarge}
+                    isAboveMedium={isAboveMedium}
+                    isAboveSmall={isAboveSmall}
+                    shouldChangeFlexDirection={shouldChangeFlexDirection}
+                  >
+                    {quality.title}
+                  </QualityTitle>
+
+                  <DescriptionWrapper
+                    isAboveLarge={isAboveLarge}
+                    isAboveMedium={isAboveMedium}
+                    isAboveSmall={isAboveSmall}
+                    shouldChangeFlexDirection={shouldChangeFlexDirection}
+                  >
+                    <QualityDescription>
+                      {quality.description}
+                    </QualityDescription>
+                  </DescriptionWrapper>
                 </QualitySection>
               );
             })}
