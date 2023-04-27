@@ -6,8 +6,8 @@ export const Section = styled.section<SectionProps>`
   min-height: ${(props) => (props.height ? `${props.height}px` : '100vh')};
   color: white;
   border-bottom: 1px solid white; // testing
-  display: flex;
-  align-items: center;
+  /* display: flex;
+  align-items: center; */
 `;
 
 export const SectionContent = styled.div.attrs<SectionContentProps>(
@@ -20,6 +20,7 @@ export const SectionContent = styled.div.attrs<SectionContentProps>(
   height: 100%;
   /* margin: ${(props) => (props.isMobile ? '0 1.5rem' : '0 auto')}; */
   margin: 0 auto;
+  padding: 50px 0 0; // set a padding top here to give each content a specific minimum gap from the top of each section, will need to change on device size chagnes
   min-width: 325px;
   display: flex;
   flex-direction: column;

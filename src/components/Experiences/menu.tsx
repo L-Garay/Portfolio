@@ -3,12 +3,11 @@ import styled from 'styled-components';
 import theme from '../../styles/theme';
 import { ExperiencesProps } from '../../sections/experience';
 
-type MenuProps = ExperiencesProps & {
+type MenuContainerProps = ExperiencesProps & {
   currentButtonId: string;
 };
 
-const MenuContainer = styled.div<MenuProps>`
-  background: lightgreen; // testing
+const MenuContainer = styled.div<MenuContainerProps>`
   display: flex;
   flex-direction: ${(props) => (props.isAboveSmall ? 'column' : 'row')};
   position: relative;
@@ -18,7 +17,8 @@ const MenuContainer = styled.div<MenuProps>`
     const id = `#${props.currentButtonId}`;
     return `
       button${id} {
-        background: lightblue; // testing
+        background: ${theme.colors.BLUE_5_TRANSPARENT};
+        color: ${theme.colors.ORANGE_1};
       }
       button${id}:hover {
         background: ${theme.colors.BLUE_7};
@@ -55,7 +55,7 @@ const MenuLine = styled.div<MenuLineProps>`
     }
   }}
   z-index: 200;
-  background: red; // testing
+  background: ${theme.colors.ORANGE_1};
 
   transition: transform 0.5s ease-in-out;
 `;
@@ -65,7 +65,8 @@ type MenuButtonProps = ExperiencesProps & {
 };
 
 const MenuButton = styled.button<MenuButtonProps>`
-  background: lightgoldenrodyellow; // testing
+  background: none;
+  color: ${theme.colors.BLUE_1};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -78,45 +79,51 @@ const MenuButton = styled.button<MenuButtonProps>`
     if (props.isAboveSmall) {
       return `
       height: ${props.buttonHeight}px;
-      border-left: 2px solid grey;
+      border-left: 2px solid ${theme.colors.BLUE_7};
       font-size: 1rem;
       `;
     } else {
       return `
       height: 40px;
-      border-bottom: 2px solid grey;
+      border-bottom: 2px solid ${theme.colors.BLUE_7};
       font-size: 0.8rem;
       `;
     }
   }}
 
   &:hover {
-    background: ${theme.colors.BLUE_7};
-    color: white;
+    background: ${theme.colors.BLUE_5};
+    color: ${theme.colors.ORANGE_1};
   }
 `;
 
 const BUTTON_HEIGHT = 60;
 const EXPERIENCES_LIST = [
   {
-    name: 'Noble Intent, LLC',
-    id: 'noble-intent-button',
+    name: 'Hinge Health',
+    id: 'hinge-health-button',
   },
   {
     name: 'Downwrite, Inc',
     id: 'downwrite-button',
   },
   {
-    name: 'Hinge Health',
-    id: 'hinge-health-button',
+    name: 'Noble Intent, LLC',
+    id: 'noble-intent-button',
   },
 ];
 
-const Menu = ({ isAboveSmall }: ExperiencesProps) => {
+type MenuProps = ExperiencesProps & {
+  currentButtonId: string;
+  setCurrentButtonId: React.Dispatch<React.SetStateAction<string>>;
+};
+
+const Menu = ({
+  isAboveSmall,
+  currentButtonId,
+  setCurrentButtonId,
+}: MenuProps) => {
   const [currentButtonIndex, setCurrentButtonIndex] = React.useState<number>(0);
-  const [currentButtonId, setCurrentButtonId] = React.useState<string>(
-    'noble-intent-button'
-  );
 
   const menuRef = React.useRef<HTMLDivElement>(null);
   const menuWidth = menuRef.current ? menuRef.current.offsetWidth : 0;

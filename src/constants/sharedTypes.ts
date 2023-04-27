@@ -7,6 +7,7 @@ export type SectionProps = {
 export type SectionContentProps = {
   calculatedWidth?: number;
   isMobile: boolean;
+  paddingTop?: number;
 };
 
 export type SharedPageProps = {
