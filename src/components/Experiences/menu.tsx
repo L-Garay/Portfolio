@@ -3,6 +3,26 @@ import styled from 'styled-components';
 import theme from '../../styles/theme';
 import { ExperiencesProps } from '../../sections/experience';
 
+const BUTTON_HEIGHT = 60;
+const EXPERIENCES_LIST = [
+  {
+    name: 'Hinge Health',
+    id: 'hinge-health-button',
+  },
+  {
+    name: 'Downwrite, Inc',
+    id: 'downwrite-button',
+  },
+  {
+    name: 'Noble Intent, LLC',
+    id: 'noble-intent-button',
+  },
+  {
+    name: 'Put your name here',
+    id: 'put-your-name-here-button',
+  },
+];
+
 type MenuContainerProps = ExperiencesProps & {
   currentButtonId: string;
 };
@@ -97,26 +117,6 @@ const MenuButton = styled.button<MenuButtonProps>`
     color: ${theme.colors.ORANGE_1};
   }
 `;
-
-const BUTTON_HEIGHT = 60;
-const EXPERIENCES_LIST = [
-  {
-    name: 'Hinge Health',
-    id: 'hinge-health-button',
-  },
-  {
-    name: 'Downwrite, Inc',
-    id: 'downwrite-button',
-  },
-  {
-    name: 'Noble Intent, LLC',
-    id: 'noble-intent-button',
-  },
-  {
-    name: 'Put your name here',
-    id: 'put-your-name-here-button',
-  },
-];
 
 type MenuProps = ExperiencesProps & {
   currentButtonId: string;
