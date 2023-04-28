@@ -10,7 +10,7 @@ import { useDeviceContext } from '../contexts/deviceContext';
 import SCREEN_SIZES from '../constants/screenSizes';
 import theme from '../styles/theme';
 import { SharedPageProps } from '../constants/sharedTypes';
-import { Details, Menu } from 'src/components/Experiences/';
+import { Details, Menu } from '../components/Experiences/';
 
 export type ExperiencesProps = SharedPageProps & {
   calculatedWidth?: number;
