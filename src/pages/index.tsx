@@ -30,7 +30,7 @@ export const Head = () => {
     <>
       <html lang="eng" />
       <body id="body" />
-      <title>Logan Garay Web Dev</title>
+      <title key={'test'}>Logan Garay Web Dev</title>
     </>
   );
 };
