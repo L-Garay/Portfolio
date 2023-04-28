@@ -1,6 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Section, SectionContent, SectionTitle } from '../components/sections';
+import {
+  Section,
+  SectionContent,
+  SectionTitle,
+  SectionTitleContainer,
+} from '../components/sections';
 import { useDeviceContext } from '../contexts/deviceContext';
 import SCREEN_SIZES from '../constants/screenSizes';
 import theme from '../styles/theme';
@@ -29,11 +34,6 @@ const SkillsContainer = styled.div<SkillsProps>`
   }
 `;
 
-const TitleContainer = styled.div`
-  /* background: lightblue; //testing */
-  margin: 30px 0 60px 0;
-`;
-
 const Skills = () => {
   const { windowWidth, windowHeight, isWindowWidthAboveOrBetweenThreshold } =
     useDeviceContext();
@@ -59,9 +59,9 @@ const Skills = () => {
     <Section id="skills" height={isMobile ? windowHeight : undefined}>
       <SectionContent isMobile={isMobile} calculatedWidth={calcluatedWidth}>
         <SkillsContainer shouldChangeFlexDirection={shouldChangeFlexDirection}>
-          <TitleContainer>
+          <SectionTitleContainer>
             <SectionTitle> 01. What I'm good at</SectionTitle>
-          </TitleContainer>
+          </SectionTitleContainer>
 
           <Qualities
             isAboveSmall={isAboveSmall}
@@ -69,7 +69,6 @@ const Skills = () => {
             isAboveLarge={isAboveLarge}
             shouldChangeFlexDirection={shouldChangeFlexDirection}
           />
-          {/* <Marquee isMobile={isMobile} marqueeWidth={marqueeWidth} /> */}
           <Languages
             isAboveSmall={isAboveSmall}
             isAboveMedium={isAboveMedium}

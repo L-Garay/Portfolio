@@ -28,7 +28,6 @@ const Layout = ({ pageTitle, children }: Record<string, any>) => {
     SCREEN_SIZES.MOBILE
   );
   const isMobile = !isAboveMobile;
-
   return (
     <>
       <Header />
