@@ -37,7 +37,7 @@ const MenuLine = styled.div<MenuLineProps>`
   position: absolute;
   left: 0;
   ${(props) => {
-    const buttonWidth = props.menuWidth / 3;
+    const buttonWidth = props.menuWidth / 4; // NOTE this needs to get updated whenever a new menu item is added
     if (props.isAboveSmall) {
       return `
       top: 0;
@@ -49,12 +49,12 @@ const MenuLine = styled.div<MenuLineProps>`
       return `
       bottom: 0;
       height: 2px;
-      width: 33%;
+      width: 25%; // NOTE this needs to get updated whenever a new menu item is added
       transform: translateX(${props.currentButtonIndex * buttonWidth}px);
       `;
     }
   }}
-  z-index: 200;
+  z-index: 2;
   background: ${theme.colors.ORANGE_1};
 
   transition: transform 0.5s ease-in-out;
@@ -71,7 +71,6 @@ const MenuButton = styled.button<MenuButtonProps>`
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 0 20px;
   cursor: pointer;
   outline: none;
   border: none;
@@ -81,12 +80,14 @@ const MenuButton = styled.button<MenuButtonProps>`
       height: ${props.buttonHeight}px;
       border-left: 2px solid ${theme.colors.BLUE_7};
       font-size: 1rem;
+      padding: 0 20px;
       `;
     } else {
       return `
       height: 40px;
       border-bottom: 2px solid ${theme.colors.BLUE_7};
       font-size: 0.8rem;
+      padding: 0 5px;
       `;
     }
   }}
@@ -110,6 +111,10 @@ const EXPERIENCES_LIST = [
   {
     name: 'Noble Intent, LLC',
     id: 'noble-intent-button',
+  },
+  {
+    name: 'Put your name here',
+    id: 'put-your-name-here-button',
   },
 ];
 

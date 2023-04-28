@@ -43,6 +43,7 @@ const MobileMenu = styled.div<MobileMenuProps>`
   background: ${theme.colors.ORANGE_3};
   height: calc(100vh - 62px);
   transition: all 0.2s linear;
+  z-index: 100;
 `;
 
 const MobileMenuContainer = styled.div`
