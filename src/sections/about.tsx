@@ -8,6 +8,7 @@ import {
 } from '../components/sections';
 import { useDeviceContext } from '../contexts/deviceContext';
 import SCREEN_SIZES from '../constants/screenSizes';
+import Donut from '../components/About/donut';
 
 const AboutMeTitle = styled(SectionTitle)`
   text-align: start;
@@ -183,11 +184,7 @@ const About = () => {
     {
       index: 0,
       name: 'item 1',
-      element: (
-        <div style={{ height: 400, width: 300, background: 'blue' }}>
-          item 1
-        </div>
-      ),
+      element: <Donut percentageFill={65} />,
     },
     {
       index: 1,
