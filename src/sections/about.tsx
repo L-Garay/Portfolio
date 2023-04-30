@@ -68,10 +68,8 @@ const NextItemClone = styled.div<ActionProps & VisibilityProps>`
   height: 75%;
   ${({ action, isVisible }) => {
     return `
-      // left: ${action === 'next' ? '25%' : '0%'};
-      left: 25%;
-      // opacity: ${isVisible ? '1' : '0'};
-      opacity: 1;
+      left: ${action === 'next' ? '25%' : '10%'};
+      opacity: ${isVisible ? '1' : '0'};
     `;
   }}
   transition: left .2s linear;
@@ -81,8 +79,7 @@ const NextItem = styled.div<VisibilityProps>`
   ${SHARED_ITEM_STYLES}
   height: 75%;
   left: 25%;
-  /* opacity: ${({ isVisible }) => (isVisible ? '1' : '0')}; */
-  opacity: 1;
+  opacity: ${({ isVisible }) => (isVisible ? '1' : '0')};
 `;
 
 const AnimatedNextItem = styled.div<ActionProps & VisibilityProps>`
@@ -93,19 +90,17 @@ const AnimatedNextItem = styled.div<ActionProps & VisibilityProps>`
         action === 'previous' ? '0%' : action === 'next' ? '46.62%' : '25%'
       };
       height: ${action === 'next' ? '100%' : '75%'};
-      // opacity: ${isVisible ? '1' : '0'};
-      opacity: 1;
+      opacity: ${isVisible ? '1' : '0'};
     `;
   }}
-  transition: all .2s linear;
+  transition: left .2s linear;
 `;
 
 const ActiveItem = styled.div<VisibilityProps>`
   ${SHARED_ITEM_STYLES}
   left: 46.62%;
   height: 100%;
-  /* opacity: ${({ isVisible }) => (isVisible ? '1' : '0')}; */
-  // NOTE we know that the setting of indexes WORKS as is
+  opacity: ${({ isVisible }) => (isVisible ? '1' : '0')};
 `;
 
 const AnimatedActiveItem = styled.div<ActionProps & VisibilityProps>`
@@ -116,11 +111,10 @@ const AnimatedActiveItem = styled.div<ActionProps & VisibilityProps>`
         action === 'previous' ? '25%' : action === 'next' ? '70%' : '46.62%'
       };
       height: ${action === 'next' || action === 'prev' ? '75%' : '100%'};
-      // opacity: ${isVisible ? '1' : '0'};
-      opacity: 1;
+      opacity: ${isVisible ? '1' : '0'};
     `;
   }}
-  transition: all .2s linear;
+  transition: left .2s linear;
 `;
 
 const PreviousItemClone = styled.div<ActionProps & VisibilityProps>`
@@ -128,10 +122,8 @@ const PreviousItemClone = styled.div<ActionProps & VisibilityProps>`
   height: 75%;
   ${({ action, isVisible }) => {
     return `
-      // left: ${action === 'previous' ? '70%' : '70%'};
-      left: 70%;
-      // opacity: ${isVisible ? '1' : '0'};
-      opacity: 1;
+      left: ${action === 'previous' ? '70%' : '85%'};
+      opacity: ${isVisible ? '1' : '0'};
     `;
   }}
   transition: left .2s linear;
@@ -141,8 +133,7 @@ const PreviousItem = styled.div<VisibilityProps>`
   ${SHARED_ITEM_STYLES}
   height: 75%;
   left: 70%;
-  /* opacity: ${({ isVisible }) => (isVisible ? '1' : '0')}; */
-  opacity: 1;
+  opacity: ${({ isVisible }) => (isVisible ? '1' : '0')};
 `;
 
 const AnimatedPreviousItem = styled.div<ActionProps & VisibilityProps>`
@@ -150,14 +141,13 @@ const AnimatedPreviousItem = styled.div<ActionProps & VisibilityProps>`
   ${({ action, isVisible }) => {
     return `
       left: ${
-        action === 'previous' ? '46.62%' : action === 'next' ? '76%' : '70%'
+        action === 'previous' ? '46.62%' : action === 'next' ? '85%' : '70%'
       };
       height: ${action === 'prev' ? '100%' : '75%'};
-      // opacity: ${isVisible ? '1' : '0'};
-      opacity: 1;
+      opacity: ${isVisible ? '1' : '0'};
     `;
   }}
-  transition: all .2s linear;
+  transition: left .2s linear;
 `;
 
 const About = () => {
@@ -184,7 +174,12 @@ const About = () => {
     {
       index: 0,
       name: 'item 1',
-      element: <Donut percentageFill={65} />,
+      element: (
+        <div style={{ height: 400, width: 300, background: 'blue' }}>
+          item 1
+        </div>
+      ),
+      // element: <Donut percentageFill={65} />,
     },
     {
       index: 1,
@@ -231,7 +226,7 @@ const About = () => {
     }
   };
 
-  const [nextCloneIndex, setNextCloneIndex] = React.useState(1);
+  const [nextCloneIndex, setNextCloneIndex] = React.useState(2);
   const [nextIndex, setNextIndex] = React.useState(1);
   const [animatedNextIndex, setAnimatedNextIndex] = React.useState(1);
   const [activeIndex, setActiveIndex] = React.useState(0);
@@ -240,7 +235,7 @@ const About = () => {
   const [animatedPrevIndex, setAnimatedPrevIndex] = React.useState(
     configLength - 1
   );
-  const [prevCloneIndex, setPrevCloneIndex] = React.useState(configLength - 1);
+  const [prevCloneIndex, setPrevCloneIndex] = React.useState(configLength - 2);
   const [isAnimated, setIsAnimated] = React.useState(false);
   const [action, setAction] = React.useState<'previous' | 'next' | 'reset'>(
     'reset'
@@ -260,7 +255,7 @@ const About = () => {
       setAnimatedPrevIndex((prev) => determineNextIndex(prev));
       setNextCloneIndex((prev) => determineNextIndex(prev));
       setPrevCloneIndex((prev) => determineNextIndex(prev));
-    }, 250);
+    }, 200);
   };
 
   const prevAction = () => {
@@ -277,7 +272,7 @@ const About = () => {
       setAnimatedPrevIndex((prev) => determinePreviousIndex(prev));
       setNextCloneIndex((prev) => determinePreviousIndex(prev));
       setPrevCloneIndex((prev) => determinePreviousIndex(prev));
-    }, 250);
+    }, 200);
   };
 
   const nextCloneElement = itemConfig[nextCloneIndex].element;
@@ -302,26 +297,26 @@ const About = () => {
           <CarouselWrapper>
             <OverflowContainer>
               <Carousel>
-                {/* <NextItemClone action={action} isVisible={isAnimated}>
+                <NextItemClone action={action} isVisible={isAnimated}>
                   {nextCloneElement}
-                </NextItemClone> */}
-                <NextItem isVisible={isAnimated}>{nextElement}</NextItem>
+                </NextItemClone>
+                <NextItem isVisible={!isAnimated}>{nextElement}</NextItem>
                 <AnimatedNextItem action={action} isVisible={isAnimated}>
                   {animatedNextElement}
                 </AnimatedNextItem>
-                <ActiveItem isVisible={true}>{activeElement}</ActiveItem>
+                <ActiveItem isVisible={!isAnimated}>{activeElement}</ActiveItem>
                 <AnimatedActiveItem action={action} isVisible={isAnimated}>
                   {animatedActiveElement}
                 </AnimatedActiveItem>
-                <PreviousItem isVisible={isAnimated}>
+                <PreviousItem isVisible={!isAnimated}>
                   {prevElement}
                 </PreviousItem>
                 <AnimatedPreviousItem action={action} isVisible={isAnimated}>
                   {animatedPrevElement}
                 </AnimatedPreviousItem>
-                {/* <PreviousItemClone action={action} isVisible={isAnimated}>
+                <PreviousItemClone action={action} isVisible={isAnimated}>
                   {prevCloneElement}
-                </PreviousItemClone> */}
+                </PreviousItemClone>
               </Carousel>
             </OverflowContainer>
           </CarouselWrapper>
