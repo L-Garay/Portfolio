@@ -7,6 +7,7 @@ import Journey from '../sections/journey';
 import About from '../sections/about';
 import Experience from '../sections/experience';
 import Skills from '../sections/skills';
+import { CarouselProvider } from '../contexts/carouselContext';
 
 // Step 2: Define your component
 const IndexPage = () => {
@@ -18,7 +19,9 @@ const IndexPage = () => {
         <Skills />
         <Experience />
         <Journey />
-        <About />
+        <CarouselProvider>
+          <About />
+        </CarouselProvider>
       </Layout>
     </>
   );

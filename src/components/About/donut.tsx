@@ -4,11 +4,12 @@ import styled from 'styled-components';
 
 type DonutProps = {
   percentageFill: number;
+  isActive: boolean;
   color?: string;
   minWidth?: number;
 };
 
-export const StyledDonut = styled.div`
+export const StyledDonut = styled.div<DonutProps>`
   .skill {
     width: 160px;
     height: 160px;
@@ -45,9 +46,12 @@ export const StyledDonut = styled.div`
     stroke: url(#GradientColor);
     stroke-width: 20;
     stroke-dasharray: 440;
-    stroke-dashoffset: 440; // this needs to match the value of the stroke-dasharray so that it starts as an empty circle and fills up (lowers the offset)
+    stroke-dashoffset: ${({ isActive }) => {
+      return isActive ? 440 : 154;
+    }}; // this needs to match the value of the stroke-dasharray so that it starts as an empty circle and fills up (lowers the offset)
     animation: fill 1.2s linear forwards;
     /* NOTE need to conditionally control when this animation runs, need to prevent it from running unless it is the current active slide in the carousel */
+    animation-play-state: ${(props) => (props.isActive ? 'running' : 'paused')};
     @keyframes fill {
       100% {
         // the value at 100% needs to be the calculated value of the percentage of the filled circle
@@ -88,7 +92,7 @@ function useInterval(callback: any, delay: number | null) {
 }
 
 // TODO all the values are hardcoded, need to make them dynamic
-const Donut = ({ percentageFill }: DonutProps) => {
+const Donut = ({ percentageFill, isActive }: DonutProps) => {
   const [counter, setCounter] = React.useState(0);
   const counterComplete = counter === percentageFill;
 
@@ -98,15 +102,15 @@ const Donut = ({ percentageFill }: DonutProps) => {
         setCounter(counter + 1);
       }
     },
-    counterComplete ? null : 20
+    counterComplete || !isActive ? null : 20
   );
 
   return (
-    <StyledDonut>
+    <StyledDonut percentageFill={percentageFill} isActive={isActive}>
       <div className="skill">
         <div className="outer">
           <div className="inner">
-            <div id="percentage">{counter}%</div>
+            <div id="percentage">{isActive ? counter : percentageFill}%</div>
           </div>
         </div>
         <svg

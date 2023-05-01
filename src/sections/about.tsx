@@ -8,7 +8,7 @@ import {
 } from '../components/sections';
 import { useDeviceContext } from '../contexts/deviceContext';
 import SCREEN_SIZES from '../constants/screenSizes';
-import Donut from '../components/About/donut';
+import { useCaourselContext } from '../contexts/carouselContext';
 
 const AboutMeTitle = styled(SectionTitle)`
   text-align: start;
@@ -63,6 +63,8 @@ type VisibilityProps = {
   isVisible: boolean;
 };
 
+// NOTE the width of each individual item will determine how far we need to position the items' left property
+// TODO once the data visualization components are done and we know the sizes, we need to then finetune and fix the positioning of the items
 const NextItemClone = styled.div<ActionProps & VisibilityProps>`
   ${SHARED_ITEM_STYLES}
   height: 75%;
@@ -168,124 +170,21 @@ const About = () => {
 
   const calcluatedWidth = windowWidth - widthDeduction;
 
-  // NOTE the width of each individual item will determine how far we need to position the items' left property
-  // TODO once the data visualization components are done and we know the sizes, we need to then finetune and fix the positioning of the items
-  const itemConfig = [
-    {
-      index: 0,
-      name: 'item 1',
-      element: (
-        <div style={{ height: 400, width: 300, background: 'blue' }}>
-          item 1
-        </div>
-      ),
-      // element: <Donut percentageFill={65} />,
-    },
-    {
-      index: 1,
-      name: 'item 2',
-      element: (
-        <div style={{ height: 400, width: 300, background: 'green' }}>
-          item 2
-        </div>
-      ),
-    },
-    {
-      index: 2,
-      name: 'item 3',
-      element: (
-        <div style={{ height: 400, width: 300, background: 'red' }}>item 3</div>
-      ),
-    },
-    {
-      index: 3,
-      name: 'item 4',
-      element: (
-        <div style={{ height: 400, width: 300, background: 'yellow' }}>
-          item 4
-        </div>
-      ),
-    },
-  ];
-
-  const configLength = itemConfig.length;
-
-  const determineNextIndex = (activeIndex: number) => {
-    if (activeIndex === configLength - 1) {
-      return 0;
-    } else {
-      return activeIndex + 1;
-    }
-  };
-
-  const determinePreviousIndex = (activeIndex: number) => {
-    if (activeIndex === 0) {
-      return configLength - 1;
-    } else {
-      return activeIndex - 1;
-    }
-  };
-
-  const [nextCloneIndex, setNextCloneIndex] = React.useState(2);
-  const [nextIndex, setNextIndex] = React.useState(1);
-  const [animatedNextIndex, setAnimatedNextIndex] = React.useState(1);
-  const [activeIndex, setActiveIndex] = React.useState(0);
-  const [animatedActiveIndex, setAnimatedActiveIndex] = React.useState(0);
-  const [prevIndex, setPrevIndex] = React.useState(configLength - 1);
-  const [animatedPrevIndex, setAnimatedPrevIndex] = React.useState(
-    configLength - 1
-  );
-  const [prevCloneIndex, setPrevCloneIndex] = React.useState(configLength - 2);
-  const [isAnimated, setIsAnimated] = React.useState(false);
-  const [action, setAction] = React.useState<'previous' | 'next' | 'reset'>(
-    'reset'
-  );
-
-  const nextAction = () => {
-    setIsAnimated(true);
-    setAction('next');
-    setNextIndex((prev) => determineNextIndex(prev));
-    setActiveIndex((prev) => determineNextIndex(prev));
-    setPrevIndex((prev) => determineNextIndex(prev));
-    setTimeout(() => {
-      setIsAnimated(false);
-      setAction('reset');
-      setAnimatedNextIndex((prev) => determineNextIndex(prev));
-      setAnimatedActiveIndex((prev) => determineNextIndex(prev));
-      setAnimatedPrevIndex((prev) => determineNextIndex(prev));
-      setNextCloneIndex((prev) => determineNextIndex(prev));
-      setPrevCloneIndex((prev) => determineNextIndex(prev));
-    }, 200);
-  };
-
-  const prevAction = () => {
-    setIsAnimated(true);
-    setAction('previous');
-    setNextIndex((prev) => determinePreviousIndex(prev));
-    setActiveIndex((prev) => determinePreviousIndex(prev));
-    setPrevIndex((prev) => determinePreviousIndex(prev));
-    setTimeout(() => {
-      setIsAnimated(false);
-      setAction('reset');
-      setAnimatedNextIndex((prev) => determinePreviousIndex(prev));
-      setAnimatedActiveIndex((prev) => determinePreviousIndex(prev));
-      setAnimatedPrevIndex((prev) => determinePreviousIndex(prev));
-      setNextCloneIndex((prev) => determinePreviousIndex(prev));
-      setPrevCloneIndex((prev) => determinePreviousIndex(prev));
-    }, 200);
-  };
-
-  const nextCloneElement = itemConfig[nextCloneIndex].element;
-  const nextElement = itemConfig[nextIndex].element;
-
-  const animatedNextElement = itemConfig[animatedNextIndex].element;
-  const activeElement = itemConfig[activeIndex].element;
-
-  const animatedActiveElement = itemConfig[animatedActiveIndex].element;
-  const prevElement = itemConfig[prevIndex].element;
-
-  const animatedPrevElement = itemConfig[animatedPrevIndex].element;
-  const prevCloneElement = itemConfig[prevCloneIndex].element;
+  const {
+    activeIndex,
+    isAnimated,
+    action,
+    nextAction,
+    prevAction,
+    nextCloneElement,
+    nextElement,
+    animatedNextElement,
+    activeElement,
+    animatedActiveElement,
+    prevCloneElement,
+    prevElement,
+    animatedPrevElement,
+  } = useCaourselContext();
 
   return (
     <Section id="about" height={isMobile ? windowHeight : undefined}>
@@ -298,24 +197,28 @@ const About = () => {
             <OverflowContainer>
               <Carousel>
                 <NextItemClone action={action} isVisible={isAnimated}>
-                  {nextCloneElement}
+                  {nextCloneElement(activeIndex)}
                 </NextItemClone>
-                <NextItem isVisible={!isAnimated}>{nextElement}</NextItem>
+                <NextItem isVisible={!isAnimated}>
+                  {nextElement(activeIndex)}
+                </NextItem>
                 <AnimatedNextItem action={action} isVisible={isAnimated}>
-                  {animatedNextElement}
+                  {animatedNextElement(activeIndex)}
                 </AnimatedNextItem>
-                <ActiveItem isVisible={!isAnimated}>{activeElement}</ActiveItem>
+                <ActiveItem isVisible={!isAnimated}>
+                  {activeElement(activeIndex)}
+                </ActiveItem>
                 <AnimatedActiveItem action={action} isVisible={isAnimated}>
-                  {animatedActiveElement}
+                  {animatedActiveElement(activeIndex)}
                 </AnimatedActiveItem>
                 <PreviousItem isVisible={!isAnimated}>
-                  {prevElement}
+                  {prevElement(activeIndex)}
                 </PreviousItem>
                 <AnimatedPreviousItem action={action} isVisible={isAnimated}>
-                  {animatedPrevElement}
+                  {animatedPrevElement(activeIndex)}
                 </AnimatedPreviousItem>
                 <PreviousItemClone action={action} isVisible={isAnimated}>
-                  {prevCloneElement}
+                  {prevCloneElement(activeIndex)}
                 </PreviousItemClone>
               </Carousel>
             </OverflowContainer>
