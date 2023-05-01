@@ -50,7 +50,6 @@ export const StyledDonut = styled.div<DonutProps>`
       return isActive ? 440 : 154;
     }}; // this needs to match the value of the stroke-dasharray so that it starts as an empty circle and fills up (lowers the offset)
     animation: fill 1.2s linear forwards;
-    /* NOTE need to conditionally control when this animation runs, need to prevent it from running unless it is the current active slide in the carousel */
     animation-play-state: ${(props) => (props.isActive ? 'running' : 'paused')};
     @keyframes fill {
       100% {
@@ -85,7 +84,6 @@ function useInterval(callback: any, delay: number | null) {
 
     if (delay !== null) {
       const id = setInterval(tick, delay);
-      // make sure to clean up
       return () => clearInterval(id);
     }
   }, [delay]);

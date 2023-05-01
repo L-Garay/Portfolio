@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import Donut from '../components/About/donut';
 import Pie from '../components/About/pie';
+import Bar from '../components/About/bar';
 
 // NOTE the width of each individual item will determine how far we need to position the items' left property
 // TODO once the data visualization components are done and we know the sizes, we need to then finetune and fix the positioning of the items
@@ -32,9 +33,7 @@ const ITEM_CONFIG = [
     name: 'item 3',
     element: (activeIndex: number) => {
       const isActive = activeIndex === 2;
-      return (
-        <div style={{ height: 400, width: 300, background: 'red' }}>item 3</div>
-      );
+      return <Bar percentageFill={74} />;
     },
   },
   {
