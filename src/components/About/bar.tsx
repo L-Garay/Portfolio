@@ -2,7 +2,7 @@ import React from 'react';
 import theme from '../../styles/theme';
 import styled, { keyframes } from 'styled-components';
 
-type Bar = {
+type BarData = {
   percentageFill: number;
   name: string;
   barColor: string;
@@ -10,7 +10,7 @@ type Bar = {
 };
 
 type BarProps = {
-  barData: Bar[];
+  barData: BarData[];
   isActive: boolean;
 };
 
