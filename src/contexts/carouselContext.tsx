@@ -8,6 +8,10 @@ import React, {
 import Donut from '../components/About/donut';
 import Pie from '../components/About/pie';
 import Bar from '../components/About/bar';
+import {
+  barChartOneData,
+  barChartTwoData,
+} from '../utils/configs/aboutConfigs';
 
 // NOTE the width of each individual item will determine how far we need to position the items' left property
 // TODO once the data visualization components are done and we know the sizes, we need to then finetune and fix the positioning of the items
@@ -33,7 +37,12 @@ const ITEM_CONFIG = [
     name: 'item 3',
     element: (activeIndex: number) => {
       const isActive = activeIndex === 2;
-      return <Bar percentageFill={74} />;
+      return (
+        <>
+          <Bar barData={barChartOneData} isActive={isActive} />
+          {/* <Bar barData={barChartTwoData} isActive={isActive} /> */}
+        </>
+      );
     },
   },
   {
