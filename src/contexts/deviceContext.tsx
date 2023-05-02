@@ -1,14 +1,12 @@
 import React, {
   createContext,
   ReactNode,
-  useCallback,
   useContext,
   useEffect,
   useState,
 } from 'react';
 import SCREEN_SIZES from '../constants/screenSizes';
 import preventScroll from '../utils/preventScroll';
-// import useIsWindowWidthAboveOrBetweenThreshold from '../utils/hooks/useDetectWindowWidth';
 
 export interface DeviceContextProps {
   windowWidth: number;
