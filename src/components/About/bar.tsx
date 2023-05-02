@@ -55,7 +55,6 @@ const BarFill = styled.div<BarFillProps>`
   animation-fill-mode: forwards;
   animation-delay: 0.25s;
   animation-duration: 0.55s;
-  /* animation-timing-function: ease-out; */
   animation-name: ${(props) => props.barKeyFrames};
   animation-play-state: ${(props) => (props.isActive ? 'running' : 'paused')};
 `;
