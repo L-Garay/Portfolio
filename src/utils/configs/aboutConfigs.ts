@@ -64,6 +64,45 @@ export const barChartTwoData = [
   },
 ];
 
+export const DonutConfig = [
+  {
+    percentageFill: 25,
+    circleColor1: 'red',
+    circleColor2: 'blue',
+    linearGradientId: 'donut1',
+  },
+  {
+    percentageFill: 35,
+    circleColor1: 'blue',
+    circleColor2: 'green',
+    linearGradientId: 'donut2',
+  },
+  {
+    percentageFill: 45,
+    circleColor1: 'green',
+    circleColor2: 'yellow',
+    linearGradientId: 'donut3',
+  },
+  {
+    percentageFill: 55,
+    circleColor1: 'yellow',
+    circleColor2: 'purple',
+    linearGradientId: 'donut4',
+  },
+  {
+    percentageFill: 65,
+    circleColor1: 'purple',
+    circleColor2: 'orange',
+    linearGradientId: 'donut5',
+  },
+  {
+    percentageFill: 75,
+    circleColor1: 'orange',
+    circleColor2: 'red',
+    linearGradientId: 'donut6',
+  },
+];
+
 // NOTE
 // the strokeDashValues do not need to equal 100 when combined
 // think of it more as in, what percentage of the total pie chart should this slice take up?
@@ -79,6 +118,117 @@ export const barChartTwoData = [
 // with the final slice being the remaining 30% of the pie chart
 // NOTE so there will need to be some math involved in deciding the strokeDashValues
 export const pieChartOneData = [
+  {
+    name: 'slice 1',
+    id: 'slice1',
+    percentage: 50,
+    strokeColor: 'blue',
+    strokeDashValue: 100,
+  },
+  {
+    name: 'slice 2',
+    id: 'slice2',
+    percentage: 15,
+    strokeColor: 'orange',
+    strokeDashValue: 75,
+  },
+  {
+    name: 'slice 3',
+    id: 'slice3',
+    percentage: 15,
+    strokeColor: 'red',
+    strokeDashValue: 50,
+  },
+  {
+    name: 'slice 4',
+    id: 'slice4',
+    percentage: 20,
+    strokeColor: 'green',
+    strokeDashValue: 40,
+  },
+  {
+    name: 'slice 5',
+    id: 'slice5',
+    percentage: 20,
+    strokeColor: 'purple',
+    strokeDashValue: 20,
+  },
+];
+export const pieChartTwoData = [
+  {
+    name: 'slice 1',
+    id: 'slice1',
+    percentage: 50,
+    strokeColor: 'blue',
+    strokeDashValue: 100,
+  },
+  {
+    name: 'slice 2',
+    id: 'slice2',
+    percentage: 15,
+    strokeColor: 'orange',
+    strokeDashValue: 75,
+  },
+  {
+    name: 'slice 3',
+    id: 'slice3',
+    percentage: 15,
+    strokeColor: 'red',
+    strokeDashValue: 50,
+  },
+  {
+    name: 'slice 4',
+    id: 'slice4',
+    percentage: 20,
+    strokeColor: 'green',
+    strokeDashValue: 40,
+  },
+  {
+    name: 'slice 5',
+    id: 'slice5',
+    percentage: 20,
+    strokeColor: 'purple',
+    strokeDashValue: 20,
+  },
+];
+export const pieChartThreeData = [
+  {
+    name: 'slice 1',
+    id: 'slice1',
+    percentage: 50,
+    strokeColor: 'blue',
+    strokeDashValue: 100,
+  },
+  {
+    name: 'slice 2',
+    id: 'slice2',
+    percentage: 15,
+    strokeColor: 'orange',
+    strokeDashValue: 75,
+  },
+  {
+    name: 'slice 3',
+    id: 'slice3',
+    percentage: 15,
+    strokeColor: 'red',
+    strokeDashValue: 50,
+  },
+  {
+    name: 'slice 4',
+    id: 'slice4',
+    percentage: 20,
+    strokeColor: 'green',
+    strokeDashValue: 40,
+  },
+  {
+    name: 'slice 5',
+    id: 'slice5',
+    percentage: 20,
+    strokeColor: 'purple',
+    strokeDashValue: 20,
+  },
+];
+export const pieChartFourData = [
   {
     name: 'slice 1',
     id: 'slice1',
