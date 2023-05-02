@@ -5,9 +5,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import Donut from '../components/About/donut';
-import Pie from '../components/About/pie';
-import Bar from '../components/About/bar';
+import { Donut, Pie, Bar } from '../components/About/charts';
 import {
   barChartOneData,
   barChartTwoData,

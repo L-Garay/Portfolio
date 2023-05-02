@@ -1,5 +1,4 @@
 import React from 'react';
-import theme from '../../styles/theme';
 import styled, { keyframes } from 'styled-components';
 
 type BarData = {
