@@ -39,40 +39,46 @@ export const barChartTwoData = [
 
 export const DonutConfig = [
   {
-    percentageFill: 25,
+    percentageFill: 54,
     circleColor1: 'red',
     circleColor2: 'blue',
     linearGradientId: 'donut1',
+    name: 'D3.js',
   },
   {
-    percentageFill: 35,
+    percentageFill: 90,
     circleColor1: 'blue',
     circleColor2: 'green',
     linearGradientId: 'donut2',
+    name: 'Three.js',
   },
   {
-    percentageFill: 45,
+    percentageFill: 35,
     circleColor1: 'green',
     circleColor2: 'yellow',
     linearGradientId: 'donut3',
+    name: 'Python',
   },
   {
-    percentageFill: 55,
+    percentageFill: 62,
     circleColor1: 'yellow',
     circleColor2: 'purple',
     linearGradientId: 'donut4',
+    name: 'Java',
   },
   {
-    percentageFill: 65,
+    percentageFill: 70,
     circleColor1: 'purple',
     circleColor2: 'orange',
     linearGradientId: 'donut5',
+    name: 'Svelte',
   },
   {
-    percentageFill: 75,
+    percentageFill: 17,
     circleColor1: 'orange',
     circleColor2: 'red',
     linearGradientId: 'donut6',
+    name: 'Unity',
   },
 ];
 

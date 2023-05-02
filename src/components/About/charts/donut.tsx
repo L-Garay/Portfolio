@@ -1,4 +1,5 @@
 import React from 'react';
+import theme from '../../../styles/theme';
 import styled, { keyframes } from 'styled-components';
 
 type DonutProps = {
@@ -7,6 +8,7 @@ type DonutProps = {
   circleColor1: string;
   circleColor2: string;
   linearGradientId: string;
+  name: string;
 };
 
 const DonutContainer = styled.div`
@@ -42,7 +44,7 @@ const InnerCircle = styled.div`
 const Percentage = styled.p`
   margin: 0;
   font-weight: bold;
-  color: black;
+  color: white;
 `;
 
 const SVG = styled.svg.attrs({
@@ -86,6 +88,17 @@ const CIRCLE = styled.circle.attrs({
   animation-name: ${({ circleKeyFrame }) => circleKeyFrame};
 `;
 
+const ChartContainer = styled.div`
+  text-align: center;
+  margin-top: 10px;
+`;
+
+const ChartName = styled.h4`
+  margin: 0;
+  font-size: 1.1rem;
+  font-family: ${theme.fonts.robotoMono};
+`;
+
 // https://overreacted.io/making-setinterval-declarative-with-react-hooks/
 function useInterval(callback: any, delay: number | null) {
   const savedCallback = React.useRef();
@@ -115,6 +128,7 @@ const Donut = ({
   circleColor1,
   circleColor2,
   linearGradientId,
+  name,
 }: DonutProps) => {
   const [counter, setCounter] = React.useState(0);
   const counterComplete = counter === percentageFill;
@@ -139,30 +153,33 @@ const Donut = ({
   );
 
   return (
-    <DonutContainer>
-      <OuterCircle>
-        <InnerCircle>
-          <Percentage>{isActive ? counter : percentageFill}%</Percentage>
-        </InnerCircle>
-      </OuterCircle>
-      <SVG>
-        <defs>
-          <linearGradient id={linearGradientId}>
-            <stop offset="0%" stopColor={circleColor1} />
-            <stop offset="100%" stopColor={circleColor2} />
-          </linearGradient>
-        </defs>
-        <CIRCLE
-          isActive={isActive}
-          percentageFill={percentageFill}
-          strokeLinecap="round"
-          dashArray={STROKE_DASHARRAY}
-          dashOffset={STROKE_DASHOFFSET}
-          linearGradientId={linearGradientId}
-          circleKeyFrame={circleKeyFrame}
-        />
-      </SVG>
-    </DonutContainer>
+    <ChartContainer>
+      <ChartName>{name}</ChartName>
+      <DonutContainer>
+        <OuterCircle>
+          <InnerCircle>
+            <Percentage>{isActive ? counter : percentageFill}%</Percentage>
+          </InnerCircle>
+        </OuterCircle>
+        <SVG>
+          <defs>
+            <linearGradient id={linearGradientId}>
+              <stop offset="0%" stopColor={circleColor1} />
+              <stop offset="100%" stopColor={circleColor2} />
+            </linearGradient>
+          </defs>
+          <CIRCLE
+            isActive={isActive}
+            percentageFill={percentageFill}
+            strokeLinecap="round"
+            dashArray={STROKE_DASHARRAY}
+            dashOffset={STROKE_DASHOFFSET}
+            linearGradientId={linearGradientId}
+            circleKeyFrame={circleKeyFrame}
+          />
+        </SVG>
+      </DonutContainer>
+    </ChartContainer>
   );
 };
 

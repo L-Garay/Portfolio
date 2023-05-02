@@ -46,7 +46,6 @@ const Description = styled.div`
   max-width: 300px;
 
   p {
-    margin: 0;
     padding: 0;
     font-size: 1rem;
   }
@@ -61,6 +60,7 @@ const DonutCard = ({ isActive }: DonutCardProps) => {
   return (
     <DonutCardContainer>
       <TitleContainer>
+        {/* TODO link to each tool's site when click on name */}
         <Title>Skills I'd like to learn</Title>
       </TitleContainer>
       <ContentContainer className="content-container">
@@ -68,10 +68,14 @@ const DonutCard = ({ isActive }: DonutCardProps) => {
           <Donut {...DonutConfig[0]} isActive={isActive} />
           <Description className="description">
             <p>
-              this will be the description for this card, describing the
-              different skills and a little bit of why i want to learn them.
+              These are some of the different languages, frameworks and tools
+              I'd like to try out and learn.
             </p>
-            <p>Can also explain purpose/uses of donut charts.</p>
+            <p>
+              The values are a totally not arbitrary calculation of my personal
+              interest in the tool, likelihood of me using it soon and the
+              benefit I think it would bring to my work.
+            </p>
           </Description>
           <Donut {...DonutConfig[1]} isActive={isActive} />
         </Row1>
