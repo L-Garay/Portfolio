@@ -22,7 +22,7 @@ const CarouselContainer = styled.div`
 const CarouselWrapper = styled.div`
   display: flex;
   width: 1300px; // testing
-  height: 600px; // testing
+  height: 800px; // testing
   margin: 0 auto;
   background: lightpink; // testing
 `;
@@ -186,7 +186,11 @@ const About = () => {
   } = useCaourselContext();
 
   return (
-    <Section id="about" height={isMobile ? windowHeight : undefined}>
+    <Section
+      id="about"
+      height={isMobile ? windowHeight : undefined}
+      style={{ paddingBottom: 80 }}
+    >
       <SectionContent isMobile={isMobile} calculatedWidth={calcluatedWidth}>
         <SectionTitleContainer>
           <AboutMeTitle>05. About Me</AboutMeTitle>

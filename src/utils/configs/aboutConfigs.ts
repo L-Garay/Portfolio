@@ -1,64 +1,37 @@
-export const barChartOneData = [
-  {
-    name: 'item 1',
-    percentageFill: 65,
-    barColor: 'blue',
-    arrowColor: 'orange',
-  },
-  {
-    name: 'item 2',
-    percentageFill: 27,
-    barColor: 'red',
-    arrowColor: 'white',
-  },
-  {
-    name: 'item 3',
-    percentageFill: 82,
-    barColor: 'green',
-    arrowColor: 'purple',
-  },
-  {
-    name: 'item 4',
-    percentageFill: 46,
-    barColor: 'orange',
-    arrowColor: 'black',
-  },
-];
-
 export const barChartTwoData = [
   {
-    name: 'item 5',
-    percentageFill: 45,
+    name: 'FM 16',
+    percentageFill: 26.6,
     barColor: 'blue',
     arrowColor: 'orange',
   },
   {
-    name: 'item 6',
-    percentageFill: 87,
+    name: 'FM 18',
+    percentageFill: 19.2,
     barColor: 'red',
     arrowColor: 'white',
   },
   {
-    name: 'item 7',
-    percentageFill: 76,
+    name: 'FM 17',
+    percentageFill: 12.2,
     barColor: 'green',
     arrowColor: 'purple',
   },
   {
-    name: 'item 8',
-    percentageFill: 58,
+    name: 'FM 20',
+    percentageFill: 7.9,
     barColor: 'orange',
     arrowColor: 'black',
   },
   {
-    name: 'item 9',
-    percentageFill: 36,
+    name: 'FM 14',
+    percentageFill: 6,
     barColor: 'orange',
     arrowColor: 'black',
   },
   {
-    name: 'item 10',
-    percentageFill: 93,
+    name: 'Others (6)',
+    percentageFill: 28.1,
     barColor: 'orange',
     arrowColor: 'black',
   },

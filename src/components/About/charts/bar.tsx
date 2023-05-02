@@ -15,7 +15,15 @@ type BarProps = {
 
 const StyledBarGraph = styled.div`
   margin: 10px;
-  border: 1px solid white; // testing
+  border-bottom: 3px solid white; // testing
+  border-left: 3px solid white; // testing
+`;
+
+const ChartTitle = styled.p`
+  margin: 0px;
+  font-size: 1.1rem; // will need to change
+  font-weight: bold;
+  text-align: center;
 `;
 
 const BarContainer = styled.div`
@@ -23,6 +31,7 @@ const BarContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   padding: 15px 0;
+  position: relative;
 `;
 
 // NOTE the graph is horizontal from left to right
@@ -47,7 +56,7 @@ const BarFill = styled.div<BarFillProps>`
   justify-content: end;
   height: 50px; // the total height of the bar, will need to be adjusted for responsiveness
   width: ${({ isActive, fillPercentage }) =>
-    isActive ? '25px' : `${fillPercentage}%`};
+    isActive ? '25px' : `${fillPercentage * 3}%`};
   border-top-right-radius: 12.5px;
   border-bottom-right-radius: 12.5px;
   background: ${(props) => props.bgColor};
@@ -129,6 +138,7 @@ const ArrowPoint = styled.div<ArrowProps>`
 const Bar = ({ barData, isActive }: BarProps) => {
   return (
     <StyledBarGraph>
+      <ChartTitle>Percentage of total time played</ChartTitle>
       <BarContainer>
         {barData.map((bar) => {
           const { percentageFill, name, barColor, arrowColor } = bar;
@@ -137,7 +147,7 @@ const Bar = ({ barData, isActive }: BarProps) => {
               width: 25px;
             }
             100% {
-              width: ${percentageFill}%;
+              width: ${percentageFill * 3}%;
             }
           `;
           return (

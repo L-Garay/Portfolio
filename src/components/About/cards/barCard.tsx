@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Bar } from '../charts';
 import { barChartTwoData } from '../../../utils/configs/aboutConfigs';
+import SCREEN_SIZES from '../../../constants/screenSizes';
+import { useDeviceContext } from '../../../contexts/deviceContext';
 
 type BarCardProps = {
   isActive: boolean;
@@ -18,7 +20,7 @@ const TitleContainer = styled.div`
 const Title = styled.h3`
   margin: 0;
   padding: 0;
-  color: black;
+  color: white;
 `;
 
 const ContentContainer = styled.div`
@@ -31,6 +33,8 @@ const ContentContainer = styled.div`
 const Column1 = styled.div`
   background: lightgray;
   display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   align-items: center;
 `;
 
@@ -39,15 +43,51 @@ const Description = styled.div`
   max-width: 300px;
 
   p {
-    margin: 0;
     padding: 0;
-    font-size: 1rem;
+    font-size: 0.9rem;
+  }
+`;
+
+const ChartKey = styled.div`
+  border: 1px solid orange;
+  height: 150px;
+  width: 250px;
+  font-size: 1rem;
+  padding: 10px 5px;
+`;
+
+const KeyItem = styled.p`
+  margin: 0;
+  margin-bottom: 10px;
+`;
+
+const KeySection = styled.div`
+  display: flex;
+`;
+
+const KeySectionItem = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+
+  span {
+    min-width: 45px;
+    margin-right: 5px;
   }
 `;
 
 const Column2 = styled.div``;
 
 const BarCard = ({ isActive }: BarCardProps) => {
+  const { windowWidth, windowHeight, isWindowWidthAboveOrBetweenThreshold } =
+    useDeviceContext();
+
+  const isAboveSmall = isWindowWidthAboveOrBetweenThreshold(
+    SCREEN_SIZES.MOBILE
+  );
+  const isAboveMedium = isWindowWidthAboveOrBetweenThreshold(
+    SCREEN_SIZES.MEDIUM
+  );
   return (
     <BarCardContainer>
       <TitleContainer>
@@ -57,15 +97,72 @@ const BarCard = ({ isActive }: BarCardProps) => {
         <Column1>
           <Description>
             <p>
-              Could maybe go into more personal likes/dislikes here, rather than
-              qualites/soft skills and hard skills
+              One of my major hobbies is soccer/football/fusbal. I regularly
+              watch it and I also have two collegiate intramural championships
+              under my belt, but I spend the most time managing virtual teams in
+              the Football Manager series.
             </p>
             <p>
-              Explain that I love soccer and that the hours are from leaving
-              computer on
+              The chart to the right shows just how much I enjoy playing the
+              different games in the series. For context, the reason there are
+              two outliers is that I left my computer on in school and would
+              often leave the game on overnight. I am not THAT obessed with the
+              game (is what I tell myself).
             </p>
-            <p>as always, include short description of uses of bar charts</p>
           </Description>
+          <ChartKey>
+            <KeyItem>'FM' = Football Manager</KeyItem>
+            <KeyItem>Total Hours Played: 32,245.7</KeyItem>
+            <KeySection>
+              {isAboveSmall ? (
+                <>
+                  <div>
+                    <KeySectionItem>
+                      <span> FM 16:</span> 8,580.6
+                    </KeySectionItem>
+                    <KeySectionItem>
+                      <span> FM 18:</span> 6,186.2
+                    </KeySectionItem>
+                    <KeySectionItem>
+                      <span> FM 17:</span> 3,944.1
+                    </KeySectionItem>
+                  </div>
+                  <div>
+                    <KeySectionItem>
+                      <span> FM 20:</span> 2,548.3
+                    </KeySectionItem>
+                    <KeySectionItem>
+                      <span> FM 14:</span> 1,943.3
+                    </KeySectionItem>
+                    <KeySectionItem>
+                      <span> Others:</span> 9,043.2
+                    </KeySectionItem>
+                  </div>
+                </>
+              ) : (
+                <div>
+                  <KeySectionItem>
+                    <span> FM 16:</span> 8,580.6
+                  </KeySectionItem>
+                  <KeySectionItem>
+                    <span> FM 18:</span> 6,186.2
+                  </KeySectionItem>
+                  <KeySectionItem>
+                    <span> FM 17:</span> 3,944.1
+                  </KeySectionItem>
+                  <KeySectionItem>
+                    <span> FM 20:</span> 2,548.3
+                  </KeySectionItem>
+                  <KeySectionItem>
+                    <span> FM 14:</span> 1,943.3
+                  </KeySectionItem>
+                  <KeySectionItem>
+                    <span> Others:</span> 9,043.2
+                  </KeySectionItem>
+                </div>
+              )}
+            </KeySection>
+          </ChartKey>
         </Column1>
         <Column2>
           <Bar barData={barChartTwoData} isActive={isActive} />
