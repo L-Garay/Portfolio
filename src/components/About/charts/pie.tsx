@@ -18,34 +18,11 @@ type StyledPieProps = PieProps & {
   circumference: number;
 };
 
-const SVG = styled.svg`
-  display: block;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  overflow: visible;
-  transform: rotate(-90deg);
-`;
-
-type CircleProps = Omit<StyledPieProps, 'pieData'> & {
-  strokeDashValue: number;
-  strokeColor: string;
-  id: string;
-};
-
-const CIRCLE = styled.circle<CircleProps>`
-  fill: none;
-  stroke-width: 31.85px;
-  animation: ${({ id }) => id} 2s linear forwards;
-  animation-play-state: ${({ isActive }) => (isActive ? 'running' : 'paused')};
-`;
-
 const StyledPie = styled.div<StyledPieProps>`
   position: relative;
   width: 160px;
   height: 160px;
+  margin: 10px;
 
   ${({ pieData, isActive, circumference }) => {
     const styles = pieData.map((slice: PieData) => {
@@ -68,6 +45,30 @@ const StyledPie = styled.div<StyledPieProps>`
     });
     return styles.join('');
   }}
+`;
+
+const SVG = styled.svg`
+  display: block;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: visible;
+  transform: rotate(-90deg);
+`;
+
+type CircleProps = Omit<StyledPieProps, 'pieData'> & {
+  strokeDashValue: number;
+  strokeColor: string;
+  id: string;
+};
+
+const CIRCLE = styled.circle<CircleProps>`
+  fill: none;
+  stroke-width: 31.85px;
+  animation: ${({ id }) => id} 2s linear forwards;
+  animation-play-state: ${({ isActive }) => (isActive ? 'running' : 'paused')};
 `;
 
 const Pie = ({ isActive, pieData }: PieProps) => {

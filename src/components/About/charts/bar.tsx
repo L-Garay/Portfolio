@@ -14,7 +14,7 @@ type BarProps = {
 };
 
 const StyledBarGraph = styled.div`
-  margin: 40px;
+  margin: 10px;
   border: 1px solid white; // testing
 `;
 
@@ -28,7 +28,7 @@ const BarContainer = styled.div`
 // NOTE the graph is horizontal from left to right
 const BarItemContainer = styled.div`
   position: relative;
-  width: 250px; // think of this as the max width of each individual bar, will need to be adjusted for responsiveness
+  width: 440px; // think of this as the max width of each individual bar, will need to be adjusted for responsiveness
   height: 50px; // the total height of the bar, will need to be adjusted for responsiveness
   margin: 10px 0;
 `;

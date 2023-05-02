@@ -1,43 +1,18 @@
-import React, {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
-import { Donut, Pie, Bar } from '../components/About/charts';
+import React, { createContext, ReactNode, useContext } from 'react';
 import {
-  barChartOneData,
-  barChartTwoData,
-  pieChartOneData,
-} from '../utils/configs/aboutConfigs';
+  AboutCard,
+  BarCard,
+  DonutCard,
+  PieCard,
+} from '../components/About/cards';
 
-// NOTE the width of each individual item will determine how far we need to position the items' left property
-// TODO once the data visualization components are done and we know the sizes, we need to then finetune and fix the positioning of the items
 const ITEM_CONFIG = [
   {
     index: 0,
     name: 'item 1',
     element: (activeIndex: number) => {
       const isActive = activeIndex === 0;
-      return (
-        <>
-          <Donut
-            percentageFill={65}
-            isActive={isActive}
-            circleColor1="red"
-            circleColor2="blue"
-            linearGradientId="donut1"
-          />
-          <Donut
-            percentageFill={35}
-            isActive={isActive}
-            circleColor1="green"
-            circleColor2="purple"
-            linearGradientId="donut2"
-          />
-        </>
-      );
+      return <AboutCard isActive={isActive} />;
     },
   },
   {
@@ -45,7 +20,7 @@ const ITEM_CONFIG = [
     name: 'item 2',
     element: (activeIndex: number) => {
       const isActive = activeIndex === 1;
-      return <Pie isActive={isActive} pieData={pieChartOneData} />;
+      return <PieCard isActive={isActive} />;
     },
   },
   {
@@ -53,12 +28,7 @@ const ITEM_CONFIG = [
     name: 'item 3',
     element: (activeIndex: number) => {
       const isActive = activeIndex === 2;
-      return (
-        <>
-          <Bar barData={barChartOneData} isActive={isActive} />
-          {/* <Bar barData={barChartTwoData} isActive={isActive} /> */}
-        </>
-      );
+      return <BarCard isActive={isActive} />;
     },
   },
   {
@@ -66,11 +36,7 @@ const ITEM_CONFIG = [
     name: 'item 4',
     element: (activeIndex: number) => {
       const isActive = activeIndex === 3;
-      return (
-        <div style={{ height: 400, width: 300, background: 'yellow' }}>
-          item 4
-        </div>
-      );
+      return <DonutCard isActive={isActive} />;
     },
   },
 ];

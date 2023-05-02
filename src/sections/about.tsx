@@ -21,9 +21,8 @@ const CarouselContainer = styled.div`
 
 const CarouselWrapper = styled.div`
   display: flex;
-  /* max-width: 1000px; // may need to change */
-  width: 1100px; // testing
-  height: 550px; // testing
+  width: 1300px; // testing
+  height: 600px; // testing
   margin: 0 auto;
   background: lightpink; // testing
 `;
@@ -70,7 +69,7 @@ const NextItemClone = styled.div<ActionProps & VisibilityProps>`
   height: 75%;
   ${({ action, isVisible }) => {
     return `
-      left: ${action === 'next' ? '25%' : '10%'};
+      left: ${action === 'next' ? '5%' : '2%'};
       opacity: ${isVisible ? '1' : '0'};
     `;
   }}
@@ -80,7 +79,7 @@ const NextItemClone = styled.div<ActionProps & VisibilityProps>`
 const NextItem = styled.div<VisibilityProps>`
   ${SHARED_ITEM_STYLES}
   height: 75%;
-  left: 25%;
+  left: 5%; // may need to be 5%
   opacity: ${({ isVisible }) => (isVisible ? '1' : '0')};
 `;
 
@@ -89,7 +88,7 @@ const AnimatedNextItem = styled.div<ActionProps & VisibilityProps>`
   ${({ action, isVisible }) => {
     return `
       left: ${
-        action === 'previous' ? '0%' : action === 'next' ? '46.62%' : '25%'
+        action === 'previous' ? '0%' : action === 'next' ? '38.5%' : '5%'
       };
       height: ${action === 'next' ? '100%' : '75%'};
       opacity: ${isVisible ? '1' : '0'};
@@ -100,7 +99,7 @@ const AnimatedNextItem = styled.div<ActionProps & VisibilityProps>`
 
 const ActiveItem = styled.div<VisibilityProps>`
   ${SHARED_ITEM_STYLES}
-  left: 46.62%;
+  left: 38.5%;
   height: 100%;
   opacity: ${({ isVisible }) => (isVisible ? '1' : '0')};
 `;
@@ -110,9 +109,30 @@ const AnimatedActiveItem = styled.div<ActionProps & VisibilityProps>`
   ${({ action, isVisible }) => {
     return `
       left: ${
-        action === 'previous' ? '25%' : action === 'next' ? '70%' : '46.62%'
+        action === 'previous' ? '5%' : action === 'next' ? '70%' : '38.5%'
       };
       height: ${action === 'next' || action === 'prev' ? '75%' : '100%'};
+      opacity: ${isVisible ? '1' : '0'};
+    `;
+  }}
+  transition: left .2s linear;
+`;
+
+const PreviousItem = styled.div<VisibilityProps>`
+  ${SHARED_ITEM_STYLES}
+  height: 75%;
+  left: 72.5%;
+  opacity: ${({ isVisible }) => (isVisible ? '1' : '0')};
+`;
+
+const AnimatedPreviousItem = styled.div<ActionProps & VisibilityProps>`
+  ${SHARED_ITEM_STYLES}
+  ${({ action, isVisible }) => {
+    return `
+      left: ${
+        action === 'previous' ? '38.5%' : action === 'next' ? '85%' : '72.5%'
+      };
+      height: ${action === 'prev' ? '100%' : '80%'};
       opacity: ${isVisible ? '1' : '0'};
     `;
   }}
@@ -124,28 +144,7 @@ const PreviousItemClone = styled.div<ActionProps & VisibilityProps>`
   height: 75%;
   ${({ action, isVisible }) => {
     return `
-      left: ${action === 'previous' ? '70%' : '85%'};
-      opacity: ${isVisible ? '1' : '0'};
-    `;
-  }}
-  transition: left .2s linear;
-`;
-
-const PreviousItem = styled.div<VisibilityProps>`
-  ${SHARED_ITEM_STYLES}
-  height: 75%;
-  left: 70%;
-  opacity: ${({ isVisible }) => (isVisible ? '1' : '0')};
-`;
-
-const AnimatedPreviousItem = styled.div<ActionProps & VisibilityProps>`
-  ${SHARED_ITEM_STYLES}
-  ${({ action, isVisible }) => {
-    return `
-      left: ${
-        action === 'previous' ? '46.62%' : action === 'next' ? '85%' : '70%'
-      };
-      height: ${action === 'prev' ? '100%' : '75%'};
+      left: ${action === 'previous' ? '72.5%' : '85%'};
       opacity: ${isVisible ? '1' : '0'};
     `;
   }}

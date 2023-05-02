@@ -14,6 +14,7 @@ const DonutContainer = styled.div`
   height: 160px;
   background: lightblue;
   position: relative;
+  margin: 10px;
 `;
 
 const OuterCircle = styled.div`
