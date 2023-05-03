@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Pie } from '../charts';
+import { AnimatedPie } from '../charts';
+import Pie from '../charts/pie';
 import {
   pieChartOneData,
   pieChartTwoData,
-  pieChartThreeData,
-  pieChartFourData,
+  StaticPie1Data,
+  StaticPie2Data,
 } from '../../../utils/configs/aboutConfigs';
 
 type PieCardProps = {
@@ -112,31 +113,31 @@ const PieCard = ({ isActive }: PieCardProps) => {
           <ChartKey>
             <SmallParagraph>
               <span> 1st:</span>{' '}
-              <div style={{ height: 8, width: 8, background: 'red' }} />
-            </SmallParagraph>
-            <SmallParagraph>
-              <span> 2nd:</span>{' '}
               <div style={{ height: 8, width: 8, background: 'blue' }} />
             </SmallParagraph>
             <SmallParagraph>
+              <span> 2nd:</span>{' '}
+              <div style={{ height: 8, width: 8, background: 'black' }} />
+            </SmallParagraph>
+            <SmallParagraph>
               <span> 3rd:</span>{' '}
-              <div style={{ height: 8, width: 8, background: 'green' }} />
+              <div style={{ height: 8, width: 8, background: 'red' }} />
             </SmallParagraph>
             <SmallParagraph>
               <span> 4th:</span>{' '}
-              <div style={{ height: 8, width: 8, background: 'purple' }} />
+              <div style={{ height: 8, width: 8, background: 'green' }} />
             </SmallParagraph>
             <SmallParagraph>
               <span> 5th:</span>{' '}
-              <div style={{ height: 8, width: 8, background: 'orange' }} />
+              <div style={{ height: 8, width: 8, background: 'purple' }} />
             </SmallParagraph>
           </ChartKey>
         </Row2>
         <Row3>
-          <Pie pieData={pieChartOneData} isActive={isActive} />
-          <Pie pieData={pieChartTwoData} isActive={isActive} />
-          <Pie pieData={pieChartThreeData} isActive={isActive} />
-          <Pie pieData={pieChartFourData} isActive={isActive} />
+          <Pie pieData={StaticPie1Data} />
+          <Pie pieData={StaticPie2Data} />
+          <AnimatedPie pieData={pieChartOneData} isActive={isActive} />
+          <AnimatedPie pieData={pieChartTwoData} isActive={isActive} />
         </Row3>
       </ContentContainer>
     </PieCardContainer>
