@@ -2,42 +2,30 @@ import React, { createContext, ReactNode, useContext } from 'react';
 import {
   AboutCard,
   BarCard,
+  ContactCard,
   DonutCard,
-  PieCard,
 } from '../components/About/cards';
 
 const ITEM_CONFIG = [
   {
     index: 0,
     name: 'item 1',
-    element: (activeIndex: number) => {
-      const isActive = activeIndex === 0;
-      return <AboutCard isActive={isActive} />;
-    },
+    element: () => AboutCard,
   },
   {
     index: 1,
     name: 'item 2',
-    element: (activeIndex: number) => {
-      const isActive = activeIndex === 1;
-      return <PieCard isActive={isActive} />;
-    },
+    element: () => BarCard,
   },
   {
     index: 2,
     name: 'item 3',
-    element: (activeIndex: number) => {
-      const isActive = activeIndex === 2;
-      return <BarCard isActive={isActive} />;
-    },
+    element: () => DonutCard,
   },
   {
     index: 3,
     name: 'item 4',
-    element: (activeIndex: number) => {
-      const isActive = activeIndex === 3;
-      return <DonutCard isActive={isActive} />;
-    },
+    element: () => ContactCard,
   },
 ];
 
@@ -47,14 +35,14 @@ export interface CarouselContextProps {
   action: 'previous' | 'next' | 'reset';
   nextAction: () => void;
   prevAction: () => void;
-  nextCloneElement: (activeIndex: number) => JSX.Element;
-  nextElement: (activeIndex: number) => JSX.Element;
-  animatedNextElement: (activeIndex: number) => JSX.Element;
-  activeElement: (activeIndex: number) => JSX.Element;
-  animatedActiveElement: (activeIndex: number) => JSX.Element;
-  prevElement: (activeIndex: number) => JSX.Element;
-  animatedPrevElement: (activeIndex: number) => JSX.Element;
-  prevCloneElement: (activeIndex: number) => JSX.Element;
+  nextCloneElement: () => any;
+  nextElement: () => any;
+  animatedNextElement: () => any;
+  activeElement: () => any;
+  animatedActiveElement: () => any;
+  prevElement: () => any;
+  animatedPrevElement: () => any;
+  prevCloneElement: () => any;
 }
 
 export const CarouselContext = createContext<CarouselContextProps>({
@@ -63,14 +51,14 @@ export const CarouselContext = createContext<CarouselContextProps>({
   action: 'reset',
   nextAction: () => {},
   prevAction: () => {},
-  nextCloneElement: (activeIndex: number) => <div />,
-  nextElement: (activeIndex: number) => <div />,
-  animatedNextElement: (activeIndex: number) => <div />,
-  activeElement: (activeIndex: number) => <div />,
-  animatedActiveElement: (activeIndex: number) => <div />,
-  prevElement: (activeIndex: number) => <div />,
-  animatedPrevElement: (activeIndex: number) => <div />,
-  prevCloneElement: (activeIndex: number) => <div />,
+  nextCloneElement: () => <div />,
+  nextElement: () => <div />,
+  animatedNextElement: () => <div />,
+  activeElement: () => <div />,
+  animatedActiveElement: () => <div />,
+  prevElement: () => <div />,
+  animatedPrevElement: () => <div />,
+  prevCloneElement: () => <div />,
 } as CarouselContextProps);
 
 export const CarouselProvider = ({ children }: { children: ReactNode }) => {

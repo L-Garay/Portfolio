@@ -102,6 +102,7 @@ const ActiveItem = styled.div<VisibilityProps>`
   left: 38.5%;
   height: 100%;
   opacity: ${({ isVisible }) => (isVisible ? '1' : '0')};
+  z-index: 5;
 `;
 
 const AnimatedActiveItem = styled.div<ActionProps & VisibilityProps>`
@@ -116,6 +117,7 @@ const AnimatedActiveItem = styled.div<ActionProps & VisibilityProps>`
     `;
   }}
   transition: left .2s linear;
+  z-index: 1;
 `;
 
 const PreviousItem = styled.div<VisibilityProps>`
@@ -170,7 +172,6 @@ const About = () => {
   const calcluatedWidth = windowWidth - widthDeduction;
 
   const {
-    activeIndex,
     isAnimated,
     action,
     nextAction,
@@ -184,6 +185,15 @@ const About = () => {
     prevElement,
     animatedPrevElement,
   } = useCaourselContext();
+
+  const NextCloneElement = nextCloneElement();
+  const NextElement = nextElement();
+  const AnimatedNextElement = animatedNextElement();
+  const ActiveElment = activeElement();
+  const AnimatedActiveElement = animatedActiveElement();
+  const PrevCloneElement = prevCloneElement();
+  const PrevElement = prevElement();
+  const AnimatedPrevElement = animatedPrevElement();
 
   return (
     <Section
@@ -200,28 +210,28 @@ const About = () => {
             <OverflowContainer>
               <Carousel>
                 <NextItemClone action={action} isVisible={isAnimated}>
-                  {nextCloneElement(activeIndex)}
+                  <NextCloneElement />
                 </NextItemClone>
                 <NextItem isVisible={!isAnimated}>
-                  {nextElement(activeIndex)}
+                  <NextElement />
                 </NextItem>
                 <AnimatedNextItem action={action} isVisible={isAnimated}>
-                  {animatedNextElement(activeIndex)}
+                  <AnimatedNextElement />
                 </AnimatedNextItem>
                 <ActiveItem isVisible={!isAnimated}>
-                  {activeElement(activeIndex)}
+                  <ActiveElment isActive />
                 </ActiveItem>
                 <AnimatedActiveItem action={action} isVisible={isAnimated}>
-                  {animatedActiveElement(activeIndex)}
+                  <AnimatedActiveElement />
                 </AnimatedActiveItem>
                 <PreviousItem isVisible={!isAnimated}>
-                  {prevElement(activeIndex)}
+                  <PrevElement />
                 </PreviousItem>
                 <AnimatedPreviousItem action={action} isVisible={isAnimated}>
-                  {animatedPrevElement(activeIndex)}
+                  <AnimatedPrevElement />
                 </AnimatedPreviousItem>
                 <PreviousItemClone action={action} isVisible={isAnimated}>
-                  {prevCloneElement(activeIndex)}
+                  <PrevCloneElement />
                 </PreviousItemClone>
               </Carousel>
             </OverflowContainer>
