@@ -96,6 +96,7 @@ export const DonutConfig = [
 // this would make it appear as though the first slice is 30% (100 - 70) and then the second slice is 20% (70 - 50) and then the third slice is 20% (50 - 30)
 // with the final slice being the remaining 30% of the pie chart
 // NOTE so there will need to be some math involved in deciding the strokeDashValues
+// Memes
 export const pieChartOneData = [
   {
     name: 'slice 1',
@@ -108,22 +109,22 @@ export const pieChartOneData = [
     name: 'slice 2',
     id: 'slice2',
     percentage: 15,
-    strokeColor: 'orange',
-    strokeDashValue: 75,
+    strokeColor: 'black',
+    strokeDashValue: 60,
   },
   {
     name: 'slice 3',
     id: 'slice3',
     percentage: 15,
     strokeColor: 'red',
-    strokeDashValue: 50,
+    strokeDashValue: 40,
   },
   {
     name: 'slice 4',
     id: 'slice4',
     percentage: 20,
     strokeColor: 'green',
-    strokeDashValue: 40,
+    strokeDashValue: 30,
   },
   {
     name: 'slice 5',
@@ -133,114 +134,111 @@ export const pieChartOneData = [
     strokeDashValue: 20,
   },
 ];
+// sympathy
 export const pieChartTwoData = [
   {
     name: 'slice 1',
-    id: 'slice1',
+    id: 'chart2slice1',
     percentage: 50,
     strokeColor: 'blue',
     strokeDashValue: 100,
   },
   {
     name: 'slice 2',
-    id: 'slice2',
+    id: 'chart2slice2',
     percentage: 15,
-    strokeColor: 'orange',
+    strokeColor: 'black',
     strokeDashValue: 75,
   },
   {
     name: 'slice 3',
-    id: 'slice3',
+    id: 'chart2slice3',
     percentage: 15,
     strokeColor: 'red',
     strokeDashValue: 50,
   },
   {
     name: 'slice 4',
-    id: 'slice4',
+    id: 'chart2slice4',
     percentage: 20,
     strokeColor: 'green',
     strokeDashValue: 40,
   },
   {
     name: 'slice 5',
-    id: 'slice5',
+    id: 'chart2slice5',
     percentage: 20,
     strokeColor: 'purple',
     strokeDashValue: 20,
   },
 ];
-export const pieChartThreeData = [
+// Je ne sais quoi
+export const StaticPie1Data = [
   {
-    name: 'slice 1',
-    id: 'slice1',
-    percentage: 50,
-    strokeColor: 'blue',
-    strokeDashValue: 100,
+    color: 'red',
+    value: 10,
   },
   {
-    name: 'slice 2',
-    id: 'slice2',
-    percentage: 15,
-    strokeColor: 'orange',
-    strokeDashValue: 75,
+    color: 'blue',
+    value: 10,
   },
   {
-    name: 'slice 3',
-    id: 'slice3',
-    percentage: 15,
-    strokeColor: 'red',
-    strokeDashValue: 50,
+    color: 'blue',
+    value: 20,
   },
   {
-    name: 'slice 4',
-    id: 'slice4',
-    percentage: 20,
-    strokeColor: 'green',
-    strokeDashValue: 40,
+    color: 'green',
+    value: 20,
   },
   {
-    name: 'slice 5',
-    id: 'slice5',
-    percentage: 20,
-    strokeColor: 'purple',
-    strokeDashValue: 20,
+    color: 'green',
+    value: 40,
+  },
+  {
+    color: 'purple',
+    value: 40,
+  },
+  {
+    color: 'purple',
+    value: 50,
+  },
+  {
+    color: 'yellow',
+    value: 50,
   },
 ];
-export const pieChartFourData = [
+// Pop culture
+export const StaticPie2Data = [
   {
-    name: 'slice 1',
-    id: 'slice1',
-    percentage: 50,
-    strokeColor: 'blue',
-    strokeDashValue: 100,
+    color: 'red',
+    value: 10,
   },
   {
-    name: 'slice 2',
-    id: 'slice2',
-    percentage: 15,
-    strokeColor: 'orange',
-    strokeDashValue: 75,
+    color: 'blue',
+    value: 10,
   },
   {
-    name: 'slice 3',
-    id: 'slice3',
-    percentage: 15,
-    strokeColor: 'red',
-    strokeDashValue: 50,
+    color: 'blue',
+    value: 20,
   },
   {
-    name: 'slice 4',
-    id: 'slice4',
-    percentage: 20,
-    strokeColor: 'green',
-    strokeDashValue: 40,
+    color: 'green',
+    value: 20,
   },
   {
-    name: 'slice 5',
-    id: 'slice5',
-    percentage: 20,
-    strokeColor: 'purple',
-    strokeDashValue: 20,
+    color: 'green',
+    value: 40,
+  },
+  {
+    color: 'purple',
+    value: 40,
+  },
+  {
+    color: 'purple',
+    value: 50,
+  },
+  {
+    color: 'yellow',
+    value: 50,
   },
 ];
