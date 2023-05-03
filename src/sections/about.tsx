@@ -15,16 +15,15 @@ const AboutMeTitle = styled(SectionTitle)`
 `;
 
 const CarouselContainer = styled.div`
-  padding: 10px;
   background: lightgrey; // testing
+  height: 700px; // testing
 `;
 
 const CarouselWrapper = styled.div`
   display: flex;
-  width: 1300px; // testing
-  height: 800px; // testing
+  width: 1300px; // TODO can't set a fixed 'width'
+  height: 90%; // testing
   margin: 0 auto;
-  background: lightpink; // testing
 `;
 
 const OverflowContainer = styled.div`
@@ -50,7 +49,6 @@ const Carousel = styled.div`
 const SHARED_ITEM_STYLES = `
   display: flex;
   position: absolute;
-  border: 1px solid black; // testing
   scroll-snap-align: start;
 `;
 
@@ -62,14 +60,12 @@ type VisibilityProps = {
   isVisible: boolean;
 };
 
-// NOTE the width of each individual item will determine how far we need to position the items' left property
-// TODO once the data visualization components are done and we know the sizes, we need to then finetune and fix the positioning of the items
 const NextItemClone = styled.div<ActionProps & VisibilityProps>`
   ${SHARED_ITEM_STYLES}
   height: 75%;
   ${({ action, isVisible }) => {
     return `
-      left: ${action === 'next' ? '5%' : '2%'};
+      left: ${action === 'next' ? '5%' : '-15%'};
       opacity: ${isVisible ? '1' : '0'};
     `;
   }}
@@ -88,7 +84,7 @@ const AnimatedNextItem = styled.div<ActionProps & VisibilityProps>`
   ${({ action, isVisible }) => {
     return `
       left: ${
-        action === 'previous' ? '0%' : action === 'next' ? '38.5%' : '5%'
+        action === 'previous' ? '-15%' : action === 'next' ? '38.5%' : '5%'
       };
       height: ${action === 'next' ? '100%' : '75%'};
       opacity: ${isVisible ? '1' : '0'};
@@ -152,6 +148,8 @@ const PreviousItemClone = styled.div<ActionProps & VisibilityProps>`
   }}
   transition: left .2s linear;
 `;
+
+const CarouselButton = styled.button``; // TODO add styles
 
 const About = () => {
   const { windowWidth, windowHeight, isWindowWidthAboveOrBetweenThreshold } =

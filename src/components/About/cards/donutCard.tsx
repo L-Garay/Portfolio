@@ -7,11 +7,7 @@ type DonutCardProps = {
   isActive: boolean;
 };
 
-const DonutCardContainer = styled.div`
-  padding: 20px;
-  border: 1px solid red;
-  background: lightsalmon;
-`;
+const DonutCardContainer = styled.div``;
 
 const TitleContainer = styled.div`
   border: 1px solid red;
@@ -26,7 +22,6 @@ const Title = styled.h3`
 `;
 
 const ContentContainer = styled.div`
-  border: 1px solid blue;
   background: lightgreen;
   padding: 10px;
 `;

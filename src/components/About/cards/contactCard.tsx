@@ -22,7 +22,6 @@ const Title = styled.h3`
 const ContentContainer = styled.div`
   max-width: 784px;
   height: 500px;
-  border: 1px solid blue;
   background: lightgreen;
   padding: 10px;
   display: flex;
@@ -61,21 +60,6 @@ type Row3Props = {
   hoverTargetId: string;
 };
 
-const Button = styled.button`
-  background: none;
-  border: 1px solid black;
-  color: red;
-  height: 40px;
-  width: 60px;
-  cursor: pointer;
-  border-radius: 12.5px;
-
-  &:hover {
-    background-color: black;
-    color: white;
-  }
-`;
-
 const Row3 = styled.div<Row3Props>`
   ${ROW_STYLES}
   margin: 10px 0;
@@ -83,6 +67,18 @@ const Row3 = styled.div<Row3Props>`
   width: 100%;
   display: flex;
   justify-content: space-evenly;
+
+  ${({ isHovering, hoverTargetId }) => {
+    const id = `#${hoverTargetId}`;
+    if (isHovering) {
+      return `
+      a${id} {
+        color: red; // testing
+        background: lightblue; // testing
+      }
+    `;
+    } else return ``;
+  }}
 `;
 
 type ResumeButtonProps = {
@@ -96,12 +92,14 @@ const ResmueButton = styled(ButtonAsLink).attrs<ResumeButtonProps>((props) => ({
 }))<ResumeButtonProps>`
   text-align: center;
   cursor: pointer;
+  height: 50px;
+  display: flex;
+  align-items: center;
 `;
 
 const ContactCard = ({}: ContactCardProps) => {
   const [isHovering, setIsHovering] = React.useState(false);
   const [hoverTargetId, setHoverTargetId] = React.useState('');
-  console.log('isHovering', isHovering);
   return (
     <ContactCardContainer>
       <TitleContainer>
@@ -132,15 +130,42 @@ const ContactCard = ({}: ContactCardProps) => {
           </Description>
         </Row2>
         <Row3 isHovering={isHovering} hoverTargetId={hoverTargetId}>
-          <button
-            style={{ color: isHovering ? 'red' : 'blue' }}
-            onMouseEnter={() => setIsHovering(true)}
+          <ResmueButton
+            id="resume"
+            onMouseEnter={() => {
+              setIsHovering(true);
+              setHoverTargetId('resume');
+            }}
             onMouseLeave={() => setIsHovering(false)}
+            targetLink={SOCIALS.resume}
+            targetType="_self"
           >
-            Test 8383
-          </button>
-          <Button>test 2</Button>
-          <Button>test 3</Button>
+            Resume
+          </ResmueButton>
+          <ResmueButton
+            id="email"
+            onMouseEnter={() => {
+              setIsHovering(true);
+              setHoverTargetId('email');
+            }}
+            onMouseLeave={() => setIsHovering(false)}
+            targetLink={`mailto:${SOCIALS.email}?subject=Hello%20Logan!`}
+            targetType="_self"
+          >
+            Email me
+          </ResmueButton>
+          <ResmueButton
+            id="linkedIn"
+            onMouseEnter={() => {
+              setIsHovering(true);
+              setHoverTargetId('linkedIn');
+            }}
+            onMouseLeave={() => setIsHovering(false)}
+            targetLink={SOCIALS.linkedIn}
+            targetType="_blank"
+          >
+            LinkedIn
+          </ResmueButton>
         </Row3>
       </ContentContainer>
     </ContactCardContainer>

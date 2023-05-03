@@ -22,7 +22,6 @@ const Title = styled.h3`
 `;
 
 const ContentContainer = styled.div`
-  border: 1px solid blue;
   background: lightgreen;
   padding: 10px;
 `;
