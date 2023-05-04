@@ -1,5 +1,7 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
+import SCREEN_SIZES from '../../../constants/screenSizes';
+import { useDeviceContext } from '../../../contexts/deviceContext';
 
 type BarData = {
   percentageFill: number;
@@ -13,8 +15,12 @@ type BarProps = {
   isActive: boolean;
 };
 
-const StyledBarGraph = styled.div`
-  margin: 10px;
+type DeviceProps = {
+  isAboveSmall: boolean;
+};
+
+const StyledBarGraph = styled.div<DeviceProps>`
+  margin: ${({ isAboveSmall }) => (isAboveSmall ? '10px' : '10px 0 10px 10px')};
   border-bottom: 3px solid white; // testing
   border-left: 3px solid white; // testing
 `;
@@ -34,10 +40,9 @@ const BarContainer = styled.div`
   position: relative;
 `;
 
-// NOTE the graph is horizontal from left to right
 const BarItemContainer = styled.div`
   position: relative;
-  width: clamp(350px, 25vw, 440px); // testing
+  width: clamp(340px, 25vw, 440px); // testing
   height: 50px; // the total height of the bar, will need to be adjusted for responsiveness
   margin: 10px 0;
 `;
@@ -136,8 +141,12 @@ const ArrowPoint = styled.div<ArrowProps>`
 `;
 
 const Bar = ({ barData, isActive }: BarProps) => {
+  const { isWindowWidthAboveOrBetweenThreshold } = useDeviceContext();
+
+  const isAboveSmall = isWindowWidthAboveOrBetweenThreshold(SCREEN_SIZES.SMALL);
+  const aboveSmall = isAboveSmall ? isAboveSmall : false;
   return (
-    <StyledBarGraph>
+    <StyledBarGraph isAboveSmall={aboveSmall}>
       <ChartTitle>Percentage of total time played</ChartTitle>
       <BarContainer>
         {barData.map((bar) => {

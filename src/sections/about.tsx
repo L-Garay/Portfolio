@@ -10,6 +10,12 @@ import { useDeviceContext } from '../contexts/deviceContext';
 import SCREEN_SIZES from '../constants/screenSizes';
 import { useCaourselContext } from '../contexts/carouselContext';
 import theme from '../styles/theme';
+import {
+  AboutCard,
+  BarCard,
+  ContactCard,
+  DonutCard,
+} from '../components/About/cards';
 
 const AboutMeTitle = styled(SectionTitle)`
   text-align: start;
@@ -254,21 +260,30 @@ const CarouselButton = styled.button`
   transition: all 0.2s linear;
 `;
 
+const StaticCardContainer = styled.div``;
+
+const StaticCardWrapper = styled.div`
+  margin: 30px 0;
+`;
+
 const About = () => {
   const { windowWidth, windowHeight, isWindowWidthAboveOrBetweenThreshold } =
     useDeviceContext();
 
-  const isAboveSmall = isWindowWidthAboveOrBetweenThreshold(
+  const isAboveMobile = isWindowWidthAboveOrBetweenThreshold(
     SCREEN_SIZES.MOBILE
   );
+  const isAboveSmall = isWindowWidthAboveOrBetweenThreshold(SCREEN_SIZES.SMALL);
   const isAboveMedium = isWindowWidthAboveOrBetweenThreshold(
     SCREEN_SIZES.MEDIUM
   );
   const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(SCREEN_SIZES.LARGE);
   const isAbove1350 = isWindowWidthAboveOrBetweenThreshold(1350);
   const above1350 = isAbove1350 ? isAbove1350 : false;
+  const isAbove925 = isWindowWidthAboveOrBetweenThreshold(925);
+  const above925 = isAbove925 ? isAbove925 : false;
 
-  const isMobile = !isAboveSmall;
+  const isMobile = !isAboveMobile;
 
   const widthDeduction = isAboveLarge ? 450 : isAboveMedium ? 300 : 200;
 
@@ -308,64 +323,84 @@ const About = () => {
         <SectionTitleContainer>
           <AboutMeTitle>05. About Me</AboutMeTitle>
         </SectionTitleContainer>
-        <CarouselContainer>
-          <CarouselWrapper isAboveLarge={above1350}>
-            <OverflowContainer>
-              <Carousel>
-                <NextItemClone
-                  action={action}
-                  isVisible={isAnimated}
-                  isAboveLarge={above1350}
-                >
-                  <NextCloneElement />
-                </NextItemClone>
-                <NextItem isVisible={!isAnimated} isAboveLarge={above1350}>
-                  <NextElement />
-                </NextItem>
-                <AnimatedNextItem
-                  action={action}
-                  isVisible={isAnimated}
-                  isAboveLarge={above1350}
-                >
-                  <AnimatedNextElement />
-                </AnimatedNextItem>
-                <ActiveItem isVisible={!isAnimated} isAboveLarge={above1350}>
-                  <ActiveElment isActive />
-                </ActiveItem>
-                <AnimatedActiveItem
-                  action={action}
-                  isVisible={isAnimated}
-                  isAboveLarge={above1350}
-                >
-                  <AnimatedActiveElement />
-                </AnimatedActiveItem>
-                <PreviousItem isVisible={!isAnimated} isAboveLarge={above1350}>
-                  <PrevElement />
-                </PreviousItem>
-                <AnimatedPreviousItem
-                  action={action}
-                  isVisible={isAnimated}
-                  isAboveLarge={above1350}
-                >
-                  <AnimatedPrevElement />
-                </AnimatedPreviousItem>
-                <PreviousItemClone
-                  action={action}
-                  isVisible={isAnimated}
-                  isAboveLarge={above1350}
-                >
-                  <PrevCloneElement />
-                </PreviousItemClone>
-              </Carousel>
-            </OverflowContainer>
-          </CarouselWrapper>
-          <ButtonWrapper>
-            <CarouselButton onClick={() => prevAction()}>
-              Previous
-            </CarouselButton>
-            <CarouselButton onClick={() => nextAction()}>Next</CarouselButton>
-          </ButtonWrapper>
-        </CarouselContainer>
+        {above925 ? (
+          <CarouselContainer>
+            <CarouselWrapper isAboveLarge={above1350}>
+              <OverflowContainer>
+                <Carousel>
+                  <NextItemClone
+                    action={action}
+                    isVisible={isAnimated}
+                    isAboveLarge={above1350}
+                  >
+                    <NextCloneElement />
+                  </NextItemClone>
+                  <NextItem isVisible={!isAnimated} isAboveLarge={above1350}>
+                    <NextElement />
+                  </NextItem>
+                  <AnimatedNextItem
+                    action={action}
+                    isVisible={isAnimated}
+                    isAboveLarge={above1350}
+                  >
+                    <AnimatedNextElement />
+                  </AnimatedNextItem>
+                  <ActiveItem isVisible={!isAnimated} isAboveLarge={above1350}>
+                    <ActiveElment isActive />
+                  </ActiveItem>
+                  <AnimatedActiveItem
+                    action={action}
+                    isVisible={isAnimated}
+                    isAboveLarge={above1350}
+                  >
+                    <AnimatedActiveElement />
+                  </AnimatedActiveItem>
+                  <PreviousItem
+                    isVisible={!isAnimated}
+                    isAboveLarge={above1350}
+                  >
+                    <PrevElement />
+                  </PreviousItem>
+                  <AnimatedPreviousItem
+                    action={action}
+                    isVisible={isAnimated}
+                    isAboveLarge={above1350}
+                  >
+                    <AnimatedPrevElement />
+                  </AnimatedPreviousItem>
+                  <PreviousItemClone
+                    action={action}
+                    isVisible={isAnimated}
+                    isAboveLarge={above1350}
+                  >
+                    <PrevCloneElement />
+                  </PreviousItemClone>
+                </Carousel>
+              </OverflowContainer>
+            </CarouselWrapper>
+            <ButtonWrapper>
+              <CarouselButton onClick={() => prevAction()}>
+                Previous
+              </CarouselButton>
+              <CarouselButton onClick={() => nextAction()}>Next</CarouselButton>
+            </ButtonWrapper>
+          </CarouselContainer>
+        ) : (
+          <StaticCardContainer>
+            <StaticCardWrapper>
+              <AboutCard />
+            </StaticCardWrapper>
+            <StaticCardWrapper>
+              <DonutCard isActive />
+            </StaticCardWrapper>
+            <StaticCardWrapper>
+              <BarCard isActive />
+            </StaticCardWrapper>
+            <StaticCardWrapper>
+              <ContactCard />
+            </StaticCardWrapper>
+          </StaticCardContainer>
+        )}
       </SectionContent>
     </Section>
   );
