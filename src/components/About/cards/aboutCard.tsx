@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useStaticQuery, graphql } from 'gatsby';
 import { GatsbyImage } from 'gatsby-plugin-image';
+import theme from '../../../styles/theme';
 
 type AboutCardProps = {
   isActive: boolean;
@@ -28,24 +29,29 @@ const ContentContainer = styled.div`
 
 const Row1 = styled.div`
   background: lightgray;
+  display: flex;
+  justify-content: center;
+  margin: 10px;
 `;
 
 const ImageWrapper = styled.div`
-  display: flex;
-  justify-content: center;
+  display: inline-block;
+  position: relative;
 `;
 
 const Row2 = styled.div`
   display: flex;
   justify-content: space-around;
+  margin: 10px;
 `;
 
 const Description1 = styled.div`
   border: 1px solid purple;
-  max-width: 300px;
+  max-width: 350px;
+  margin: 0 10px 0 0;
 
   p {
-    margin: 0;
+    margin-top: 0;
     padding: 0;
     font-size: 1rem;
   }
@@ -53,33 +59,36 @@ const Description1 = styled.div`
 
 const Description2 = styled.div`
   border: 1px solid purple;
-  max-width: 300px;
-
+  max-width: 350px;
+  margin: 0 0 0 10px;
   p {
-    margin: 0;
+    margin-top: 0;
     padding: 0;
     font-size: 1rem;
   }
 `;
 
-const Row3 = styled.div``;
+const Row3 = styled.div`
+  text-align: center;
+`;
 const SmallParagraph = styled.p`
-  margin: 0;
+  max-width: 730px;
+  margin: 10px;
   padding: 0;
   font-size: 0.8rem;
 `;
 
 const AboutCard = ({ isActive }: AboutCardProps) => {
+  const [isHoveringImage, setIsHoveringImage] = React.useState(false);
   const profileImg = useStaticQuery(graphql`
     {
-      file(relativePath: { eq: "ovalPortrait.png" }) {
+      file(relativePath: { eq: "squareColorPortrait.jpg" }) {
         childImageSharp {
           gatsbyImageData(placeholder: BLURRED)
         }
       }
     }
   `);
-  console.log(profileImg);
   return (
     <AboutCardContainer>
       <TitleContainer>
@@ -87,38 +96,59 @@ const AboutCard = ({ isActive }: AboutCardProps) => {
       </TitleContainer>
       <ContentContainer>
         <Row1>
-          <ImageWrapper>
+          <ImageWrapper
+            onMouseOver={() => setIsHoveringImage(true)}
+            onMouseLeave={() => setIsHoveringImage(false)}
+          >
             <GatsbyImage
               image={profileImg.file.childImageSharp.gatsbyImageData}
               alt="black and white oval portrait of Logan Garay"
               imgStyle={{ width: 200 }}
-              style={{ width: 200 }}
+              style={{
+                width: 200,
+                borderRadius: '12.5px',
+                filter: isHoveringImage ? 'grayscale(0%)' : 'grayscale(100%)',
+                transition: 'filter 0.25s ease',
+              }}
+              loading="eager"
             />
           </ImageWrapper>
         </Row1>
         <Row2>
           <Description1>
-            <p>I'm not entirely sure how I want this lower section to look.</p>
             <p>
-              But I'm thinking that maybe two different columns below the img
-              might look decent
+              These are always fun to write, am I right? Well I guess I'll tell
+              you a little about my background. I have a Bachelors of Science in
+              Psychology from Idaho State University, with a minor in
+              Philosophy.
+            </p>
+            <p>
+              After I graduated in May 2019 I was left with a choice of what to
+              do with my life. My friend wanted to make video games and the
+              first step was to learn basic programming, and a couple of
+              exercises on{' '}
+              <a href="https://www.freecodecamp.org/">freeCodeCamp.org</a> later
+              and I was hooked. After that, well... the rest is history.
             </p>
           </Description1>
           <Description2>
             <p>
-              Could provide a nice natural break to change topics or change
-              provide additional context
+              When I'm not coding you can usually find me spending time with my
+              friends and two dogs, playing video games, lifting heavy weights
+              or watching some anime.
             </p>
             <p>
-              Will likely need to be iterated upon a couple of times to create
-              meaningful content
+              I have a passion for learning and am interested in all things
+              astronomy, anthropology, philosophy, history, psychology and of
+              course web development (to name a few); as I believe everyone
+              should strive to better understand the world around them.
             </p>
           </Description2>
         </Row2>
         <Row3>
           <SmallParagraph>
-            Disclaimer that every chart is hand made and dependency free, but
-            that in reality I would use a library like (list libraries here)
+            This carousel and the different charts were created without any
+            external dependencies.
           </SmallParagraph>
         </Row3>
       </ContentContainer>

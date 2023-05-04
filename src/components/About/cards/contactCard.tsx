@@ -2,6 +2,7 @@ import React from 'react';
 import { ButtonAsLink } from '../../../components/shared';
 import SOCIALS from '../../../constants/socials';
 import styled from 'styled-components';
+import theme from '../../../styles/theme';
 
 type ContactCardProps = {};
 
@@ -73,8 +74,9 @@ const Row3 = styled.div<Row3Props>`
     if (isHovering) {
       return `
       a${id} {
-        color: red; // testing
-        background: lightblue; // testing
+        color: ${theme.colors.ORANGE_1};
+        box-shadow: inset 0 0 0 2em ${theme.colors.BLUE_5_TRANSPARENT},
+                      0 0.5em 0.5em -0.4em ${theme.colors.ORANGE_1};
       }
     `;
     } else return ``;
@@ -95,6 +97,8 @@ const ResmueButton = styled(ButtonAsLink).attrs<ResumeButtonProps>((props) => ({
   height: 50px;
   display: flex;
   align-items: center;
+  color: ${theme.colors.BLUE_1};
+  transition: all 0.25s linear;
 `;
 
 const ContactCard = ({}: ContactCardProps) => {
