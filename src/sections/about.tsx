@@ -82,7 +82,7 @@ const NextItemClone = styled.div<ActionProps & VisibilityProps>`
   ${({ action, isVisible, isAboveLarge }) => {
     if (isAboveLarge) {
       return `
-      left: ${action === 'next' ? '5%' : '-15%'};
+      left: ${action === 'next' ? '0%' : '-15%'};
       opacity: ${isVisible ? '1' : '0'};
     `;
     } else {
@@ -101,7 +101,7 @@ const NextItem = styled.div<VisibilityProps>`
   ${({ isAboveLarge }) => {
     if (isAboveLarge) {
       return `
-        left: 5%;
+        left: 0%;
       `;
     } else {
       return `
@@ -124,7 +124,7 @@ const AnimatedNextItem = styled.div<ActionProps & VisibilityProps>`
     if (isAboveLarge) {
       return `
       left: ${
-        action === 'previous' ? '-15%' : action === 'next' ? '38.5%' : '5%'
+        action === 'previous' ? '-15%' : action === 'next' ? '38.5%' : '0%'
       };
       `;
     } else {
@@ -176,8 +176,7 @@ const AnimatedActiveItem = styled.div<ActionProps & VisibilityProps>`
 const PreviousItem = styled.div<VisibilityProps>`
   ${SHARED_ITEM_STYLES}
   height: 75%;
-  left: 72.5%;
-  left: ${({ isAboveLarge }) => (isAboveLarge ? '72.5%' : '90%')};
+  left: ${({ isAboveLarge }) => (isAboveLarge ? '76%' : '90%')};
   opacity: ${({ isVisible }) => (isVisible ? '1' : '0')};
 `;
 
@@ -194,7 +193,7 @@ const AnimatedPreviousItem = styled.div<ActionProps & VisibilityProps>`
     if (isAboveLarge) {
       return `
       left: ${
-        action === 'previous' ? '38.5%' : action === 'next' ? '85%' : '72.5%'
+        action === 'previous' ? '38.5%' : action === 'next' ? '85%' : '76%'
       };
       `;
     } else {
@@ -215,7 +214,7 @@ const PreviousItemClone = styled.div<ActionProps & VisibilityProps>`
   ${({ isAboveLarge, action }) => {
     if (isAboveLarge) {
       return `
-      left: ${action === 'previous' ? '72.5%' : '85%'};
+      left: ${action === 'previous' ? '76%' : '85%'};
       `;
     } else {
       return `
