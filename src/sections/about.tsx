@@ -20,9 +20,23 @@ const CarouselContainer = styled.div`
   height: 675px; // testing
 `;
 
-const CarouselWrapper = styled.div`
+type DeviceProps = {
+  isAboveLarge: boolean;
+};
+
+const CarouselWrapper = styled.div<DeviceProps>`
   display: flex;
-  width: 1300px; // TODO can't set a fixed 'width'
+  min-width: 769px; // I think if we choose this value (the value at which I think we should switch TO the carousel, meaning below this value we should use the static version); we'll need to adjust the positioning of the carousel items
+  /* NOTE that the width of the carousel is specified for the MEDIUM screen size of 992px */
+  /* BELOW 992px THERE SHOULD BE NO CAROUSEL */
+  /* The carousel can get larger than 769px obviously, but below a screen size of 992px and a carousel size of 769px and the carousel should not be rendered */
+  min-width: ${({ isAboveLarge }) => {
+    if (isAboveLarge) {
+      return `1200px;`;
+    } else {
+      return `769px;`;
+    }
+  }};
   height: 90%; // testing
   margin: 0 auto;
 `;
@@ -59,16 +73,24 @@ type ActionProps = {
 
 type VisibilityProps = {
   isVisible: boolean;
+  isAboveLarge: boolean;
 };
 
 const NextItemClone = styled.div<ActionProps & VisibilityProps>`
   ${SHARED_ITEM_STYLES}
   height: 75%;
-  ${({ action, isVisible }) => {
-    return `
+  ${({ action, isVisible, isAboveLarge }) => {
+    if (isAboveLarge) {
+      return `
       left: ${action === 'next' ? '5%' : '-15%'};
       opacity: ${isVisible ? '1' : '0'};
     `;
+    } else {
+      return `
+      left: ${action === 'next' ? '-17.5%' : '-35%'};
+      opacity: ${isVisible ? '1' : '0'};
+    `;
+    }
   }}
   transition: left .2s linear;
 `;
@@ -76,7 +98,17 @@ const NextItemClone = styled.div<ActionProps & VisibilityProps>`
 const NextItem = styled.div<VisibilityProps>`
   ${SHARED_ITEM_STYLES}
   height: 75%;
-  left: 5%; // may need to be 5%
+  ${({ isAboveLarge }) => {
+    if (isAboveLarge) {
+      return `
+        left: 5%;
+      `;
+    } else {
+      return `
+        left: -17.5%;
+      `;
+    }
+  }}
   opacity: ${({ isVisible }) => (isVisible ? '1' : '0')};
 `;
 
@@ -84,19 +116,31 @@ const AnimatedNextItem = styled.div<ActionProps & VisibilityProps>`
   ${SHARED_ITEM_STYLES}
   ${({ action, isVisible }) => {
     return `
-      left: ${
-        action === 'previous' ? '-15%' : action === 'next' ? '38.5%' : '5%'
-      };
       height: ${action === 'next' ? '100%' : '75%'};
       opacity: ${isVisible ? '1' : '0'};
     `;
+  }}
+  ${({ isAboveLarge, action }) => {
+    if (isAboveLarge) {
+      return `
+      left: ${
+        action === 'previous' ? '-15%' : action === 'next' ? '38.5%' : '5%'
+      };
+      `;
+    } else {
+      return `
+      left: ${
+        action === 'previous' ? '-35%' : action === 'next' ? '33.5%' : '-17.5%'
+      };
+      `;
+    }
   }}
   transition: left .2s linear;
 `;
 
 const ActiveItem = styled.div<VisibilityProps>`
   ${SHARED_ITEM_STYLES}
-  left: 38.5%;
+  left: ${({ isAboveLarge }) => (isAboveLarge ? '38.5%' : '33.5%')};
   height: 100%;
   opacity: ${({ isVisible }) => (isVisible ? '1' : '0')};
   z-index: 5;
@@ -106,12 +150,24 @@ const AnimatedActiveItem = styled.div<ActionProps & VisibilityProps>`
   ${SHARED_ITEM_STYLES}
   ${({ action, isVisible }) => {
     return `
-      left: ${
-        action === 'previous' ? '5%' : action === 'next' ? '70%' : '38.5%'
-      };
       height: ${action === 'next' || action === 'prev' ? '75%' : '100%'};
       opacity: ${isVisible ? '1' : '0'};
     `;
+  }}
+  ${({ isAboveLarge, action }) => {
+    if (isAboveLarge) {
+      return `
+      left: ${
+        action === 'previous' ? '5%' : action === 'next' ? '70%' : '38.5%'
+      };
+      `;
+    } else {
+      return `
+      left: ${
+        action === 'previous' ? '-17.5%' : action === 'next' ? '70%' : '33.5%'
+      };
+      `;
+    }
   }}
   transition: left .2s linear;
   z-index: 1;
@@ -121,6 +177,7 @@ const PreviousItem = styled.div<VisibilityProps>`
   ${SHARED_ITEM_STYLES}
   height: 75%;
   left: 72.5%;
+  left: ${({ isAboveLarge }) => (isAboveLarge ? '72.5%' : '90%')};
   opacity: ${({ isVisible }) => (isVisible ? '1' : '0')};
 `;
 
@@ -128,12 +185,25 @@ const AnimatedPreviousItem = styled.div<ActionProps & VisibilityProps>`
   ${SHARED_ITEM_STYLES}
   ${({ action, isVisible }) => {
     return `
-      left: ${
-        action === 'previous' ? '38.5%' : action === 'next' ? '85%' : '72.5%'
-      };
+      
       height: ${action === 'prev' ? '100%' : '80%'};
       opacity: ${isVisible ? '1' : '0'};
     `;
+  }}
+  ${({ isAboveLarge, action }) => {
+    if (isAboveLarge) {
+      return `
+      left: ${
+        action === 'previous' ? '38.5%' : action === 'next' ? '85%' : '72.5%'
+      };
+      `;
+    } else {
+      return `
+      left: ${
+        action === 'previous' ? '33.5%' : action === 'next' ? '115%' : '90%'
+      };
+      `;
+    }
   }}
   transition: left .2s linear;
 `;
@@ -141,11 +211,17 @@ const AnimatedPreviousItem = styled.div<ActionProps & VisibilityProps>`
 const PreviousItemClone = styled.div<ActionProps & VisibilityProps>`
   ${SHARED_ITEM_STYLES}
   height: 75%;
-  ${({ action, isVisible }) => {
-    return `
+  opacity: ${({ isVisible }) => (isVisible ? '1' : '0')};
+  ${({ isAboveLarge, action }) => {
+    if (isAboveLarge) {
+      return `
       left: ${action === 'previous' ? '72.5%' : '85%'};
-      opacity: ${isVisible ? '1' : '0'};
-    `;
+      `;
+    } else {
+      return `
+      left: ${action === 'previous' ? '90%' : '115%'};
+      `;
+    }
   }}
   transition: left .2s linear;
 `;
@@ -190,6 +266,8 @@ const About = () => {
     SCREEN_SIZES.MEDIUM
   );
   const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(SCREEN_SIZES.LARGE);
+  const isAbove1350 = isWindowWidthAboveOrBetweenThreshold(1350);
+  const above1350 = isAbove1350 ? isAbove1350 : false;
 
   const isMobile = !isAboveSmall;
 
@@ -232,31 +310,51 @@ const About = () => {
           <AboutMeTitle>05. About Me</AboutMeTitle>
         </SectionTitleContainer>
         <CarouselContainer>
-          <CarouselWrapper>
+          <CarouselWrapper isAboveLarge={above1350}>
             <OverflowContainer>
               <Carousel>
-                <NextItemClone action={action} isVisible={isAnimated}>
+                <NextItemClone
+                  action={action}
+                  isVisible={isAnimated}
+                  isAboveLarge={above1350}
+                >
                   <NextCloneElement />
                 </NextItemClone>
-                <NextItem isVisible={!isAnimated}>
+                <NextItem isVisible={!isAnimated} isAboveLarge={above1350}>
                   <NextElement />
                 </NextItem>
-                <AnimatedNextItem action={action} isVisible={isAnimated}>
+                <AnimatedNextItem
+                  action={action}
+                  isVisible={isAnimated}
+                  isAboveLarge={above1350}
+                >
                   <AnimatedNextElement />
                 </AnimatedNextItem>
-                <ActiveItem isVisible={!isAnimated}>
+                <ActiveItem isVisible={!isAnimated} isAboveLarge={above1350}>
                   <ActiveElment isActive />
                 </ActiveItem>
-                <AnimatedActiveItem action={action} isVisible={isAnimated}>
+                <AnimatedActiveItem
+                  action={action}
+                  isVisible={isAnimated}
+                  isAboveLarge={above1350}
+                >
                   <AnimatedActiveElement />
                 </AnimatedActiveItem>
-                <PreviousItem isVisible={!isAnimated}>
+                <PreviousItem isVisible={!isAnimated} isAboveLarge={above1350}>
                   <PrevElement />
                 </PreviousItem>
-                <AnimatedPreviousItem action={action} isVisible={isAnimated}>
+                <AnimatedPreviousItem
+                  action={action}
+                  isVisible={isAnimated}
+                  isAboveLarge={above1350}
+                >
                   <AnimatedPrevElement />
                 </AnimatedPreviousItem>
-                <PreviousItemClone action={action} isVisible={isAnimated}>
+                <PreviousItemClone
+                  action={action}
+                  isVisible={isAnimated}
+                  isAboveLarge={above1350}
+                >
                   <PrevCloneElement />
                 </PreviousItemClone>
               </Carousel>

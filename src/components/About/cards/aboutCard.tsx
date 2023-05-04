@@ -3,9 +3,15 @@ import styled from 'styled-components';
 import { useStaticQuery, graphql } from 'gatsby';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import theme from '../../../styles/theme';
+import SCREEN_SIZES from '../../../constants/screenSizes';
+import { useDeviceContext } from '../../../contexts/deviceContext';
 
 type AboutCardProps = {
   isActive: boolean;
+};
+
+type DeviceProps = {
+  isAboveLarge: boolean;
 };
 
 const AboutCardContainer = styled.div``;
@@ -45,10 +51,8 @@ const Row2 = styled.div`
   margin: 10px;
 `;
 
-const Description1 = styled.div`
+const DESCRIPTION_STYLES = `
   border: 1px solid purple;
-  max-width: 350px;
-  margin: 0 10px 0 0;
 
   p {
     margin-top: 0;
@@ -57,15 +61,36 @@ const Description1 = styled.div`
   }
 `;
 
-const Description2 = styled.div`
-  border: 1px solid purple;
-  max-width: 350px;
+const Description1 = styled.div<DeviceProps>`
+  ${DESCRIPTION_STYLES}
+  max-width: ${({ isAboveLarge }) => {
+    if (isAboveLarge) {
+      return `
+        350px
+      `;
+    } else {
+      return `
+        280px
+      `;
+    }
+  }};
+  margin: 0 10px 0 0;
+`;
+
+const Description2 = styled.div<DeviceProps>`
+  ${DESCRIPTION_STYLES}
+  max-width: ${({ isAboveLarge }) => {
+    if (isAboveLarge) {
+      return `
+         350px
+      `;
+    } else {
+      return `
+        280px
+      `;
+    }
+  }};
   margin: 0 0 0 10px;
-  p {
-    margin-top: 0;
-    padding: 0;
-    font-size: 1rem;
-  }
 `;
 
 const Row3 = styled.div`
@@ -80,6 +105,11 @@ const SmallParagraph = styled.p`
 
 const AboutCard = ({ isActive }: AboutCardProps) => {
   const [isHoveringImage, setIsHoveringImage] = React.useState(false);
+  const { isWindowWidthAboveOrBetweenThreshold } = useDeviceContext();
+
+  const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(1350);
+  const aboveLarge = isAboveLarge ? isAboveLarge : false;
+
   const profileImg = useStaticQuery(graphql`
     {
       file(relativePath: { eq: "squareColorPortrait.jpg" }) {
@@ -103,9 +133,9 @@ const AboutCard = ({ isActive }: AboutCardProps) => {
             <GatsbyImage
               image={profileImg.file.childImageSharp.gatsbyImageData}
               alt="black and white oval portrait of Logan Garay"
-              imgStyle={{ width: 200 }}
+              imgStyle={{ width: isAboveLarge ? '200px' : '165px' }}
               style={{
-                width: 200,
+                width: isAboveLarge ? '200px' : '165px',
                 borderRadius: '12.5px',
                 filter: isHoveringImage ? 'grayscale(0%)' : 'grayscale(100%)',
                 transition: 'filter 0.25s ease',
@@ -115,7 +145,7 @@ const AboutCard = ({ isActive }: AboutCardProps) => {
           </ImageWrapper>
         </Row1>
         <Row2>
-          <Description1>
+          <Description1 isAboveLarge={aboveLarge}>
             <p>
               These are always fun to write, am I right? Well I guess I'll tell
               you a little about my background. I have a Bachelors of Science in
@@ -131,7 +161,7 @@ const AboutCard = ({ isActive }: AboutCardProps) => {
               and I was hooked. After that, well... the rest is history.
             </p>
           </Description1>
-          <Description2>
+          <Description2 isAboveLarge={aboveLarge}>
             <p>
               When I'm not coding you can usually find me spending time with my
               friends and two dogs, playing video games, lifting heavy weights

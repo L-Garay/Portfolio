@@ -37,7 +37,7 @@ const BarContainer = styled.div`
 // NOTE the graph is horizontal from left to right
 const BarItemContainer = styled.div`
   position: relative;
-  width: 440px; // think of this as the max width of each individual bar, will need to be adjusted for responsiveness
+  width: clamp(350px, 25vw, 440px); // testing
   height: 50px; // the total height of the bar, will need to be adjusted for responsiveness
   margin: 10px 0;
 `;

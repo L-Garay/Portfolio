@@ -1,6 +1,8 @@
 import React from 'react';
 import theme from '../../../styles/theme';
 import styled, { keyframes } from 'styled-components';
+import SCREEN_SIZES from '../../../constants/screenSizes';
+import { useDeviceContext } from '../../../contexts/deviceContext';
 
 type DonutProps = {
   percentageFill: number;
@@ -11,12 +13,28 @@ type DonutProps = {
   name: string;
 };
 
-const DonutContainer = styled.div`
-  width: 160px;
-  height: 160px;
+type DeviceProps = {
+  isAboveLarge: boolean;
+};
+
+const DonutContainer = styled.div<DeviceProps>`
   background: lightblue;
   position: relative;
   margin: 10px;
+
+  ${({ isAboveLarge }) => {
+    if (isAboveLarge) {
+      return `
+        width: 160px;
+        height: 160px;
+      `;
+    } else {
+      return `
+        width: 130px;
+        height: 130px;
+      `;
+    }
+  }}
 `;
 
 const OuterCircle = styled.div`
@@ -28,9 +46,7 @@ const OuterCircle = styled.div`
   padding: 20px;
 `;
 
-const InnerCircle = styled.div`
-  height: 120px;
-  width: 120px;
+const InnerCircle = styled.div<DeviceProps>`
   border-radius: 50%;
   box-shadow: inset 4px 4px 6px -1px rgba(0, 0, 0, 0.2),
     inset -4px -4px 6px -1px rgba(255, 255, 255, 0.7),
@@ -39,6 +55,20 @@ const InnerCircle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  ${({ isAboveLarge }) => {
+    if (isAboveLarge) {
+      return `
+        width: 120px;
+        height: 120px;
+      `;
+    } else {
+      return `
+        width: 90px;
+        height: 90px;
+      `;
+    }
+  }}
 `;
 
 const Percentage = styled.p`
@@ -50,8 +80,6 @@ const Percentage = styled.p`
 const SVG = styled.svg.attrs({
   xmlns: 'http://www.w3.org/2000/svg',
   version: '1.1',
-  width: '160px',
-  height: '160px',
 })`
   position: absolute;
   top: 0;
@@ -68,11 +96,7 @@ type CircleProps = {
   circleKeyFrame: any;
 };
 
-const CIRCLE = styled.circle.attrs({
-  cx: '80',
-  cy: '80',
-  r: '70',
-})<CircleProps>`
+const CIRCLE = styled.circle<CircleProps>`
   fill: none;
   stroke: ${({ linearGradientId }) => `url(#${linearGradientId})`};
   stroke-width: 20;
@@ -152,16 +176,24 @@ const Donut = ({
     counterComplete || !isActive ? null : 20
   );
 
+  const { isWindowWidthAboveOrBetweenThreshold } = useDeviceContext();
+
+  const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(1350);
+  const aboveLarge = isAboveLarge ? isAboveLarge : false;
+
   return (
     <ChartContainer>
       <ChartName>{name}</ChartName>
-      <DonutContainer>
+      <DonutContainer isAboveLarge={aboveLarge}>
         <OuterCircle>
-          <InnerCircle>
+          <InnerCircle isAboveLarge={aboveLarge}>
             <Percentage>{isActive ? counter : percentageFill}%</Percentage>
           </InnerCircle>
         </OuterCircle>
-        <SVG>
+        <SVG
+          height={aboveLarge ? '160px' : '130px'}
+          width={aboveLarge ? '160px' : '130px'}
+        >
           <defs>
             <linearGradient id={linearGradientId}>
               <stop offset="0%" stopColor={circleColor1} />
@@ -169,6 +201,9 @@ const Donut = ({
             </linearGradient>
           </defs>
           <CIRCLE
+            cx={aboveLarge ? '80' : '65'}
+            cy={aboveLarge ? '80' : '65'}
+            r={aboveLarge ? '70' : '55'}
             isActive={isActive}
             percentageFill={percentageFill}
             strokeLinecap="round"

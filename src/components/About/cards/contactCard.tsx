@@ -3,8 +3,14 @@ import { ButtonAsLink } from '../../../components/shared';
 import SOCIALS from '../../../constants/socials';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
+import SCREEN_SIZES from '../../../constants/screenSizes';
+import { useDeviceContext } from '../../../contexts/deviceContext';
 
 type ContactCardProps = {};
+
+type DeviceProps = {
+  isAboveLarge: boolean;
+};
 
 const ContactCardContainer = styled.div``;
 
@@ -20,8 +26,14 @@ const Title = styled.h3`
   color: black;
 `;
 
-const ContentContainer = styled.div`
-  max-width: 784px;
+const ContentContainer = styled.div<DeviceProps>`
+  max-width: ${({ isAboveLarge }) => {
+    if (isAboveLarge) {
+      return `750px`;
+    } else {
+      return `620px`;
+    }
+  }};
   height: 500px;
   background: lightgreen;
   padding: 10px;
@@ -111,12 +123,16 @@ const ResmueButton = styled(ButtonAsLink).attrs<ResumeButtonProps>((props) => ({
 const ContactCard = ({}: ContactCardProps) => {
   const [isHovering, setIsHovering] = React.useState(false);
   const [hoverTargetId, setHoverTargetId] = React.useState('');
+  const { isWindowWidthAboveOrBetweenThreshold } = useDeviceContext();
+
+  const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(1350);
+  const aboveLarge = isAboveLarge ? isAboveLarge : false;
   return (
     <ContactCardContainer>
       <TitleContainer>
         <Title>Get in touch</Title>
       </TitleContainer>
-      <ContentContainer>
+      <ContentContainer isAboveLarge={aboveLarge}>
         <Row1>
           <Description>
             <p>Thank you for checking out my site!</p>

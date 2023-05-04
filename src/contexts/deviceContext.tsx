@@ -28,6 +28,8 @@ export const DeviceProvider = ({ children }: { children: ReactNode }) => {
   const [windowWidth, setWindowWidth] = useState(0);
   const [windowHeight, setWindowHeight] = useState(0);
 
+  console.log(windowWidth);
+
   function handleResize(e: Event) {
     const target = e.target as Window;
     setWindowWidth(target.innerWidth);

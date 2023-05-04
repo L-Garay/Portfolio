@@ -9,7 +9,19 @@ type BarCardProps = {
   isActive: boolean;
 };
 
-const BarCardContainer = styled.div``;
+type DeviceProps = {
+  isAboveLarge: boolean;
+};
+
+const BarCardContainer = styled.div<DeviceProps>`
+  width: ${({ isAboveLarge }) => {
+    if (isAboveLarge) {
+      return `750px`;
+    } else {
+      return `620px`;
+    }
+  }};
+`;
 
 const TitleContainer = styled.div`
   border: 1px solid red;
@@ -84,11 +96,10 @@ const BarCard = ({ isActive }: BarCardProps) => {
   const isAboveSmall = isWindowWidthAboveOrBetweenThreshold(
     SCREEN_SIZES.MOBILE
   );
-  const isAboveMedium = isWindowWidthAboveOrBetweenThreshold(
-    SCREEN_SIZES.MEDIUM
-  );
+  const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(1350);
+  const aboveLarge = isAboveLarge ? isAboveLarge : false;
   return (
-    <BarCardContainer>
+    <BarCardContainer isAboveLarge={aboveLarge}>
       <TitleContainer>
         <Title>You could say I like 'Soccer'</Title>
       </TitleContainer>
