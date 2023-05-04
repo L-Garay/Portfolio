@@ -9,6 +9,7 @@ import {
 import { useDeviceContext } from '../contexts/deviceContext';
 import SCREEN_SIZES from '../constants/screenSizes';
 import { useCaourselContext } from '../contexts/carouselContext';
+import theme from '../styles/theme';
 
 const AboutMeTitle = styled(SectionTitle)`
   text-align: start;
@@ -16,7 +17,7 @@ const AboutMeTitle = styled(SectionTitle)`
 
 const CarouselContainer = styled.div`
   background: lightgrey; // testing
-  height: 700px; // testing
+  height: 675px; // testing
 `;
 
 const CarouselWrapper = styled.div`
@@ -149,7 +150,34 @@ const PreviousItemClone = styled.div<ActionProps & VisibilityProps>`
   transition: left .2s linear;
 `;
 
-const CarouselButton = styled.button``; // TODO add styles
+const ButtonWrapper = styled.div`
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const CarouselButton = styled.button`
+  padding: 4px 8px;
+  outline: none;
+  border: none;
+  background: none;
+  font-size: 1.3rem;
+  color: ${theme.colors.ORANGE_1};
+  cursor: pointer;
+
+  &:hover {
+    color: ${theme.colors.BLUE_2};
+    transform: scale(1.2);
+  }
+
+  &:focus-visible {
+    color: ${theme.colors.BLUE_2};
+    transform: scale(1.2);
+    border: 2px solid ${theme.colors.BLUE_2};
+  }
+  transition: all 0.2s linear;
+`;
 
 const About = () => {
   const { windowWidth, windowHeight, isWindowWidthAboveOrBetweenThreshold } =
@@ -234,8 +262,12 @@ const About = () => {
               </Carousel>
             </OverflowContainer>
           </CarouselWrapper>
-          <button onClick={() => prevAction()}>Previous</button>
-          <button onClick={() => nextAction()}>Next</button>
+          <ButtonWrapper>
+            <CarouselButton onClick={() => prevAction()}>
+              Previous
+            </CarouselButton>
+            <CarouselButton onClick={() => nextAction()}>Next</CarouselButton>
+          </ButtonWrapper>
         </CarouselContainer>
       </SectionContent>
     </Section>

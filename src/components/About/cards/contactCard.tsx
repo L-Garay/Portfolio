@@ -99,6 +99,13 @@ const ResmueButton = styled(ButtonAsLink).attrs<ResumeButtonProps>((props) => ({
   align-items: center;
   color: ${theme.colors.BLUE_1};
   transition: all 0.25s linear;
+
+  &:hover,
+  &:focus {
+    color: ${theme.colors.ORANGE_1};
+    box-shadow: inset 0 0 0 2em ${theme.colors.BLUE_5_TRANSPARENT},
+      0 0.5em 0.5em -0.4em ${theme.colors.ORANGE_1};
+  }
 `;
 
 const ContactCard = ({}: ContactCardProps) => {
