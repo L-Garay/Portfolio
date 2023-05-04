@@ -35,21 +35,6 @@ const Title = styled.h3<DeviceProps>`
   margin: 0;
   padding: 0;
   color: black;
-  /* font-size: ${({ isAboveSmall, isAboveLarge }) => {
-    if (isAboveLarge) {
-      return `
-        1.5rem
-      `;
-    } else if (isAboveSmall) {
-      return `
-        1.2rem
-      `;
-    } else {
-      return `
-        1rem
-      `;
-    }
-  }}; */
 `;
 
 const ContentContainer = styled.div`
@@ -98,7 +83,7 @@ const DESCRIPTION_STYLES = `
 
 const Description1 = styled.div<DeviceProps>`
   ${DESCRIPTION_STYLES}
-  width: ${({ isAboveLarge, isAboveSmall }) => {
+  max-width: ${({ isAboveLarge, isAboveSmall }) => {
     if (isAboveLarge) {
       return `
         350px
@@ -129,7 +114,7 @@ const Description1 = styled.div<DeviceProps>`
 
 const Description2 = styled.div<DeviceProps>`
   ${DESCRIPTION_STYLES}
-  width: ${({ isAboveLarge, isAboveSmall }) => {
+  max-width: ${({ isAboveLarge, isAboveSmall }) => {
     if (isAboveLarge) {
       return `
          350px

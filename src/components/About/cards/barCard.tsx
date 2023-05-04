@@ -16,7 +16,7 @@ type DeviceProps = {
 };
 
 const BarCardContainer = styled.div<DeviceProps>`
-  width: ${({ isAboveMobile, isAboveSmall, isAboveLarge }) => {
+  max-width: ${({ isAboveMobile, isAboveSmall, isAboveLarge }) => {
     if (isAboveLarge) {
       return `750px`;
     } else if (isAboveSmall) {

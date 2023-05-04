@@ -9,6 +9,8 @@ import { useDeviceContext } from '../../../contexts/deviceContext';
 type ContactCardProps = {};
 
 type DeviceProps = {
+  isAboveMobile: boolean;
+  isAboveSmall: boolean;
   isAboveLarge: boolean;
 };
 
@@ -27,11 +29,15 @@ const Title = styled.h3`
 `;
 
 const ContentContainer = styled.div<DeviceProps>`
-  max-width: ${({ isAboveLarge }) => {
+  max-width: ${({ isAboveMobile, isAboveSmall, isAboveLarge }) => {
     if (isAboveLarge) {
       return `750px`;
-    } else {
+    } else if (isAboveSmall) {
       return `620px`;
+    } else if (isAboveMobile) {
+      return `567px`;
+    } else {
+      return `360px`;
     }
   }};
   height: 500px;
@@ -124,7 +130,12 @@ const ContactCard = ({}: ContactCardProps) => {
   const [isHovering, setIsHovering] = React.useState(false);
   const [hoverTargetId, setHoverTargetId] = React.useState('');
   const { isWindowWidthAboveOrBetweenThreshold } = useDeviceContext();
-
+  const isAboveMobile = isWindowWidthAboveOrBetweenThreshold(
+    SCREEN_SIZES.MOBILE
+  );
+  const aboveMobile = isAboveMobile ? isAboveMobile : false;
+  const isAboveSmall = isWindowWidthAboveOrBetweenThreshold(SCREEN_SIZES.SMALL);
+  const aboveSmall = isAboveSmall ? isAboveSmall : false;
   const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(1350);
   const aboveLarge = isAboveLarge ? isAboveLarge : false;
   return (
@@ -132,7 +143,11 @@ const ContactCard = ({}: ContactCardProps) => {
       <TitleContainer>
         <Title>Get in touch</Title>
       </TitleContainer>
-      <ContentContainer isAboveLarge={aboveLarge}>
+      <ContentContainer
+        isAboveMobile={aboveMobile}
+        isAboveSmall={aboveSmall}
+        isAboveLarge={aboveLarge}
+      >
         <Row1>
           <Description>
             <p>Thank you for checking out my site!</p>

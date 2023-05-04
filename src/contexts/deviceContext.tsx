@@ -28,8 +28,6 @@ export const DeviceProvider = ({ children }: { children: ReactNode }) => {
   const [windowWidth, setWindowWidth] = useState(0);
   const [windowHeight, setWindowHeight] = useState(0);
 
-  console.log(windowWidth);
-
   function handleResize(e: Event) {
     const target = e.target as Window;
     setWindowWidth(target.innerWidth);
@@ -40,6 +38,11 @@ export const DeviceProvider = ({ children }: { children: ReactNode }) => {
     setWindowHeight(window.innerHeight);
     setWindowWidth(window.innerWidth);
   }, []);
+
+  useEffect(() => {
+    setWindowHeight(window.innerHeight);
+    setWindowWidth(window.innerWidth);
+  }, [windowHeight, windowWidth]);
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
