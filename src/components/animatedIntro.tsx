@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { useIntroContext } from '../contexts/introContext';
 import preventScroll from '../utils/preventScroll';
 import theme from '../styles/theme';
+import { useDeviceContext } from '../contexts/deviceContext';
+import SCREEN_SIZES from '../constants/screenSizes';
 
 type AnimatedIntroProps = {
   hasSeenIntro: boolean;
@@ -15,7 +17,7 @@ const AnimatedIntroPage = styled.div<AnimatedIntroProps>`
   left: 0;
   width: 100%;
   height: 100vh;
-  background: grey;
+  background: black;
   z-index: 200;
   opacity: ${(props) => (props.hasSeenIntro ? '0' : '1')};
   transition: opacity 2.5s linear; // may need to adjust this timer, this will be how long the transition will take ONCE the animation is done itself
@@ -35,12 +37,22 @@ const Header = styled.h1`
   padding: 0;
   text-align: center;
   color: white;
-  font-size: 5em;
+  font-size: clamp(3rem, 10vw + 1rem, 6.5rem);
   font-family: ${theme.fonts.robotoMono};
   text-transform: uppercase;
 `;
 
-const StyledSpan = styled.span`
+type StyledSpanProps = {
+  dataId: number;
+  delays: {
+    enter: number | undefined;
+    leave: number | undefined;
+  };
+  skip?: boolean;
+  color?: string;
+};
+
+const StyledSpan = styled.span<StyledSpanProps>`
   display: inline-block;
   color: white;
   /* enter */
@@ -68,7 +80,6 @@ const StyledSpan = styled.span`
       text-shadow: -25px -15px 20px grey;
     }
     50% {
-      transform: scale(1.5) translate(-50px, -50px) rotate(-45deg);
       filter: blur(9px);
       text-shadow: none;
     }
@@ -86,45 +97,327 @@ const StyledSpan = styled.span`
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
 
-  &:nth-child(1) {
-    color: ${theme.colors.BLUE_1};
-    opacity: 0;
-    animation-delay: 1s, 2.2s;
-  }
-  &:nth-child(2) {
-    opacity: 0;
-    animation-delay: 1.25s, 2.45s;
-  }
-  &:nth-child(3) {
-    opacity: 0;
-    animation-delay: 1.5s, 2.7s;
-  }
-  &:nth-child(4) {
-    opacity: 0;
-    animation-delay: 1.75s, 2.95s;
-  }
-  &:nth-child(5) {
-    opacity: 0;
-    animation-delay: 2s, 3.2s;
-  }
-  &:nth-child(6) {
-    opacity: 0;
-    animation-delay: 2.25s, 3.45s;
-  }
-  &:nth-child(7) {
-    opacity: 0;
-    animation-delay: 2.5s, 3.7s;
-  }
+  ${({ dataId, delays, skip, color }) => {
+    if (skip || !delays.enter || !delays.leave) {
+      return ``;
+    } else {
+      return `
+        &:nth-of-type(${dataId}) {
+          color: ${color ? color : 'white'};
+          opacity: 0;
+          animation-delay: ${delays.enter}s, ${delays.leave}s;
+        }
+      `;
+    }
+  }}
 `;
 
-const StyledSpan2 = styled.span`
-  display: inline-block;
-  animation: smokeAnimation 2.5s linear forwards;
-`;
+type WeclomeData = {
+  id: number;
+  letter: string;
+  delays: {
+    enter: number | undefined;
+    leave: number | undefined;
+  };
+  skip?: boolean;
+  color?: string;
+};
+
+const SMALL_WELCOME_DATA: WeclomeData[] = [
+  {
+    id: 1,
+    letter: 'W',
+    delays: {
+      enter: 1,
+      leave: 3,
+    },
+    color: theme.colors.BLUE_1,
+  },
+  {
+    id: 2,
+    letter: 'E',
+    delays: {
+      enter: 1.25,
+      leave: 3.25,
+    },
+  },
+  {
+    id: 3,
+    letter: 'L',
+    delays: {
+      enter: 1.5,
+      leave: 3.5,
+    },
+  },
+  {
+    id: 4,
+    letter: 'C',
+    delays: {
+      enter: 1.75,
+      leave: 3.75,
+    },
+  },
+  {
+    id: 5,
+    letter: 'O',
+    delays: {
+      enter: 2,
+      leave: 4,
+    },
+  },
+  {
+    id: 6,
+    letter: 'M',
+    delays: {
+      enter: 2.25,
+      leave: 4.25,
+    },
+  },
+  {
+    id: 7,
+    letter: 'E',
+    delays: {
+      enter: 2.5,
+      leave: 4.5,
+    },
+  },
+  {
+    id: 100,
+    letter: String.fromCharCode(160), // testing for a space
+    delays: {
+      enter: undefined,
+      leave: undefined,
+    },
+    skip: true,
+  },
+  {
+    id: 8,
+    letter: 'A',
+    delays: {
+      enter: 2.75,
+      leave: 4.75,
+    },
+    color: theme.colors.BLUE_1,
+  },
+  {
+    id: 9,
+    letter: 'N',
+    delays: {
+      enter: 3,
+      leave: 5,
+    },
+  },
+  {
+    id: 10,
+    letter: 'D',
+    delays: {
+      enter: 3.25,
+      leave: 5.25,
+    },
+  },
+  {
+    id: 101,
+    letter: String.fromCharCode(160), // testing for a space
+    delays: {
+      enter: undefined,
+      leave: undefined,
+    },
+    skip: true,
+  },
+  {
+    id: 11,
+    letter: 'H',
+    delays: {
+      enter: 3.5,
+      leave: 5.5,
+    },
+    color: theme.colors.BLUE_1,
+  },
+  {
+    id: 12,
+    letter: 'E',
+    delays: {
+      enter: 3.75,
+      leave: 5.75,
+    },
+  },
+  {
+    id: 13,
+    letter: 'L',
+    delays: {
+      enter: 4,
+      leave: 6,
+    },
+  },
+  {
+    id: 14,
+    letter: 'L',
+    delays: {
+      enter: 4.25,
+      leave: 6.25,
+    },
+  },
+  {
+    id: 15,
+    letter: 'O',
+    delays: {
+      enter: 4.5,
+      leave: 6.5,
+    },
+  },
+];
+
+const MEDIUM_WELCOME_DATA: WeclomeData[] = [
+  {
+    id: 1,
+    letter: 'W',
+    delays: {
+      enter: 1,
+      leave: 3,
+    },
+    color: theme.colors.BLUE_1,
+  },
+  {
+    id: 2,
+    letter: 'E',
+    delays: {
+      enter: 1.25,
+      leave: 3.25,
+    },
+  },
+  {
+    id: 3,
+    letter: 'L',
+    delays: {
+      enter: 1.5,
+      leave: 3.5,
+    },
+  },
+  {
+    id: 4,
+    letter: 'C',
+    delays: {
+      enter: 1.75,
+      leave: 3.75,
+    },
+  },
+  {
+    id: 5,
+    letter: 'O',
+    delays: {
+      enter: 2,
+      leave: 4,
+    },
+  },
+  {
+    id: 6,
+    letter: 'M',
+    delays: {
+      enter: 2.25,
+      leave: 4.25,
+    },
+  },
+  {
+    id: 7,
+    letter: 'E',
+    delays: {
+      enter: 2.5,
+      leave: 4.5,
+    },
+  },
+  {
+    id: 8,
+    letter: String.fromCharCode(160), // testing for a space
+    delays: {
+      enter: undefined,
+      leave: undefined,
+    },
+    skip: true,
+  },
+  {
+    id: 9,
+    letter: 'A',
+    delays: {
+      enter: 2.75,
+      leave: 4.75,
+    },
+    color: theme.colors.BLUE_1,
+  },
+  {
+    id: 10,
+    letter: 'N',
+    delays: {
+      enter: 3,
+      leave: 5,
+    },
+  },
+  {
+    id: 11,
+    letter: 'D',
+    delays: {
+      enter: 3.25,
+      leave: 5.25,
+    },
+  },
+  {
+    id: 12,
+    letter: String.fromCharCode(160), // testing for a space
+    delays: {
+      enter: undefined,
+      leave: undefined,
+    },
+    skip: true,
+  },
+  {
+    id: 13,
+    letter: 'H',
+    delays: {
+      enter: 3.5,
+      leave: 5.5,
+    },
+    color: theme.colors.BLUE_1,
+  },
+  {
+    id: 14,
+    letter: 'E',
+    delays: {
+      enter: 3.75,
+      leave: 5.75,
+    },
+  },
+  {
+    id: 15,
+    letter: 'L',
+    delays: {
+      enter: 4,
+      leave: 6,
+    },
+  },
+  {
+    id: 16,
+    letter: 'L',
+    delays: {
+      enter: 3.75, // NOTE no idea why these two values are acting different
+      leave: 5.75, // NOTE no idea why these two values are acting different
+    },
+  },
+  {
+    id: 17,
+    letter: 'O',
+    delays: {
+      enter: 4, // NOTE no idea why these two values are acting different
+      leave: 6, // NOTE no idea why these two values are acting different
+    },
+  },
+];
 
 const AnimatedIntro = () => {
   const [shouldRemoveElement, setShouldRemoveElement] = React.useState(false);
   const { hasMounted, hasSeenIntro, setHasSeenIntro } = useIntroContext();
+  const { isWindowWidthAboveOrBetweenThreshold } = useDeviceContext();
+  const isAboveMedium = isWindowWidthAboveOrBetweenThreshold(
+    SCREEN_SIZES.MEDIUM
+  );
 
   React.useEffect(() => {
     const timeout = setTimeout(() => {
@@ -132,7 +425,7 @@ const AnimatedIntro = () => {
         console.log('hasMounted');
         setHasSeenIntro(true);
       }
-    }, 5000); // may need to adjust this timer, this will be the actual time it takes to run the animation
+    }, 7500); // may need to adjust this timer, this will be the actual time it takes to run the animation BEFORE we start to fade the opacity out
 
     return () => clearTimeout(timeout);
   }, [hasMounted]);
@@ -149,13 +442,6 @@ const AnimatedIntro = () => {
     return () => clearTimeout(timeout);
   }, [hasSeenIntro]);
 
-  const SPAN_DATA = [
-    {
-      id: 1,
-      letter: 'W',
-    },
-  ];
-
   return (
     <AnimatedIntroPage
       hasSeenIntro={hasSeenIntro}
@@ -163,13 +449,50 @@ const AnimatedIntro = () => {
     >
       <AnimationContainer>
         <Header>
-          <StyledSpan>W</StyledSpan>
-          <StyledSpan>e</StyledSpan>
-          <StyledSpan>l</StyledSpan>
-          <StyledSpan>c</StyledSpan>
-          <StyledSpan>o</StyledSpan>
-          <StyledSpan>m</StyledSpan>
-          <StyledSpan>e</StyledSpan>
+          {isAboveMedium
+            ? MEDIUM_WELCOME_DATA.map((letter) => {
+                return (
+                  <StyledSpan
+                    key={letter.id}
+                    dataId={letter.id}
+                    delays={letter.delays}
+                    skip={letter.skip}
+                    color={letter.color}
+                  >
+                    {letter.letter}
+                  </StyledSpan>
+                );
+              })
+            : SMALL_WELCOME_DATA.map((letter) => {
+                if (letter.skip) {
+                  return (
+                    <div key={letter.id} style={{ display: 'inline' }}>
+                      <StyledSpan
+                        key={letter.id}
+                        dataId={letter.id}
+                        delays={letter.delays}
+                        skip={letter.skip}
+                        color={letter.color}
+                      >
+                        {letter.letter}
+                      </StyledSpan>
+                      <br />
+                    </div>
+                  );
+                } else {
+                  return (
+                    <StyledSpan
+                      key={letter.id}
+                      dataId={letter.id}
+                      delays={letter.delays}
+                      skip={letter.skip}
+                      color={letter.color}
+                    >
+                      {letter.letter}
+                    </StyledSpan>
+                  );
+                }
+              })}
         </Header>
       </AnimationContainer>
     </AnimatedIntroPage>
