@@ -32,6 +32,9 @@ export const DeviceProvider = ({ children }: { children: ReactNode }) => {
     const target = e.target as Window;
     setWindowWidth(target.innerWidth);
     setWindowHeight(target.innerHeight);
+    if (target.innerWidth > SCREEN_SIZES.MOBILE) {
+      preventScroll(false);
+    }
   }
 
   useEffect(() => {
@@ -48,13 +51,6 @@ export const DeviceProvider = ({ children }: { children: ReactNode }) => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  useEffect(() => {
-    const condition = windowWidth > SCREEN_SIZES.MOBILE;
-    if (condition) {
-      preventScroll(false);
-    }
-  }, [windowWidth]);
 
   const isWindowWidthAboveOrBetweenThreshold = (
     minThreshold: number,

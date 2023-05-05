@@ -1,5 +1,6 @@
 // Step 1: Import React
 import * as React from 'react';
+import styled from 'styled-components';
 import Layout from '../components/layout';
 import Introduction from '../sections/introduction';
 import GlobalStyle from '..//styles/global';
@@ -8,12 +9,14 @@ import About from '../sections/about';
 import Experience from '../sections/experience';
 import Skills from '../sections/skills';
 import { CarouselProvider } from '../contexts/carouselContext';
+import AnimatedIntro from '../components/animatedIntro';
 
 // Step 2: Define your component
 const IndexPage = () => {
   return (
-    <>
+    <div style={{ position: 'relative' }}>
       <GlobalStyle />
+      <AnimatedIntro />
       <Layout>
         <Introduction />
         <Skills />
@@ -23,7 +26,7 @@ const IndexPage = () => {
           <About />
         </CarouselProvider>
       </Layout>
-    </>
+    </div>
   );
 };
 

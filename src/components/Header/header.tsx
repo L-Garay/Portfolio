@@ -204,12 +204,9 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const { isWindowWidthAboveOrBetweenThreshold } = useDeviceContext();
 
-  console.log('isMenuOpen', isMenuOpen);
-
   const isAboveMobile = isWindowWidthAboveOrBetweenThreshold(
     SCREEN_SIZES.MOBILE
   );
-  console.log('isAboveMobile', isAboveMobile);
   const isMobile = !isAboveMobile;
 
   React.useEffect(() => {
