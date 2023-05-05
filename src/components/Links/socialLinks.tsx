@@ -100,7 +100,7 @@ const SocialLinks = () => {
           setIsHoveringResume(false);
         }}
       >
-        <SocialLink href="../assets/resume.pdf" download={true}>
+        <SocialLink href={SOCIALS.resume} download={true}>
           <DownloadSVG fill={isHoveringResume ? fillColor : defaultColor} />
         </SocialLink>
       </LinkWrapper>

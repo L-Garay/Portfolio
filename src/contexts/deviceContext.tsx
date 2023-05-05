@@ -40,6 +40,11 @@ export const DeviceProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
+    setWindowHeight(window.innerHeight);
+    setWindowWidth(window.innerWidth);
+  }, [windowHeight, windowWidth]);
+
+  useEffect(() => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);

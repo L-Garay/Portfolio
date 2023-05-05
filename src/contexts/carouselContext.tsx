@@ -1,77 +1,31 @@
-import React, {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
-import { Donut, Pie, Bar } from '../components/About/charts';
+import React, { createContext, ReactNode, useContext } from 'react';
 import {
-  barChartOneData,
-  barChartTwoData,
-  pieChartOneData,
-} from '../utils/configs/aboutConfigs';
+  AboutCard,
+  BarCard,
+  ContactCard,
+  DonutCard,
+} from '../components/About/cards';
 
-// NOTE the width of each individual item will determine how far we need to position the items' left property
-// TODO once the data visualization components are done and we know the sizes, we need to then finetune and fix the positioning of the items
 const ITEM_CONFIG = [
   {
     index: 0,
     name: 'item 1',
-    element: (activeIndex: number) => {
-      const isActive = activeIndex === 0;
-      return (
-        <>
-          <Donut
-            percentageFill={65}
-            isActive={isActive}
-            circleColor1="red"
-            circleColor2="blue"
-            linearGradientId="donut1"
-          />
-          <Donut
-            percentageFill={35}
-            isActive={isActive}
-            circleColor1="green"
-            circleColor2="purple"
-            linearGradientId="donut2"
-          />
-        </>
-      );
-    },
+    element: () => AboutCard,
   },
   {
     index: 1,
     name: 'item 2',
-    element: (activeIndex: number) => {
-      const isActive = activeIndex === 1;
-      return <Pie isActive={isActive} pieData={pieChartOneData} />;
-    },
+    element: () => BarCard,
   },
   {
     index: 2,
     name: 'item 3',
-    element: (activeIndex: number) => {
-      const isActive = activeIndex === 2;
-      return (
-        <>
-          <Bar barData={barChartOneData} isActive={isActive} />
-          {/* <Bar barData={barChartTwoData} isActive={isActive} /> */}
-        </>
-      );
-    },
+    element: () => DonutCard,
   },
   {
     index: 3,
     name: 'item 4',
-    element: (activeIndex: number) => {
-      const isActive = activeIndex === 3;
-      return (
-        <div style={{ height: 400, width: 300, background: 'yellow' }}>
-          item 4
-        </div>
-      );
-    },
+    element: () => ContactCard,
   },
 ];
 
@@ -81,14 +35,14 @@ export interface CarouselContextProps {
   action: 'previous' | 'next' | 'reset';
   nextAction: () => void;
   prevAction: () => void;
-  nextCloneElement: (activeIndex: number) => JSX.Element;
-  nextElement: (activeIndex: number) => JSX.Element;
-  animatedNextElement: (activeIndex: number) => JSX.Element;
-  activeElement: (activeIndex: number) => JSX.Element;
-  animatedActiveElement: (activeIndex: number) => JSX.Element;
-  prevElement: (activeIndex: number) => JSX.Element;
-  animatedPrevElement: (activeIndex: number) => JSX.Element;
-  prevCloneElement: (activeIndex: number) => JSX.Element;
+  nextCloneElement: () => any;
+  nextElement: () => any;
+  animatedNextElement: () => any;
+  activeElement: () => any;
+  animatedActiveElement: () => any;
+  prevElement: () => any;
+  animatedPrevElement: () => any;
+  prevCloneElement: () => any;
 }
 
 export const CarouselContext = createContext<CarouselContextProps>({
@@ -97,14 +51,14 @@ export const CarouselContext = createContext<CarouselContextProps>({
   action: 'reset',
   nextAction: () => {},
   prevAction: () => {},
-  nextCloneElement: (activeIndex: number) => <div />,
-  nextElement: (activeIndex: number) => <div />,
-  animatedNextElement: (activeIndex: number) => <div />,
-  activeElement: (activeIndex: number) => <div />,
-  animatedActiveElement: (activeIndex: number) => <div />,
-  prevElement: (activeIndex: number) => <div />,
-  animatedPrevElement: (activeIndex: number) => <div />,
-  prevCloneElement: (activeIndex: number) => <div />,
+  nextCloneElement: () => <div />,
+  nextElement: () => <div />,
+  animatedNextElement: () => <div />,
+  activeElement: () => <div />,
+  animatedActiveElement: () => <div />,
+  prevElement: () => <div />,
+  animatedPrevElement: () => <div />,
+  prevCloneElement: () => <div />,
 } as CarouselContextProps);
 
 export const CarouselProvider = ({ children }: { children: ReactNode }) => {
