@@ -21,7 +21,6 @@ export const IntroContext = createContext<IntroContextProps>({
 export const IntroProvider = ({ children }: { children: ReactNode }) => {
   const [hasMounted, setHasMounted] = useState(false);
   const [hasSeenIntro, setHasSeenIntro] = useState(false);
-  console.log(hasSeenIntro, 'hasSeenIntro');
 
   React.useEffect(() => {
     setHasMounted(true);
