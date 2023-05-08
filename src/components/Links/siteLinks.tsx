@@ -2,11 +2,27 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link, Paragraph } from '../shared';
 import theme from '../../styles/theme';
+import { useIntroContext } from '../../contexts/introContext';
 
 const SiteLinksContainer = styled.div`
   position: fixed;
   bottom: 35%;
   right: 0;
+`;
+
+type TransformWrapperProps = {
+  hasSeenIntro: boolean;
+  transformDelay: number;
+};
+
+const TransformWrapper = styled.div<TransformWrapperProps>`
+  opacity: ${({ hasSeenIntro }) => (hasSeenIntro ? '1' : '0')};
+  transform: ${({ hasSeenIntro }) =>
+    hasSeenIntro ? 'translateX(0)' : 'translateX(75px)'};
+  transition: opacity, transform;
+  transition-duration: 0.5s, 0.35s;
+  transition-timing-function: linear;
+  transition-delay: ${({ transformDelay }) => `.75s, ${transformDelay}s`};
 `;
 
 type SiteLinkWrapperProps = {
@@ -45,7 +61,7 @@ const SiteLinkWrapper = styled.div<SiteLinkWrapperProps>`
 
 const SiteLink = styled(Link)``;
 
-type SectionNameBannerProps = SiteLinkWrapperProps & {};
+type SectionNameBannerProps = Pick<SiteLinkWrapperProps, 'isHovering'>;
 
 const SectionNameBanner = styled.div<SectionNameBannerProps>`
   position: absolute;
@@ -87,83 +103,96 @@ const SectionName = styled(Paragraph)`
 `;
 
 const SiteLinks = () => {
+  const { hasSeenIntro } = useIntroContext();
+
   const [isHoveringIntro, setIsHoveringIntro] = useState(false);
   const [isHoveringSkills, setIsHoveringSkills] = useState(false);
   const [isHoveringExperience, setIsHoveringExperience] = useState(false);
   const [isHoveringJourney, setIsHoveringJourney] = useState(false);
   const [isHoveringAbout, setIsHoveringAbout] = useState(false);
+
   return (
     <SiteLinksContainer>
-      <SiteLinkWrapper
-        isHovering={isHoveringIntro}
-        onMouseEnter={() => {
-          setIsHoveringIntro(true);
-        }}
-        onMouseLeave={() => {
-          setIsHoveringIntro(false);
-        }}
-      >
-        <SiteLink href="#introduction">01</SiteLink>
-        <SectionNameBanner isHovering={isHoveringIntro}>
-          <SectionName>Introduction</SectionName>
-        </SectionNameBanner>
-      </SiteLinkWrapper>
-      <SiteLinkWrapper
-        isHovering={isHoveringSkills}
-        onMouseEnter={() => {
-          setIsHoveringSkills(true);
-        }}
-        onMouseLeave={() => {
-          setIsHoveringSkills(false);
-        }}
-      >
-        <SiteLink href="#skills">02</SiteLink>
-        <SectionNameBanner isHovering={isHoveringSkills}>
-          <SectionName>Skills</SectionName>
-        </SectionNameBanner>
-      </SiteLinkWrapper>
-      <SiteLinkWrapper
-        isHovering={isHoveringExperience}
-        onMouseEnter={() => {
-          setIsHoveringExperience(true);
-        }}
-        onMouseLeave={() => {
-          setIsHoveringExperience(false);
-        }}
-      >
-        <SiteLink href="#experience">03</SiteLink>
-        <SectionNameBanner isHovering={isHoveringExperience}>
-          <SectionName>Experience</SectionName>
-        </SectionNameBanner>
-      </SiteLinkWrapper>
-      <SiteLinkWrapper
-        isHovering={isHoveringJourney}
-        onMouseEnter={() => {
-          setIsHoveringJourney(true);
-        }}
-        onMouseLeave={() => {
-          setIsHoveringJourney(false);
-        }}
-      >
-        <SiteLink href="#journey">04</SiteLink>
-        <SectionNameBanner isHovering={isHoveringJourney}>
-          <SectionName>Journey</SectionName>
-        </SectionNameBanner>
-      </SiteLinkWrapper>
-      <SiteLinkWrapper
-        isHovering={isHoveringAbout}
-        onMouseEnter={() => {
-          setIsHoveringAbout(true);
-        }}
-        onMouseLeave={() => {
-          setIsHoveringAbout(false);
-        }}
-      >
-        <SiteLink href="#about">05</SiteLink>
-        <SectionNameBanner isHovering={isHoveringAbout}>
-          <SectionName>About</SectionName>
-        </SectionNameBanner>
-      </SiteLinkWrapper>
+      <TransformWrapper hasSeenIntro={hasSeenIntro} transformDelay={2}>
+        <SiteLinkWrapper
+          isHovering={isHoveringIntro}
+          onMouseEnter={() => {
+            setIsHoveringIntro(true);
+          }}
+          onMouseLeave={() => {
+            setIsHoveringIntro(false);
+          }}
+        >
+          <SiteLink href="#introduction">01</SiteLink>
+          <SectionNameBanner isHovering={isHoveringIntro}>
+            <SectionName>Introduction</SectionName>
+          </SectionNameBanner>
+        </SiteLinkWrapper>
+      </TransformWrapper>
+      <TransformWrapper hasSeenIntro={hasSeenIntro} transformDelay={1.75}>
+        <SiteLinkWrapper
+          isHovering={isHoveringSkills}
+          onMouseEnter={() => {
+            setIsHoveringSkills(true);
+          }}
+          onMouseLeave={() => {
+            setIsHoveringSkills(false);
+          }}
+        >
+          <SiteLink href="#skills">02</SiteLink>
+          <SectionNameBanner isHovering={isHoveringSkills}>
+            <SectionName>Skills</SectionName>
+          </SectionNameBanner>
+        </SiteLinkWrapper>
+      </TransformWrapper>
+      <TransformWrapper hasSeenIntro={hasSeenIntro} transformDelay={1.5}>
+        <SiteLinkWrapper
+          isHovering={isHoveringExperience}
+          onMouseEnter={() => {
+            setIsHoveringExperience(true);
+          }}
+          onMouseLeave={() => {
+            setIsHoveringExperience(false);
+          }}
+        >
+          <SiteLink href="#experience">03</SiteLink>
+          <SectionNameBanner isHovering={isHoveringExperience}>
+            <SectionName>Experience</SectionName>
+          </SectionNameBanner>
+        </SiteLinkWrapper>
+      </TransformWrapper>
+      <TransformWrapper hasSeenIntro={hasSeenIntro} transformDelay={1.25}>
+        <SiteLinkWrapper
+          isHovering={isHoveringJourney}
+          onMouseEnter={() => {
+            setIsHoveringJourney(true);
+          }}
+          onMouseLeave={() => {
+            setIsHoveringJourney(false);
+          }}
+        >
+          <SiteLink href="#journey">04</SiteLink>
+          <SectionNameBanner isHovering={isHoveringJourney}>
+            <SectionName>Journey</SectionName>
+          </SectionNameBanner>
+        </SiteLinkWrapper>
+      </TransformWrapper>
+      <TransformWrapper hasSeenIntro={hasSeenIntro} transformDelay={1}>
+        <SiteLinkWrapper
+          isHovering={isHoveringAbout}
+          onMouseEnter={() => {
+            setIsHoveringAbout(true);
+          }}
+          onMouseLeave={() => {
+            setIsHoveringAbout(false);
+          }}
+        >
+          <SiteLink href="#about">05</SiteLink>
+          <SectionNameBanner isHovering={isHoveringAbout}>
+            <SectionName>About</SectionName>
+          </SectionNameBanner>
+        </SiteLinkWrapper>
+      </TransformWrapper>
     </SiteLinksContainer>
   );
 };

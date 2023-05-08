@@ -7,6 +7,7 @@ import React from 'react';
 import SCREEN_SIZES from '../../constants/screenSizes';
 import { useDeviceContext } from '../../contexts/deviceContext';
 import preventScroll from '../../utils/preventScroll';
+import { useIntroContext } from '../../contexts/introContext';
 
 type SharedHeaderProps = {
   isMobile: boolean;
@@ -137,6 +138,7 @@ const HomeIconContainer = styled.header<SharedHeaderProps>`
 
 type IconWrapperProps = SharedHeaderProps & {
   isHovering: boolean;
+  hasSeenIntro: boolean;
 };
 
 const IconWrapper = styled.div<IconWrapperProps>`
@@ -148,9 +150,14 @@ const IconWrapper = styled.div<IconWrapperProps>`
   width: ${(props) => (props.isMobile ? '60px' : '75px')};
   height: ${(props) => (props.isMobile ? '45px' : '55px')};
   margin: ${(props) => (props.isMobile ? 'auto auto auto 10px' : '0 auto 0 0')};
-  /* margin: 0 auto 0 0; */
   cursor: pointer;
-  transition: all 0.25s linear;
+  opacity: ${({ hasSeenIntro }) => (hasSeenIntro ? '1' : '0')};
+  transform: ${({ hasSeenIntro }) =>
+    hasSeenIntro ? 'translateY(0)' : 'translateY(-50px)'};
+  transition: opacity, transform;
+  transition-duration: 0.5s;
+  transition-timing-function: linear;
+  transition-delay: 0.75s;
 
   ${(props) => {
     if (props.isHovering) {
@@ -159,7 +166,7 @@ const IconWrapper = styled.div<IconWrapperProps>`
         &:focus {
           box-shadow: inset 0 0 0 2em ${theme.colors.BLUE_5_TRANSPARENT},
                       0 0.5em 0.5em -0.4em ${theme.colors.ORANGE_1};
-          transform: translateY(-0.25em);
+          transition: box-shadow 0.25s linear;
         }
       `;
     } else return ``;
@@ -178,7 +185,12 @@ const HomeIconLetter = styled(Paragraph)<IconLetterProps>`
   font-weight: 900;
 `;
 
-const Icon = ({ isMobile }: SharedHeaderProps) => {
+type IconProps = {
+  isMobile: boolean;
+  hasSeenIntro: boolean;
+};
+
+const Icon = ({ isMobile, hasSeenIntro }: IconProps) => {
   const [isHoveringIcon, setIsHoveringIcon] = React.useState(false);
 
   const fill = isHoveringIcon ? theme.colors.ORANGE_2 : theme.colors.BLUE_1;
@@ -187,6 +199,7 @@ const Icon = ({ isMobile }: SharedHeaderProps) => {
     <IconWrapper
       isMobile={isMobile}
       isHovering={isHoveringIcon}
+      hasSeenIntro={hasSeenIntro}
       onMouseEnter={() => setIsHoveringIcon(true)}
       onMouseLeave={() => setIsHoveringIcon(false)}
     >
@@ -202,6 +215,7 @@ const Icon = ({ isMobile }: SharedHeaderProps) => {
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const { hasSeenIntro } = useIntroContext();
   const { isWindowWidthAboveOrBetweenThreshold } = useDeviceContext();
 
   const isAboveMobile = isWindowWidthAboveOrBetweenThreshold(
@@ -219,8 +233,12 @@ const Header = () => {
     <HomeIconContainer id="header" isMobile={isMobile}>
       {isMobile ? (
         <MobileNavContainer>
-          <Icon isMobile={isMobile} />
-          <Hamburger isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+          <Icon isMobile={isMobile} hasSeenIntro={hasSeenIntro} />
+          <Hamburger
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+            hasSeenIntro={hasSeenIntro}
+          />
           {isMenuOpen ? <MobileMenuBG isMenuOpen={isMenuOpen} /> : null}
           <MobileMenu isMenuOpen={isMenuOpen}>
             <MobileMenuContainer>
@@ -331,7 +349,7 @@ const Header = () => {
           </MobileMenu>
         </MobileNavContainer>
       ) : (
-        <Icon isMobile={isMobile} />
+        <Icon isMobile={isMobile} hasSeenIntro={hasSeenIntro} />
       )}
     </HomeIconContainer>
   );

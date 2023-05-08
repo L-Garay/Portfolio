@@ -9,15 +9,26 @@ const MenuContainer = styled.div`
   justify-content: center;
 `;
 
+type HamburgerButtonProps = {
+  hasSeenIntro: boolean;
+};
+
 const HamburgerButton = styled.button.attrs({
   type: 'button',
   ariaControls: 'mobile-nav',
-})`
+})<HamburgerButtonProps>`
   background: none;
   border-radius: 12.5px;
   border: 2px solid ${theme.colors.BLUE_1};
   overflow: hidden;
   cursor: pointer;
+  opacity: ${({ hasSeenIntro }) => (hasSeenIntro ? '1' : '0')};
+  transform: ${({ hasSeenIntro }) =>
+    hasSeenIntro ? 'translateY(0)' : 'translateY(-50px)'};
+  transition: opacity, transform;
+  transition-duration: 0.5s;
+  transition-timing-function: linear;
+  transition-delay: 0.75s;
 `;
 
 type HamburgerProps = {
@@ -51,17 +62,20 @@ const SVGPath = styled.path.attrs({
 type HamburgerMenuProps = {
   isMenuOpen: boolean;
   setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  hasSeenIntro: boolean;
 };
 
 const HamburgerMenuButton = ({
   isMenuOpen,
   setIsMenuOpen,
+  hasSeenIntro,
 }: HamburgerMenuProps) => {
   const [isHoveringHamburger, setIsHoveringHamburger] = React.useState(false);
 
   return (
     <MenuContainer id="mobile-nav">
       <HamburgerButton
+        hasSeenIntro={hasSeenIntro}
         onMouseEnter={() => setIsHoveringHamburger(true)}
         onMouseLeave={() => setIsHoveringHamburger(false)}
         onClick={() => {
