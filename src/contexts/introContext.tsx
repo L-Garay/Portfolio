@@ -22,11 +22,15 @@ export const IntroProvider = ({ children }: { children: ReactNode }) => {
   const [hasMounted, setHasMounted] = useState(false);
   const [hasSeenIntro, setHasSeenIntro] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setHasMounted(true);
-    console.log(window.innerHeight, window.innerWidth);
-    preventScroll(true); // NOTE there seems to be like .25s gap between when it mounts and when it actually prevents scroll
+    history.scrollRestoration = 'manual';
   }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    preventScroll(true); // may or may not need this
+  }, [hasMounted]);
 
   const state = {
     hasMounted,
