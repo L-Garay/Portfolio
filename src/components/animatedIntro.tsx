@@ -20,7 +20,7 @@ const AnimatedIntroPage = styled.div<AnimatedIntroProps>`
   background: black;
   z-index: 200;
   opacity: ${(props) => (props.hasSeenIntro ? '0' : '1')};
-  transition: opacity 2.5s linear; // may need to adjust this timer, this will be how long the transition will take ONCE the animation is done itself
+  transition: opacity 1s linear; // may need to adjust this timer, this will be how long the transition will take ONCE the animation is done itself
   display: ${(props) => (props.shouldRemoveElement ? 'none' : 'block')};
 `;
 
@@ -425,7 +425,7 @@ const AnimatedIntro = () => {
         console.log('hasMounted');
         setHasSeenIntro(true);
       }
-    }, 7500); // may need to adjust this timer, this will be the actual time it takes to run the animation BEFORE we start to fade the opacity out
+    }, 7250); // may need to adjust this timer, this will be the actual time it takes to run the animation BEFORE we start to fade the opacity out
 
     return () => clearTimeout(timeout);
   }, [hasMounted]);
@@ -437,7 +437,7 @@ const AnimatedIntro = () => {
         setShouldRemoveElement(true);
         preventScroll(false);
       }
-    }, 2750); // may need to adjust this timer, this will be how long we want to wait before removing the element from the DOM, need to wait until opacity transition is done, WAIT for the AT LEAST the lenght of the opacity transition
+    }, 1000); // may need to adjust this timer, this will be how long we want to wait before removing the element from the DOM, need to wait until opacity transition is done, WAIT for the AT LEAST the lenght of the opacity transition
 
     return () => clearTimeout(timeout);
   }, [hasSeenIntro]);
