@@ -8,7 +8,7 @@ import { useCallback } from 'react';
 
 const preventScroll = (condition: boolean): void => {
   const target = document.getElementById('body');
-  console.log('condition', condition);
+
   if (target && condition) {
     target.setAttribute('style', 'overflow: hidden !important');
   } else {
