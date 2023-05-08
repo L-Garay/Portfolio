@@ -18,7 +18,6 @@ type DeviceProps = {
 };
 
 const DonutContainer = styled.div<DeviceProps>`
-  background: lightblue;
   position: relative;
   margin: 10px;
 
@@ -44,6 +43,7 @@ const OuterCircle = styled.div`
   box-shadow: 6px 6px 10px -1px rgba(0, 0, 0, 0.15),
     -6px -6px 10px -1px rgba(255, 255, 255, 0.7);
   padding: 20px;
+  background: lightgray;
 `;
 
 const InnerCircle = styled.div<DeviceProps>`
@@ -55,6 +55,7 @@ const InnerCircle = styled.div<DeviceProps>`
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: ${theme.colors.BLUE_8};
 
   ${({ isAboveLarge }) => {
     if (isAboveLarge) {
@@ -75,6 +76,8 @@ const Percentage = styled.p`
   margin: 0;
   font-weight: bold;
   color: white;
+  text-shadow: 2px 2px 2px black;
+  font-family: ${theme.fonts.robotoMono};
 `;
 
 const SVG = styled.svg.attrs({
@@ -121,6 +124,7 @@ const ChartName = styled.h4`
   margin: 0;
   font-size: 1.1rem;
   font-family: ${theme.fonts.robotoMono};
+  text-shadow: 2px 2px 2px black;
 `;
 
 // https://overreacted.io/making-setinterval-declarative-with-react-hooks/

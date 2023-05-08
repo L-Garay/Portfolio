@@ -4,6 +4,7 @@ import { Donut } from '../charts';
 import { DonutConfig } from '../../../utils/configs/aboutConfigs';
 import SCREEN_SIZES from '../../../constants/screenSizes';
 import { useDeviceContext } from '../../../contexts/deviceContext';
+import theme from '../../../styles/theme';
 
 type DonutCardProps = {
   isActive: boolean;
@@ -30,20 +31,19 @@ const DonutCardContainer = styled.div<DeviceProps>`
 `;
 
 const TitleContainer = styled.div`
-  border: 1px solid red;
-  background: lightblue;
-  padding: 10px;
+  text-align: center;
+  padding: 20px 10px 10px 10px;
 `;
 
 const Title = styled.h3`
   margin: 0;
   padding: 0;
-  color: black;
+  color: ${theme.colors.BLUE_1};
+  font-family: ${theme.fonts.robotoMono};
 `;
 
 const ContentContainer = styled.div`
-  background: lightgreen;
-  padding: 10px;
+  padding: 40px 10px 10px 10px;
 `;
 
 const SHARED_ROW_STYLES = `
@@ -51,7 +51,6 @@ const SHARED_ROW_STYLES = `
 `;
 
 const Row1 = styled.div<DeviceProps>`
-  background: lightgray;
   ${SHARED_ROW_STYLES};
   ${({ isAboveSmall }) => {
     if (isAboveSmall) {
@@ -68,11 +67,12 @@ const Row1 = styled.div<DeviceProps>`
 `;
 
 const Description = styled.div`
-  border: 1px solid purple;
   max-width: 300px;
+  text-align: center;
 
   p {
     padding: 0;
+    font-family: ${theme.fonts.robotoMono};
     font-size: 1rem;
   }
 `;
