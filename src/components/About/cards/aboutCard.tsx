@@ -4,6 +4,7 @@ import { useStaticQuery, graphql } from 'gatsby';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import { useDeviceContext } from '../../../contexts/deviceContext';
 import SCREEN_SIZES from '../../../constants/screenSizes';
+import theme from '../../../styles/theme';
 
 type DeviceProps = {
   isAboveMobile: boolean;
@@ -26,27 +27,25 @@ const AboutCardContainer = styled.div<DeviceProps>`
 `;
 
 const TitleContainer = styled.div`
-  border: 1px solid red;
-  background: lightblue;
-  padding: 10px;
+  text-align: center;
+  padding: 20px 10px 10px 10px;
 `;
 
 const Title = styled.h3<DeviceProps>`
   margin: 0;
   padding: 0;
-  color: black;
+  color: ${theme.colors.BLUE_1};
+  font-family: ${theme.fonts.robotoMono};
 `;
 
 const ContentContainer = styled.div`
-  background: lightgreen;
   padding: 10px;
 `;
 
 const Row1 = styled.div`
-  background: lightgray;
   display: flex;
   justify-content: center;
-  margin: 10px;
+  margin: 0px 10px 20px 10px;
 `;
 
 const ImageWrapper = styled.div`
@@ -73,17 +72,16 @@ const Row2 = styled.div<DeviceProps>`
 `;
 
 const DESCRIPTION_STYLES = `
-  border: 1px solid purple;
-
   p {
     margin-top: 0;
     padding: 0;
+    font-family: ${theme.fonts.robotoMono};
   }
 `;
 
 const Description1 = styled.div<DeviceProps>`
   ${DESCRIPTION_STYLES}
-  max-width: ${({ isAboveLarge, isAboveSmall }) => {
+  width: ${({ isAboveLarge, isAboveSmall }) => {
     if (isAboveLarge) {
       return `
         350px
@@ -102,11 +100,11 @@ const Description1 = styled.div<DeviceProps>`
   font-size: ${({ isAboveSmall }) => {
     if (isAboveSmall) {
       return `
-       1rem;
+       .85rem;
       `;
     } else {
       return `
-       .9rem;
+       .85rem;
       `;
     }
   }};
@@ -114,7 +112,7 @@ const Description1 = styled.div<DeviceProps>`
 
 const Description2 = styled.div<DeviceProps>`
   ${DESCRIPTION_STYLES}
-  max-width: ${({ isAboveLarge, isAboveSmall }) => {
+  width: ${({ isAboveLarge, isAboveSmall }) => {
     if (isAboveLarge) {
       return `
          350px
@@ -133,11 +131,11 @@ const Description2 = styled.div<DeviceProps>`
   font-size: ${({ isAboveSmall }) => {
     if (isAboveSmall) {
       return `
-       1rem;
+       .85rem;
       `;
     } else {
       return `
-       .9rem;
+       .85rem;
       `;
     }
   }};
@@ -151,6 +149,31 @@ const SmallParagraph = styled.p`
   margin: 10px;
   padding: 0;
   font-size: 0.8rem;
+`;
+
+const Link = styled.a.attrs({
+  target: '_blank',
+  rel: 'noopener noreferrer',
+})`
+  color: ${theme.colors.BLUE_1};
+  text-decoration: none;
+  border-radius: 0;
+  background-image: linear-gradient(
+      transparent calc(100% - 2px),
+      rgb(252, 114, 80) 2px
+    ),
+    linear-gradient(transparent calc(100% - 2px), transparent 2px);
+  background-size: 0% 3px, 100% 3px;
+  background-repeat: no-repeat;
+  background-position: 0 bottom, 0 bottom;
+  transition: all 1s cubic-bezier(0.23, 1, 0.32, 1);
+  padding-bottom: 2px;
+  width: calc(100%);
+
+  &:hover {
+    background-size: 100% 3px, 100% 3px;
+    cursor: pointer;
+  }
 `;
 
 const AboutCard = () => {
@@ -235,16 +258,17 @@ const AboutCard = () => {
             <p>
               These are always fun to write, am I right? Well I guess I'll tell
               you a little about my background. I have a Bachelors of Science in
-              Psychology from Idaho State University, with a minor in
-              Philosophy.
+              Psychology from{' '}
+              <Link href="https://www.isu.edu/">Idaho State University</Link>,
+              with a minor in Philosophy.
             </p>
             <p>
               After I graduated in May 2019 I was left with a choice of what to
               do with my life. My friend wanted to make video games and the
-              first step was to learn basic programming, and a couple of
-              exercises on{' '}
-              <a href="https://www.freecodecamp.org/">freeCodeCamp.org</a> later
-              and I was hooked. After that, well... the rest is history.
+              first step was to learn basic programming, and thanks to{' '}
+              <Link href="https://boisecodeworks.com/">Boise Codeworks</Link>{' '}
+              and 13 weeks later I was hooked. After that, well... the rest is
+              history.
             </p>
           </Description1>
           <Description2
