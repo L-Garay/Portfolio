@@ -17,15 +17,15 @@ type DeviceProps = {
 const ContactCardContainer = styled.div``;
 
 const TitleContainer = styled.div`
-  border: 1px solid red;
-  background: lightblue;
-  padding: 10px;
+  text-align: center;
+  padding: 20px 10px 10px 10px;
 `;
 
 const Title = styled.h3`
   margin: 0;
   padding: 0;
-  color: black;
+  color: ${theme.colors.BLUE_1};
+  font-family: ${theme.fonts.robotoMono};
 `;
 
 const ContentContainer = styled.div<DeviceProps>`
@@ -40,8 +40,8 @@ const ContentContainer = styled.div<DeviceProps>`
       return `360px`;
     }
   }};
-  height: 500px;
-  background: lightgreen;
+  height: ${({ isAboveMobile, isAboveSmall }) =>
+    isAboveSmall ? `500px` : `auto`};
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -55,17 +55,16 @@ const ROW_STYLES = `
 
 const Row1 = styled.div`
   ${ROW_STYLES}
-  background: lightgray;
   margin: 10px 0;
 `;
 
 const Description = styled.div`
-  border: 1px solid purple;
   width: 100%;
 
   p {
     padding: 0;
     font-size: 1.2rem;
+    font-family: ${theme.fonts.robotoMono};
   }
 `;
 
@@ -166,7 +165,7 @@ const ContactCard = ({}: ContactCardProps) => {
         <Row2>
           <Description>
             <p>
-              <span>Phone:</span>
+              <span>Phone: </span>
               {SOCIALS.phone}
             </p>
           </Description>
