@@ -2,6 +2,7 @@ import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import SCREEN_SIZES from '../../../constants/screenSizes';
 import { useDeviceContext } from '../../../contexts/deviceContext';
+import theme from '../../../styles/theme';
 
 type BarData = {
   percentageFill: number;
@@ -21,15 +22,17 @@ type DeviceProps = {
 
 const StyledBarGraph = styled.div<DeviceProps>`
   margin: ${({ isAboveSmall }) => (isAboveSmall ? '10px' : '10px 0 10px 10px')};
-  border-bottom: 3px solid white; // testing
-  border-left: 3px solid white; // testing
+  border-bottom: 3px solid white;
+  border-left: 3px solid white;
 `;
 
 const ChartTitle = styled.p`
   margin: 0px;
-  font-size: 1.1rem; // will need to change
+  font-size: 1.1rem;
   font-weight: bold;
   text-align: center;
+  color: ${theme.colors.ORANGE_1};
+  font-family: ${theme.fonts.robotoMono};
 `;
 
 const BarContainer = styled.div`
@@ -77,7 +80,7 @@ type MetricProps = Pick<BarFillProps, 'isActive'>;
 const MetricContainer = styled.div<MetricProps>`
   position: absolute;
   top: 15%;
-  left: 10px; // testing
+  left: 10px;
   color: white;
   ${({ isActive }) => {
     if (isActive) {
@@ -108,13 +111,15 @@ const MetricContainer = styled.div<MetricProps>`
 
 const MetricNumber = styled.span`
   position: relative;
-  font-size: 1rem; // will need to change
+  font-size: 1rem;
+  text-shadow: 2px 2px 2px black;
 `;
 
 const MetricLabel = styled.p`
-  max-height: 50px; // the total height of the bar, will need to be adjusted for responsiveness
+  max-height: 50px;
   margin: 0px;
-  font-size: 0.75rem; // will need to change
+  font-size: 0.75rem;
+  text-shadow: 2px 2px 2px black;
 `;
 
 type ArrowProps = {
@@ -126,8 +131,8 @@ const ArrowWrapper = styled.div`
 `;
 
 const ArrowBase = styled.div<ArrowProps>`
-  height: 9.5px; // will need to change
-  width: 12px; // will need to change
+  height: 9.5px;
+  width: 12px;
   margin: auto 0px;
   background: ${(props) => props.arrowColor};
 `;

@@ -22,7 +22,6 @@ const AboutMeTitle = styled(SectionTitle)`
 `;
 
 const CarouselContainer = styled.div`
-  background: lightgrey; // testing
   height: 675px; // testing
 `;
 
@@ -53,7 +52,36 @@ const OverflowContainer = styled.div`
   width: 100%;
   overflow: hidden;
   border-radius: 12.5px;
-  border: 2px solid red;
+  border: 5px solid ${theme.colors.BLUE_5};
+  background-color: rgb(80, 218, 252, 0.1);
+  box-shadow: 0px 7.5px 20px 5px ${theme.colors.BLUE_5};
+
+  /* &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 80px;
+    border-radius: 7.5px;
+    z-index: 1;
+    background: linear-gradient(to left, transparent, ${theme.colors.ORANGE_1});
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 80px;
+    border-radius: 7.5px;
+    z-index: 1;
+    background: linear-gradient(
+      to right,
+      transparent,
+      ${theme.colors.ORANGE_1}
+    );
+  } */
 `;
 
 const Carousel = styled.div`
@@ -62,7 +90,6 @@ const Carousel = styled.div`
   left: -57.5%;
   height: 100%;
   width: 200%;
-  background: lightblue; // testing
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
 `;
@@ -233,7 +260,7 @@ const PreviousItemClone = styled.div<ActionProps & VisibilityProps>`
 
 const ButtonWrapper = styled.div`
   width: 80%;
-  margin: 0 auto;
+  margin: 40px auto 0 auto;
   display: flex;
   justify-content: space-between;
 `;

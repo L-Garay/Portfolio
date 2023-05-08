@@ -4,6 +4,7 @@ import { Bar } from '../charts';
 import { barChartTwoData } from '../../../utils/configs/aboutConfigs';
 import SCREEN_SIZES from '../../../constants/screenSizes';
 import { useDeviceContext } from '../../../contexts/deviceContext';
+import theme from '../../../styles/theme';
 
 type BarCardProps = {
   isActive: boolean;
@@ -30,19 +31,18 @@ const BarCardContainer = styled.div<DeviceProps>`
 `;
 
 const TitleContainer = styled.div`
-  border: 1px solid red;
-  background: lightblue;
-  padding: 10px;
+  text-align: center;
+  padding: 20px 10px 10px 10px;
 `;
 
 const Title = styled.h3`
   margin: 0;
   padding: 0;
-  color: white;
+  color: ${theme.colors.BLUE_1};
+  font-family: ${theme.fonts.robotoMono};
 `;
 
 const ContentContainer = styled.div<DeviceProps>`
-  background: lightgreen;
   padding: 10px;
   display: flex;
   ${({ isAboveSmall }) => {
@@ -61,7 +61,6 @@ const ContentContainer = styled.div<DeviceProps>`
 `;
 
 const Column1 = styled.div`
-  background: lightgray;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -69,26 +68,28 @@ const Column1 = styled.div`
 `;
 
 const Description = styled.div`
-  border: 1px solid purple;
   max-width: 300px;
 
   p {
     padding: 0;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
+    font-family: ${theme.fonts.robotoMono};
   }
 `;
 
 const ChartKey = styled.div`
-  border: 1px solid orange;
   min-height: 150px;
   width: 250px;
   font-size: 1rem;
   padding: 10px 5px;
+  border: 1px solid ${theme.colors.ORANGE_2};
 `;
 
 const KeyItem = styled.p`
   margin: 0;
   margin-bottom: 10px;
+  font-family: ${theme.fonts.robotoMono};
+  font-size: 0.85rem;
 `;
 
 const KeySection = styled.div<DeviceProps>`
@@ -106,6 +107,8 @@ const KeySectionItem = styled.div`
   display: flex;
   align-items: center;
   margin-right: 8px;
+  font-family: ${theme.fonts.robotoMono};
+  font-size: 0.85rem;
 
   span {
     min-width: 45px;
