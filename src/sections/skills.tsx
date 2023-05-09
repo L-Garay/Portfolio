@@ -18,20 +18,29 @@ export type SkillsProps = {
   shouldChangeFlexDirection?: boolean;
 };
 
+const BottomLeftBorder = styled.div`
+  position: absolute;
+  bottom: 2.5%;
+  left: 7.5%;
+  height: 50%;
+  width: 1%;
+  border-left: 1px solid ${theme.colors.ORANGE_1};
+  z-index: -1;
+`;
+
+const TopRightBorder = styled.div`
+  position: absolute;
+  top: 2.5%;
+  right: 7.5%;
+  height: 50%;
+  width: 1%;
+  border-right: 1px solid ${theme.colors.ORANGE_1};
+  z-index: -1;
+`;
+
 const SkillsContainer = styled.div<SkillsProps>`
-  /* background: lightgrey; //testing */
   position: relative;
   margin-bottom: 10px;
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 25%;
-    height: ${(props) => (props.shouldChangeFlexDirection ? '10%' : '25%')};
-    border-right: 1px solid ${theme.colors.ORANGE_1}; // testing
-    border-bottom: 1px solid ${theme.colors.ORANGE_1}; // testing
-  }
 `;
 
 const Skills = () => {
@@ -57,6 +66,8 @@ const Skills = () => {
 
   return (
     <Section id="skills" height={isMobile ? windowHeight : undefined}>
+      <BottomLeftBorder />
+      <TopRightBorder />
       <SectionContent isMobile={isMobile} calculatedWidth={calcluatedWidth}>
         <SkillsContainer shouldChangeFlexDirection={shouldChangeFlexDirection}>
           <SectionTitleContainer>
