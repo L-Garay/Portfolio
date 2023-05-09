@@ -16,26 +16,83 @@ export type ExperiencesProps = SharedPageProps & {
   calculatedWidth?: number;
 };
 
-const BottomLeftBorder = styled.div`
+type BorderProps = {
+  isAbove925?: boolean;
+  isAboveMedium?: boolean;
+  isAboveLarge?: boolean;
+};
+
+const BottomLeftBorder = styled.div<BorderProps>`
   position: absolute;
   bottom: 10%;
   left: 15%;
-  height: 35%;
-  width: 25%;
   border-left: 1px solid ${theme.colors.ORANGE_1};
   border-bottom: 1px solid ${theme.colors.ORANGE_1};
   z-index: -1;
+  ${({ isAboveMedium, isAbove925, isAboveLarge }) => {
+    if (isAboveLarge) {
+      return `
+        height: 35%;
+        width: 25%;
+      `;
+    } else if (isAboveMedium) {
+      return `
+        height: 20%;
+        width: 15%;
+        bottom: 20%;
+        left: 10%;
+      `;
+    } else if (isAbove925) {
+      return `
+        height: 20%;
+        width: 15%;
+        left: 7.5%;
+        bottom: 15%;
+      `;
+    } else {
+      return `
+        height: 0;
+        width: 0;
+        border: none;
+      `;
+    }
+  }}
 `;
 
-const TopRightBorder = styled.div`
+const TopRightBorder = styled.div<BorderProps>`
   position: absolute;
   top: 7.5%;
-  right: 10%;
-  height: 35%;
-  width: 25%;
+  right: 15%;
   border-right: 1px solid ${theme.colors.ORANGE_1};
   border-top: 1px solid ${theme.colors.ORANGE_1};
   z-index: -1;
+  ${({ isAboveMedium, isAbove925, isAboveLarge }) => {
+    if (isAboveLarge) {
+      return `
+        height: 35%;
+        width: 25%;
+      `;
+    } else if (isAboveMedium) {
+      return `
+        height: 20%;
+        width: 15%;
+        top: 10%;
+        right: 10%;
+      `;
+    } else if (isAbove925) {
+      return `
+        height: 20%;
+        width: 15%;
+        right: 9%;
+      `;
+    } else {
+      return `
+        height: 0;
+        width: 0;
+        border: none;
+      `;
+    }
+  }}
 `;
 
 const ExperiencesContainer = styled.div<ExperiencesProps>`
@@ -68,6 +125,7 @@ const Experience = () => {
     SCREEN_SIZES.MOBILE
   );
   const isAboveSmall = isWindowWidthAboveOrBetweenThreshold(SCREEN_SIZES.SMALL);
+  const isAbove925 = isWindowWidthAboveOrBetweenThreshold(925);
   const isAboveMedium = isWindowWidthAboveOrBetweenThreshold(
     SCREEN_SIZES.MEDIUM
   );
@@ -90,8 +148,16 @@ const Experience = () => {
 
   return (
     <Section id="experience" height={isMobile ? windowHeight : undefined}>
-      <BottomLeftBorder />
-      <TopRightBorder />
+      <BottomLeftBorder
+        isAbove925={isAbove925}
+        isAboveMedium={isAboveMedium}
+        isAboveLarge={isAboveLarge}
+      />
+      <TopRightBorder
+        isAbove925={isAbove925}
+        isAboveMedium={isAboveMedium}
+        isAboveLarge={isAboveLarge}
+      />
       <SectionContent isMobile={isMobile} calculatedWidth={calcluatedWidth}>
         <ExperiencesContainer
           shouldChangeFlexDirection={shouldChangeFlexDirection}

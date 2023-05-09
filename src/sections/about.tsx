@@ -21,48 +21,101 @@ const AboutMeTitle = styled(SectionTitle)`
   text-align: start;
 `;
 
-const TopLeftBorder = styled.div`
+type BorderProps = {
+  isAboveMobile?: boolean;
+  isAbove925?: boolean;
+};
+
+const TopLeftBorder = styled.div<BorderProps>`
   position: absolute;
   top: 5%;
   left: 7.5%;
-  height: 15%;
-  width: 10%;
   border-left: 1px solid ${theme.colors.ORANGE_1};
   border-top: 1px solid ${theme.colors.ORANGE_1};
   z-index: -1;
+  ${({ isAbove925 }) => {
+    if (isAbove925) {
+      return `
+        height: 10%;
+        width: 5.5%;
+      `;
+    } else {
+      return `
+      height: 0;
+        width: 0;
+        border: none;
+      `;
+    }
+  }}
 `;
 
-const BottomLeftBorder = styled.div`
+const BottomLeftBorder = styled.div<BorderProps>`
   position: absolute;
   bottom: 1.5%;
   left: 7.5%;
-  height: 15%;
-  width: 10%;
   border-left: 1px solid ${theme.colors.ORANGE_1};
   border-bottom: 1px solid ${theme.colors.ORANGE_1};
   z-index: -1;
+  ${({ isAbove925 }) => {
+    if (isAbove925) {
+      return `
+        height: 10%;
+        width: 5.5%;
+      `;
+    } else {
+      return `
+      height: 0;
+        width: 0;
+        border: none;
+      `;
+    }
+  }}
 `;
 
-const TopRightBorder = styled.div`
+const TopRightBorder = styled.div<BorderProps>`
   position: absolute;
   top: 5%;
   right: 7.5%;
-  height: 15%;
-  width: 10%;
   border-right: 1px solid ${theme.colors.ORANGE_1};
   border-top: 1px solid ${theme.colors.ORANGE_1};
   z-index: -1;
+  ${({ isAbove925 }) => {
+    if (isAbove925) {
+      return `
+        height: 10%;
+        width: 5.5%;
+      `;
+    } else {
+      return `
+      height: 0;
+        width: 0;
+        border: none;
+      `;
+    }
+  }}
 `;
 
-const BottomRightBorder = styled.div`
+const BottomRightBorder = styled.div<BorderProps>`
   position: absolute;
   bottom: 1.5%;
   right: 7.5%;
-  height: 15%;
-  width: 10%;
   border-right: 1px solid ${theme.colors.ORANGE_1};
   border-bottom: 1px solid ${theme.colors.ORANGE_1};
   z-index: -1;
+  ${({ isAbove925 }) => {
+    if (isAbove925) {
+      return `
+        height: 10%;
+        width: 5.5%;
+      `;
+    } else {
+      return `
+      height: 0;
+        width: 0;
+        border: none;
+      `;
+    }
+  }}
 `;
 
 const CarouselContainer = styled.div`
@@ -349,8 +402,8 @@ const About = () => {
     SCREEN_SIZES.MEDIUM
   );
   const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(SCREEN_SIZES.LARGE);
-  const isAbove1350 = isWindowWidthAboveOrBetweenThreshold(1350);
-  const above1350 = isAbove1350 ? isAbove1350 : false;
+  const isAbove1450 = isWindowWidthAboveOrBetweenThreshold(1450);
+  const above1450 = isAbove1450 ? isAbove1450 : false;
   const isAbove925 = isWindowWidthAboveOrBetweenThreshold(925);
   const above925 = isAbove925 ? isAbove925 : false;
 
@@ -390,63 +443,66 @@ const About = () => {
       height={isMobile ? windowHeight : undefined}
       style={{ paddingBottom: 80 }}
     >
-      <TopLeftBorder />
-      <BottomLeftBorder />
-      <TopRightBorder />
-      <BottomRightBorder />
+      <TopLeftBorder isAbove925={isAbove925} isAboveMobile={isAboveMobile} />
+      <BottomLeftBorder isAbove925={isAbove925} isAboveMobile={isAboveMobile} />
+      <TopRightBorder isAbove925={isAbove925} isAboveMobile={isAboveMobile} />
+      <BottomRightBorder
+        isAbove925={isAbove925}
+        isAboveMobile={isAboveMobile}
+      />
       <SectionContent isMobile={isMobile} calculatedWidth={calcluatedWidth}>
         <SectionTitleContainer>
           <AboutMeTitle>05. About Me</AboutMeTitle>
         </SectionTitleContainer>
         {above925 ? (
           <CarouselContainer>
-            <CarouselWrapper isAboveLarge={above1350}>
+            <CarouselWrapper isAboveLarge={above1450}>
               <OverflowContainer>
                 <Carousel>
                   <NextItemClone
                     action={action}
                     isVisible={isAnimated}
-                    isAboveLarge={above1350}
+                    isAboveLarge={above1450}
                   >
                     <NextCloneElement />
                   </NextItemClone>
-                  <NextItem isVisible={!isAnimated} isAboveLarge={above1350}>
+                  <NextItem isVisible={!isAnimated} isAboveLarge={above1450}>
                     <NextElement />
                   </NextItem>
                   <AnimatedNextItem
                     action={action}
                     isVisible={isAnimated}
-                    isAboveLarge={above1350}
+                    isAboveLarge={above1450}
                   >
                     <AnimatedNextElement />
                   </AnimatedNextItem>
-                  <ActiveItem isVisible={!isAnimated} isAboveLarge={above1350}>
+                  <ActiveItem isVisible={!isAnimated} isAboveLarge={above1450}>
                     <ActiveElment isActive />
                   </ActiveItem>
                   <AnimatedActiveItem
                     action={action}
                     isVisible={isAnimated}
-                    isAboveLarge={above1350}
+                    isAboveLarge={above1450}
                   >
                     <AnimatedActiveElement />
                   </AnimatedActiveItem>
                   <PreviousItem
                     isVisible={!isAnimated}
-                    isAboveLarge={above1350}
+                    isAboveLarge={above1450}
                   >
                     <PrevElement />
                   </PreviousItem>
                   <AnimatedPreviousItem
                     action={action}
                     isVisible={isAnimated}
-                    isAboveLarge={above1350}
+                    isAboveLarge={above1450}
                   >
                     <AnimatedPrevElement />
                   </AnimatedPreviousItem>
                   <PreviousItemClone
                     action={action}
                     isVisible={isAnimated}
-                    isAboveLarge={above1350}
+                    isAboveLarge={above1450}
                   >
                     <PrevCloneElement />
                   </PreviousItemClone>
