@@ -16,26 +16,37 @@ export type ExperiencesProps = SharedPageProps & {
   calculatedWidth?: number;
 };
 
+const BottomLeftBorder = styled.div`
+  position: absolute;
+  bottom: 10%;
+  left: 15%;
+  height: 35%;
+  width: 25%;
+  border-left: 1px solid ${theme.colors.ORANGE_1};
+  border-bottom: 1px solid ${theme.colors.ORANGE_1};
+  z-index: -1;
+`;
+
+const TopRightBorder = styled.div`
+  position: absolute;
+  top: 7.5%;
+  right: 10%;
+  height: 35%;
+  width: 25%;
+  border-right: 1px solid ${theme.colors.ORANGE_1};
+  border-top: 1px solid ${theme.colors.ORANGE_1};
+  z-index: -1;
+`;
+
 const ExperiencesContainer = styled.div<ExperiencesProps>`
   position: relative;
   margin-bottom: 10px;
   display: flex;
   flex-direction: column;
-  /* TODO  move this to the section and then just adjust how far down and left/right it goes */
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 25%;
-    height: ${(props) => (props.shouldChangeFlexDirection ? '10%' : '25%')};
-    border-left: 1px solid ${theme.colors.ORANGE_1};
-    border-bottom: 1px solid ${theme.colors.ORANGE_1};
-  }
 `;
 
 const ExperiencesTitle = styled(SectionTitle)`
-  text-align: end;
+  text-align: start;
 `;
 
 const ExperiencesWrapper = styled.div<ExperiencesProps>`
@@ -79,6 +90,8 @@ const Experience = () => {
 
   return (
     <Section id="experience" height={isMobile ? windowHeight : undefined}>
+      <BottomLeftBorder />
+      <TopRightBorder />
       <SectionContent isMobile={isMobile} calculatedWidth={calcluatedWidth}>
         <ExperiencesContainer
           shouldChangeFlexDirection={shouldChangeFlexDirection}
