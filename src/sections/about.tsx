@@ -21,6 +21,50 @@ const AboutMeTitle = styled(SectionTitle)`
   text-align: start;
 `;
 
+const TopLeftBorder = styled.div`
+  position: absolute;
+  top: 5%;
+  left: 7.5%;
+  height: 15%;
+  width: 10%;
+  border-left: 1px solid ${theme.colors.ORANGE_1};
+  border-top: 1px solid ${theme.colors.ORANGE_1};
+  z-index: -1;
+`;
+
+const BottomLeftBorder = styled.div`
+  position: absolute;
+  bottom: 1.5%;
+  left: 7.5%;
+  height: 15%;
+  width: 10%;
+  border-left: 1px solid ${theme.colors.ORANGE_1};
+  border-bottom: 1px solid ${theme.colors.ORANGE_1};
+  z-index: -1;
+`;
+
+const TopRightBorder = styled.div`
+  position: absolute;
+  top: 5%;
+  right: 7.5%;
+  height: 15%;
+  width: 10%;
+  border-right: 1px solid ${theme.colors.ORANGE_1};
+  border-top: 1px solid ${theme.colors.ORANGE_1};
+  z-index: -1;
+`;
+
+const BottomRightBorder = styled.div`
+  position: absolute;
+  bottom: 1.5%;
+  right: 7.5%;
+  height: 15%;
+  width: 10%;
+  border-right: 1px solid ${theme.colors.ORANGE_1};
+  border-bottom: 1px solid ${theme.colors.ORANGE_1};
+  z-index: -1;
+`;
+
 const CarouselContainer = styled.div`
   height: 675px; // testing
 `;
@@ -346,6 +390,10 @@ const About = () => {
       height={isMobile ? windowHeight : undefined}
       style={{ paddingBottom: 80 }}
     >
+      <TopLeftBorder />
+      <BottomLeftBorder />
+      <TopRightBorder />
+      <BottomRightBorder />
       <SectionContent isMobile={isMobile} calculatedWidth={calcluatedWidth}>
         <SectionTitleContainer>
           <AboutMeTitle>05. About Me</AboutMeTitle>
