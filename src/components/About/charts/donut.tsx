@@ -182,7 +182,7 @@ const Donut = ({
 
   const { isWindowWidthAboveOrBetweenThreshold } = useDeviceContext();
 
-  const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(1350);
+  const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(1450);
   const aboveLarge = isAboveLarge ? isAboveLarge : false;
 
   return (
