@@ -158,11 +158,14 @@ const Donut = ({
   linearGradientId,
   name,
 }: DonutProps) => {
+  const { isWindowWidthAboveOrBetweenThreshold } = useDeviceContext();
+  const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(1450);
+  const aboveLarge = isAboveLarge ? isAboveLarge : false;
+
   const [counter, setCounter] = React.useState(0);
   const counterComplete = counter === percentageFill;
-  const STROKE_DASHARRAY = 440;
+  const STROKE_DASHARRAY = aboveLarge ? 440 : 340;
   const DECIMAL = percentageFill / 100;
-  //ex: 440-440*.65 = 154
   const STROKE_DASHOFFSET = STROKE_DASHARRAY - STROKE_DASHARRAY * DECIMAL;
 
   const circleKeyFrame = keyframes`
@@ -179,11 +182,6 @@ const Donut = ({
     },
     counterComplete || !isActive ? null : 20
   );
-
-  const { isWindowWidthAboveOrBetweenThreshold } = useDeviceContext();
-
-  const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(1450);
-  const aboveLarge = isAboveLarge ? isAboveLarge : false;
 
   return (
     <ChartContainer>
