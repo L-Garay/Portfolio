@@ -6,6 +6,8 @@ export const Section = styled.section<SectionProps>`
   min-height: ${(props) => (props.height ? `${props.height}px` : '100vh')};
   color: white;
   border-bottom: 1px solid white; // testing
+  position: relative;
+  z-index: 1;
 `;
 
 export const SectionContent = styled.div.attrs<SectionContentProps>(
@@ -26,7 +28,7 @@ export const SectionContent = styled.div.attrs<SectionContentProps>(
 `;
 
 export const SectionTitleContainer = styled.div`
-  margin: 30px 0 60px 0;
+  margin: 20px 0 60px 0;
 `;
 
 export const SectionTitle = styled.h3`

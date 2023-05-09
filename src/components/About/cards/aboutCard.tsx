@@ -188,7 +188,7 @@ const AboutCard = () => {
   const isAboveSmall = isWindowWidthAboveOrBetweenThreshold(SCREEN_SIZES.SMALL);
   const aboveSmall = isAboveSmall ? isAboveSmall : false;
 
-  const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(1350);
+  const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(1450);
   const aboveLarge = isAboveLarge ? isAboveLarge : false;
 
   const profileImg = useStaticQuery(graphql`

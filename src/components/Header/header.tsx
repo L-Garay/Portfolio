@@ -10,7 +10,7 @@ import preventScroll from '../../utils/preventScroll';
 import { useIntroContext } from '../../contexts/introContext';
 
 type SharedHeaderProps = {
-  isMobile: boolean;
+  isSmall: boolean;
 };
 
 const MobileNavContainer = styled.div`
@@ -132,8 +132,8 @@ const HomeIconContainer = styled.header<SharedHeaderProps>`
   z-index: 100;
   width: 100%;
   height: 62px;
-  top: ${(props) => (props.isMobile ? '0' : '3.5%')};
-  left: ${(props) => (props.isMobile ? '0' : '2.5%')};
+  top: ${(props) => (props.isSmall ? '0' : '3.5%')};
+  left: ${(props) => (props.isSmall ? '0' : '2.5%')};
 `;
 
 type IconWrapperProps = SharedHeaderProps & {
@@ -147,9 +147,9 @@ const IconWrapper = styled.div<IconWrapperProps>`
   align-items: center;
   border: 2px solid ${theme.colors.BLUE_1};
   border-radius: 12.5px;
-  width: ${(props) => (props.isMobile ? '60px' : '75px')};
-  height: ${(props) => (props.isMobile ? '45px' : '55px')};
-  margin: ${(props) => (props.isMobile ? 'auto auto auto 10px' : '0 auto 0 0')};
+  width: ${(props) => (props.isSmall ? '60px' : '75px')};
+  height: ${(props) => (props.isSmall ? '45px' : '55px')};
+  margin: ${(props) => (props.isSmall ? 'auto auto auto 10px' : '0 auto 0 0')};
   cursor: pointer;
   opacity: ${({ hasSeenIntro }) => (hasSeenIntro ? '1' : '0')};
   transform: ${({ hasSeenIntro }) =>
@@ -186,27 +186,27 @@ const HomeIconLetter = styled(Paragraph)<IconLetterProps>`
 `;
 
 type IconProps = {
-  isMobile: boolean;
+  isSmall: boolean;
   hasSeenIntro: boolean;
 };
 
-const Icon = ({ isMobile, hasSeenIntro }: IconProps) => {
+const Icon = ({ isSmall, hasSeenIntro }: IconProps) => {
   const [isHoveringIcon, setIsHoveringIcon] = React.useState(false);
 
   const fill = isHoveringIcon ? theme.colors.ORANGE_2 : theme.colors.BLUE_1;
 
   return (
     <IconWrapper
-      isMobile={isMobile}
+      isSmall={isSmall}
       isHovering={isHoveringIcon}
       hasSeenIntro={hasSeenIntro}
       onMouseEnter={() => setIsHoveringIcon(true)}
       onMouseLeave={() => setIsHoveringIcon(false)}
     >
-      <HomeIconLetter isMobile={isMobile} color={fill}>
+      <HomeIconLetter isSmall={isSmall} color={fill}>
         L
       </HomeIconLetter>
-      <HomeIconLetter isMobile={isMobile} color={fill}>
+      <HomeIconLetter isSmall={isSmall} color={fill}>
         G
       </HomeIconLetter>
     </IconWrapper>
@@ -218,22 +218,20 @@ const Header = () => {
   const { hasSeenIntro } = useIntroContext();
   const { isWindowWidthAboveOrBetweenThreshold } = useDeviceContext();
 
-  const isAboveMobile = isWindowWidthAboveOrBetweenThreshold(
-    SCREEN_SIZES.MOBILE
-  );
-  const isMobile = !isAboveMobile;
+  const isAboveSmall = isWindowWidthAboveOrBetweenThreshold(SCREEN_SIZES.SMALL);
+  const isSmall = !isAboveSmall;
 
   React.useEffect(() => {
-    if (isAboveMobile) {
+    if (isAboveSmall) {
       setIsMenuOpen(false);
     }
-  }, [isAboveMobile]);
+  }, [isAboveSmall]);
 
   return (
-    <HomeIconContainer id="header" isMobile={isMobile}>
-      {isMobile ? (
+    <HomeIconContainer id="header" isSmall={isSmall}>
+      {isSmall ? (
         <MobileNavContainer>
-          <Icon isMobile={isMobile} hasSeenIntro={hasSeenIntro} />
+          <Icon isSmall={isSmall} hasSeenIntro={hasSeenIntro} />
           <Hamburger
             isMenuOpen={isMenuOpen}
             setIsMenuOpen={setIsMenuOpen}
@@ -349,7 +347,7 @@ const Header = () => {
           </MobileMenu>
         </MobileNavContainer>
       ) : (
-        <Icon isMobile={isMobile} hasSeenIntro={hasSeenIntro} />
+        <Icon isSmall={isSmall} hasSeenIntro={hasSeenIntro} />
       )}
     </HomeIconContainer>
   );

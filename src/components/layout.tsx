@@ -24,17 +24,14 @@ const Footer = styled.div`
 
 const Layout = ({ pageTitle, children }: Record<string, any>) => {
   const { isWindowWidthAboveOrBetweenThreshold } = useDeviceContext();
-  const isAboveMobile = isWindowWidthAboveOrBetweenThreshold(
-    SCREEN_SIZES.MOBILE
-  );
-  const isMobile = !isAboveMobile;
+  const isAboveSmall = isWindowWidthAboveOrBetweenThreshold(SCREEN_SIZES.SMALL);
   return (
     <>
       <Header />
       <Main id="main">
-        {isMobile ? null : <SocialLinks />}
+        {isAboveSmall ? <SocialLinks /> : null}
         {children}
-        {isMobile ? null : <SiteLinks />}
+        {isAboveSmall ? <SiteLinks /> : null}
         <Footer id="footer" role="contentinfo">
           <div className="footer-content">
             <small>copyright Logan Garay</small>

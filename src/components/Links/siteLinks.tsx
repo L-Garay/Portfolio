@@ -8,6 +8,7 @@ const SiteLinksContainer = styled.div`
   position: fixed;
   bottom: 35%;
   right: 0;
+  z-index: 10;
 `;
 
 type TransformWrapperProps = {

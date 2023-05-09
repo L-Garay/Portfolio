@@ -18,20 +18,62 @@ export type SkillsProps = {
   shouldChangeFlexDirection?: boolean;
 };
 
+type BorderProps = {
+  isAbove925?: boolean;
+  isAboveLarge?: boolean;
+};
+
+const BottomLeftBorder = styled.div<BorderProps>`
+  position: absolute;
+  bottom: 2.5%;
+  left: 8.5%;
+  z-index: -1;
+  ${({ isAbove925 }) => {
+    if (isAbove925) {
+      return `
+      height: 45%;
+      width: 1%;
+      border-left: 1px solid ${theme.colors.ORANGE_1};
+      `;
+    } else {
+      return `
+        height: 0;
+        width: 0;
+        border: none;
+      `;
+    }
+  }}
+`;
+
+const TopRightBorder = styled.div<BorderProps>`
+  position: absolute;
+  top: 2.5%;
+  height: 45%;
+  width: 1%;
+  border-right: 1px solid ${theme.colors.ORANGE_1};
+  z-index: -1;
+  ${({ isAbove925, isAboveLarge }) => {
+    if (isAboveLarge) {
+      return `
+        right: 8.5%;
+      `;
+    } else if (isAbove925) {
+      return `
+        right: 9.5%;
+      `;
+    } else {
+      return `
+        height: 0;
+        width: 0;
+        border: none;
+      `;
+    }
+  }}
+`;
+
 const SkillsContainer = styled.div<SkillsProps>`
-  /* background: lightgrey; //testing */
   position: relative;
   margin-bottom: 10px;
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 25%;
-    height: ${(props) => (props.shouldChangeFlexDirection ? '10%' : '25%')};
-    border-right: 1px solid ${theme.colors.ORANGE_1}; // testing
-    border-bottom: 1px solid ${theme.colors.ORANGE_1}; // testing
-  }
 `;
 
 const Skills = () => {
@@ -41,6 +83,7 @@ const Skills = () => {
   const isAboveMobile = isWindowWidthAboveOrBetweenThreshold(
     SCREEN_SIZES.MOBILE
   );
+  const isAbove925 = isWindowWidthAboveOrBetweenThreshold(925);
   const isAboveMedium = isWindowWidthAboveOrBetweenThreshold(
     SCREEN_SIZES.MEDIUM
   );
@@ -57,6 +100,8 @@ const Skills = () => {
 
   return (
     <Section id="skills" height={isMobile ? windowHeight : undefined}>
+      <BottomLeftBorder isAbove925={isAbove925} isAboveLarge={isAboveLarge} />
+      <TopRightBorder isAbove925={isAbove925} isAboveLarge={isAboveLarge} />
       <SectionContent isMobile={isMobile} calculatedWidth={calcluatedWidth}>
         <SkillsContainer shouldChangeFlexDirection={shouldChangeFlexDirection}>
           <SectionTitleContainer>

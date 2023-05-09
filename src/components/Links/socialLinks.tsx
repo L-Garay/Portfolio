@@ -14,6 +14,7 @@ const LinksContainer = styled.div`
   position: fixed;
   bottom: 0;
   left: 0;
+  z-index: 10;
 `;
 
 type WrapperProps = {
