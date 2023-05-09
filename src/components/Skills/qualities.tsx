@@ -4,6 +4,7 @@ import theme from '../../styles/theme';
 import { useStaticQuery, graphql } from 'gatsby';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import { SkillsProps } from '../../sections/skills';
+import { useDeviceContext } from '../../contexts/deviceContext';
 
 const QualitiesList = [
   {
@@ -30,7 +31,6 @@ const QualitiesList = [
 ];
 
 const QualitiesContainer = styled.div<SkillsProps>`
-  /* background: lightpink; //testing */
   display: flex;
   flex-direction: ${({ shouldChangeFlexDirection }) =>
     shouldChangeFlexDirection ? 'column' : 'row'};
@@ -41,8 +41,6 @@ const QualitySection = styled.div<SkillsProps>`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* border: 1px solid black; //testing */
-  /* background-color: darkolivegreen; //testing */
   ${(props) => {
     if (props.shouldChangeFlexDirection) {
       return `
@@ -60,12 +58,18 @@ const QualitySection = styled.div<SkillsProps>`
     max-width: ${(props) => {
       if (props.isAboveLarge) return '250px';
       if (props.isAboveMedium) return '200px';
-      if (props.isAboveSmall) return '150px';
+      if (props.isAboveMobile) return '150px';
       return '100px';
     }};
     margin: 10px 10px 0 10px;
     border-radius: 12.5px;
-    box-shadow: 0 15px 20px ${theme.colors.ORANGE_2}; //testing
+    box-shadow: ${({ isAboveLarge, isAboveMedium, isAboveMobile }) => {
+      if (isAboveMedium) {
+        return `0 15px 20px ${theme.colors.ORANGE_2}`;
+      } else {
+        return `0 8.5px 20px ${theme.colors.ORANGE_2}`;
+      }
+    }};
     transition: all 0.2s linear;
   }
 `;
@@ -75,25 +79,25 @@ const QualityTitle = styled.h4<SkillsProps>`
   font-size: clamp(1rem, 2vw, 1.35rem);
   color: ${theme.colors.BLUE_2};
   margin: ${(props) => {
-    if (props.isAboveLarge) return '50px 0 10px 0';
-    if (props.isAboveMedium) return '40px 0 10px 0';
-    if (props.isAboveSmall && !props.shouldChangeFlexDirection)
-      return '30px 0 10px 0';
-    if (props.isAboveSmall && props.shouldChangeFlexDirection)
-      return '30px 0 10px 0';
-    return '20px 0 10px 0';
+    if (props.isAboveMedium) return '50px 0 10px 0';
+    return '40px 0 10px 0';
   }};
   transition: all 0.2s linear;
 `;
 
-const DescriptionWrapper = styled.div<SkillsProps>`
+type DescriptionProps = SkillsProps & {
+  isAbove1450: boolean;
+};
+
+const DescriptionWrapper = styled.div<DescriptionProps>`
   display: flex;
-  align-items: center;
+  align-items: start;
+  padding-top: 10px;
   min-height: ${(props) => {
-    if (props.isAboveLarge) return '140px';
-    if (props.isAboveMedium) return '150px';
-    if (props.isAboveSmall && !props.shouldChangeFlexDirection) return '160px';
-    if (props.isAboveSmall && props.shouldChangeFlexDirection) return '80px';
+    if (props.isAbove1450) return '145px';
+    if (props.isAboveMedium) return '185px';
+    if (props.isAboveMobile && !props.shouldChangeFlexDirection) return '175px';
+    if (props.isAboveMobile && props.shouldChangeFlexDirection) return '80px';
     return '80px';
   }};
   transition: all 0.2s linear;
@@ -107,11 +111,16 @@ const QualityDescription = styled.p`
 `;
 
 const Qualities = ({
-  isAboveSmall,
+  isAboveMobile,
   isAboveMedium,
   isAboveLarge,
   shouldChangeFlexDirection,
 }: SkillsProps) => {
+  const { isWindowWidthAboveOrBetweenThreshold } = useDeviceContext();
+
+  const isAbove1450 = isWindowWidthAboveOrBetweenThreshold(1450);
+  const above1450 = isAbove1450 ? isAbove1450 : false;
+
   const imageDataQuery = graphql`
     query {
       allFile(
@@ -146,7 +155,7 @@ const Qualities = ({
           <QualitySection
             key={quality.title}
             shouldChangeFlexDirection={shouldChangeFlexDirection}
-            isAboveSmall={isAboveSmall}
+            isAboveMobile={isAboveMobile}
             isAboveMedium={isAboveMedium}
             isAboveLarge={isAboveLarge}
           >
@@ -157,7 +166,7 @@ const Qualities = ({
             <QualityTitle
               isAboveLarge={isAboveLarge}
               isAboveMedium={isAboveMedium}
-              isAboveSmall={isAboveSmall}
+              isAboveMobile={isAboveMobile}
               shouldChangeFlexDirection={shouldChangeFlexDirection}
             >
               {quality.title}
@@ -165,8 +174,9 @@ const Qualities = ({
 
             <DescriptionWrapper
               isAboveLarge={isAboveLarge}
+              isAbove1450={above1450}
               isAboveMedium={isAboveMedium}
-              isAboveSmall={isAboveSmall}
+              isAboveMobile={isAboveMobile}
               shouldChangeFlexDirection={shouldChangeFlexDirection}
             >
               <QualityDescription>{quality.description}</QualityDescription>

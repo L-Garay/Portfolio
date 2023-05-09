@@ -12,7 +12,7 @@ import theme from '../styles/theme';
 import { Languages, Qualities } from '../components/Skills/';
 
 export type SkillsProps = {
-  isAboveSmall?: boolean;
+  isAboveMobile?: boolean;
   isAboveMedium?: boolean;
   isAboveLarge?: boolean;
   shouldChangeFlexDirection?: boolean;
@@ -38,7 +38,7 @@ const Skills = () => {
   const { windowWidth, windowHeight, isWindowWidthAboveOrBetweenThreshold } =
     useDeviceContext();
 
-  const isAboveSmall = isWindowWidthAboveOrBetweenThreshold(
+  const isAboveMobile = isWindowWidthAboveOrBetweenThreshold(
     SCREEN_SIZES.MOBILE
   );
   const isAboveMedium = isWindowWidthAboveOrBetweenThreshold(
@@ -46,7 +46,7 @@ const Skills = () => {
   );
   const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(SCREEN_SIZES.LARGE);
 
-  const isMobile = !isAboveSmall;
+  const isMobile = !isAboveMobile;
 
   const widthDeduction = isAboveLarge ? 450 : isAboveMedium ? 300 : 200;
 
@@ -64,13 +64,13 @@ const Skills = () => {
           </SectionTitleContainer>
 
           <Qualities
-            isAboveSmall={isAboveSmall}
+            isAboveMobile={isAboveMobile}
             isAboveMedium={isAboveMedium}
             isAboveLarge={isAboveLarge}
             shouldChangeFlexDirection={shouldChangeFlexDirection}
           />
           <Languages
-            isAboveSmall={isAboveSmall}
+            isAboveMobile={isAboveMobile}
             isAboveMedium={isAboveMedium}
             isAboveLarge={isAboveLarge}
           />
