@@ -21,7 +21,7 @@ const IndexPage = () => {
         <Introduction />
         <Skills />
         <Experience />
-        <Journey />
+        {/* <Journey /> */}
         <CarouselProvider>
           <About />
         </CarouselProvider>
