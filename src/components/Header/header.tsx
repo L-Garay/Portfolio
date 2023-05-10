@@ -180,9 +180,15 @@ type IconLetterProps = SharedHeaderProps & {
 const HomeIconLetter = styled(Paragraph)<IconLetterProps>`
   color: ${(props) => props.color};
   transition: color 0.2s linear;
-  font-size: clamp(1.5rem, 2vw, 2.2rem);
+  font-size: ${(props) => (props.isSmall ? '1.5rem' : '2rem')};
   padding: 0;
   font-weight: 900;
+  display: inline-block;
+`;
+
+const IconLink = styled(Link)`
+  width: 100%;
+  text-align: center;
 `;
 
 type IconProps = {
@@ -203,12 +209,14 @@ const Icon = ({ isSmall, hasSeenIntro }: IconProps) => {
       onMouseEnter={() => setIsHoveringIcon(true)}
       onMouseLeave={() => setIsHoveringIcon(false)}
     >
-      <HomeIconLetter isSmall={isSmall} color={fill}>
-        L
-      </HomeIconLetter>
-      <HomeIconLetter isSmall={isSmall} color={fill}>
-        G
-      </HomeIconLetter>
+      <IconLink href="#introduction">
+        <HomeIconLetter isSmall={isSmall} color={fill}>
+          L
+        </HomeIconLetter>
+        <HomeIconLetter isSmall={isSmall} color={fill}>
+          G
+        </HomeIconLetter>
+      </IconLink>
     </IconWrapper>
   );
 };
