@@ -164,7 +164,7 @@ const Experience = () => {
           calculatedWidth={calcluatedWidth}
         >
           <SectionTitleContainer>
-            <ExperiencesTitle>02. My Experiences</ExperiencesTitle>
+            <ExperiencesTitle>03. My Experiences</ExperiencesTitle>
           </SectionTitleContainer>
 
           <ExperiencesWrapper isAboveSmall={isAboveSmall}>

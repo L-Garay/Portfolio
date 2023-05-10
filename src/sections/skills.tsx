@@ -105,7 +105,7 @@ const Skills = () => {
       <SectionContent isMobile={isMobile} calculatedWidth={calcluatedWidth}>
         <SkillsContainer shouldChangeFlexDirection={shouldChangeFlexDirection}>
           <SectionTitleContainer>
-            <SectionTitle> 01. What I'm good at</SectionTitle>
+            <SectionTitle> 02. What I'm good at</SectionTitle>
           </SectionTitleContainer>
 
           <Qualities
