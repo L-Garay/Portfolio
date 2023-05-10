@@ -26,6 +26,10 @@ const TransformWrapper = styled.div<TransformWrapperProps>`
   transition-delay: ${({ transformDelay }) => `.75s, ${transformDelay}s`};
 `;
 
+const SiteLink = styled(Link)`
+  text-shadow: 1px 1px 2px black;
+`;
+
 type SiteLinkWrapperProps = {
   isHovering: boolean;
 };
@@ -46,9 +50,12 @@ const SiteLinkWrapper = styled.div<SiteLinkWrapperProps>`
     if (props.isHovering) {
       return `
         border-radius: 0 12.5px 12.5px 0;
-        background-color: ${theme.colors.BLUE_5_TRANSPARENT};
+        background-color: ${theme.colors.BLUE_5};
         border: 1px solid ${theme.colors.BLUE_1};
         transition: all .5s linear;
+        ${SiteLink} {
+          color: ${theme.colors.ORANGE_1};
+        }
       `;
     } else
       return `
@@ -59,8 +66,6 @@ const SiteLinkWrapper = styled.div<SiteLinkWrapperProps>`
     `;
   }}
 `;
-
-const SiteLink = styled(Link)``;
 
 type SectionNameBannerProps = Pick<SiteLinkWrapperProps, 'isHovering'>;
 
@@ -84,7 +89,7 @@ const SectionNameBanner = styled.div<SectionNameBannerProps>`
       return `
         width: 150px;
         opacity: 1;
-        background-color: ${theme.colors.BLUE_5_TRANSPARENT};
+        background-color: ${theme.colors.BLUE_5};
         border: 1px solid ${theme.colors.BLUE_1};
         transition: all .5s linear;
 
@@ -114,7 +119,7 @@ const SiteLinks = () => {
 
   return (
     <SiteLinksContainer>
-      <TransformWrapper hasSeenIntro={hasSeenIntro} transformDelay={2}>
+      <TransformWrapper hasSeenIntro={hasSeenIntro} transformDelay={1.75}>
         <SiteLinkWrapper
           isHovering={isHoveringIntro}
           onMouseEnter={() => {
@@ -124,13 +129,15 @@ const SiteLinks = () => {
             setIsHoveringIntro(false);
           }}
         >
-          <SiteLink href="#introduction">01</SiteLink>
-          <SectionNameBanner isHovering={isHoveringIntro}>
-            <SectionName>Introduction</SectionName>
-          </SectionNameBanner>
+          <SiteLink href="#introduction">
+            01
+            <SectionNameBanner isHovering={isHoveringIntro}>
+              <SectionName>Introduction</SectionName>
+            </SectionNameBanner>
+          </SiteLink>
         </SiteLinkWrapper>
       </TransformWrapper>
-      <TransformWrapper hasSeenIntro={hasSeenIntro} transformDelay={1.75}>
+      <TransformWrapper hasSeenIntro={hasSeenIntro} transformDelay={1.5}>
         <SiteLinkWrapper
           isHovering={isHoveringSkills}
           onMouseEnter={() => {
@@ -140,13 +147,15 @@ const SiteLinks = () => {
             setIsHoveringSkills(false);
           }}
         >
-          <SiteLink href="#skills">02</SiteLink>
-          <SectionNameBanner isHovering={isHoveringSkills}>
-            <SectionName>Skills</SectionName>
-          </SectionNameBanner>
+          <SiteLink href="#skills">
+            02
+            <SectionNameBanner isHovering={isHoveringSkills}>
+              <SectionName>Skills</SectionName>
+            </SectionNameBanner>
+          </SiteLink>
         </SiteLinkWrapper>
       </TransformWrapper>
-      <TransformWrapper hasSeenIntro={hasSeenIntro} transformDelay={1.5}>
+      <TransformWrapper hasSeenIntro={hasSeenIntro} transformDelay={1.25}>
         <SiteLinkWrapper
           isHovering={isHoveringExperience}
           onMouseEnter={() => {
@@ -156,13 +165,15 @@ const SiteLinks = () => {
             setIsHoveringExperience(false);
           }}
         >
-          <SiteLink href="#experience">03</SiteLink>
-          <SectionNameBanner isHovering={isHoveringExperience}>
-            <SectionName>Experience</SectionName>
-          </SectionNameBanner>
+          <SiteLink href="#experience">
+            03
+            <SectionNameBanner isHovering={isHoveringExperience}>
+              <SectionName>Experience</SectionName>
+            </SectionNameBanner>
+          </SiteLink>
         </SiteLinkWrapper>
       </TransformWrapper>
-      <TransformWrapper hasSeenIntro={hasSeenIntro} transformDelay={1.25}>
+      {/* <TransformWrapper hasSeenIntro={hasSeenIntro} transformDelay={1.25}>
         <SiteLinkWrapper
           isHovering={isHoveringJourney}
           onMouseEnter={() => {
@@ -177,7 +188,7 @@ const SiteLinks = () => {
             <SectionName>Journey</SectionName>
           </SectionNameBanner>
         </SiteLinkWrapper>
-      </TransformWrapper>
+      </TransformWrapper> */}
       <TransformWrapper hasSeenIntro={hasSeenIntro} transformDelay={1}>
         <SiteLinkWrapper
           isHovering={isHoveringAbout}
@@ -188,10 +199,12 @@ const SiteLinks = () => {
             setIsHoveringAbout(false);
           }}
         >
-          <SiteLink href="#about">05</SiteLink>
-          <SectionNameBanner isHovering={isHoveringAbout}>
-            <SectionName>About</SectionName>
-          </SectionNameBanner>
+          <SiteLink href="#about">
+            04
+            <SectionNameBanner isHovering={isHoveringAbout}>
+              <SectionName>About</SectionName>
+            </SectionNameBanner>
+          </SiteLink>
         </SiteLinkWrapper>
       </TransformWrapper>
     </SiteLinksContainer>

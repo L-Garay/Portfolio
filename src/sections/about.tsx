@@ -452,7 +452,7 @@ const About = () => {
       />
       <SectionContent isMobile={isMobile} calculatedWidth={calcluatedWidth}>
         <SectionTitleContainer>
-          <AboutMeTitle>05. About Me</AboutMeTitle>
+          <AboutMeTitle>04. About Me</AboutMeTitle>
         </SectionTitleContainer>
         {above925 ? (
           <CarouselContainer>
