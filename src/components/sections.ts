@@ -5,7 +5,6 @@ import theme from '../styles/theme';
 export const Section = styled.section<SectionProps>`
   min-height: ${(props) => (props.height ? `${props.height}px` : '100vh')};
   color: white;
-  border-bottom: 1px solid white; // testing
   position: relative;
   z-index: 1;
 `;
