@@ -15,7 +15,7 @@ const ITEM_CONFIG = [
   {
     index: 1,
     name: 'item 2',
-    element: () => BarCard,
+    element: () => ContactCard,
   },
   {
     index: 2,
@@ -25,7 +25,7 @@ const ITEM_CONFIG = [
   {
     index: 3,
     name: 'item 4',
-    element: () => ContactCard,
+    element: () => BarCard,
   },
 ];
 

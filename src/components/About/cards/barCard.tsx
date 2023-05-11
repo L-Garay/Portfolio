@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Bar } from '../charts';
-import { barChartTwoData } from '../../../utils/configs/aboutConfigs';
+import { BarChartFMConfig } from '../../../utils/configs/aboutConfigs';
 import SCREEN_SIZES from '../../../constants/screenSizes';
 import { useDeviceContext } from '../../../contexts/deviceContext';
 import theme from '../../../styles/theme';
@@ -233,7 +233,7 @@ const BarCard = ({ isActive }: BarCardProps) => {
               </ChartKey>
             </Column1>
             <Column2>
-              <Bar barData={barChartTwoData} isActive={isActive} />
+              <Bar barData={BarChartFMConfig} isActive={isActive} />
             </Column2>
           </>
         ) : (
@@ -285,7 +285,7 @@ const BarCard = ({ isActive }: BarCardProps) => {
               </ChartKey>
             </Row2>
             <Row3>
-              <Bar barData={barChartTwoData} isActive={isActive} />
+              <Bar barData={BarChartFMConfig} isActive={isActive} />
             </Row3>
           </>
         )}

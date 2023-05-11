@@ -511,10 +511,10 @@ const About = () => {
               </OverflowContainer>
             </CarouselWrapper>
             <ButtonWrapper>
-              <CarouselButton onClick={() => prevAction()}>
+              <CarouselButton onClick={() => nextAction()}>
                 Previous
               </CarouselButton>
-              <CarouselButton onClick={() => nextAction()}>Next</CarouselButton>
+              <CarouselButton onClick={() => prevAction()}>Next</CarouselButton>
             </ButtonWrapper>
           </CarouselContainer>
         ) : (
