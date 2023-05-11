@@ -21,6 +21,7 @@ const EXPERIENCES_DETAILS = [
   },
   {
     title: 'Software Developer @ Downwrite, Inc',
+    subTitle: '(Contract via Foundry Interactive)',
     dates: 'April 2021 - March 2022',
     listItems: [
       `A small music startup where I helped oversee the launch of their new MVP website`,
@@ -35,6 +36,7 @@ const EXPERIENCES_DETAILS = [
   },
   {
     title: 'Fronted Developer @ Hinge Health',
+    subTitle: '(Contract via Foundry Interactive)',
     dates: 'April - September 2022',
     listItems: [
       `Embedded with an internal team of 6 responsible for the company's onboarding application for their healthcare services`,
@@ -85,6 +87,10 @@ const DetailsTitle = styled(Paragraph)<ExperiencesProps>`
   letter-spacing: -1px;
   font-size: clamp(1.0625rem, 2vw, 1.25rem);
 `;
+
+const DetailsSubTitle = styled(Paragraph)<ExperiencesProps>`
+  font-size: clamp(0.75rem, 0.7vw, 1rem);
+`;
 const DetailsDates = styled(Paragraph)<ExperiencesProps>`
   font-size: clamp(0.9rem, 1vw, 1rem);
   color: ${theme.colors.ORANGE_2};
@@ -100,10 +106,14 @@ const DescriptionListItem = styled.li<ExperiencesProps>`
   margin-bottom: 10px;
 `;
 
+type TitleLinkProps = {
+  bgSize: string;
+};
+
 const TitleLink = styled.a.attrs({
   target: '_blank',
   rel: 'noopener noreferrer',
-})`
+})<TitleLinkProps>`
   color: ${theme.colors.BLUE_1};
   text-decoration: none;
   border-radius: 0;
@@ -112,7 +122,7 @@ const TitleLink = styled.a.attrs({
       rgb(252, 114, 80) 2px
     ),
     linear-gradient(transparent calc(100% - 2px), transparent 2px);
-  background-size: 0% 6px, 100% 6px;
+  background-size: ${({ bgSize }) => `0 ${bgSize}, 100% ${bgSize}`};
   background-repeat: no-repeat;
   background-position: 0 bottom, 0 bottom;
   transition: all 1s cubic-bezier(0.23, 1, 0.32, 1);
@@ -120,7 +130,8 @@ const TitleLink = styled.a.attrs({
   width: calc(100%);
 
   &:hover {
-    background-size: 100% 6px, 100% 6px;
+    background-size: ${({ bgSize }) => `100% ${bgSize}, 100% ${bgSize}`};
+
     cursor: pointer;
   }
 `;
@@ -142,7 +153,22 @@ const Details = ({ isAboveSmall, currentButtonId }: DetailsProps) => {
   const role = selectedExperience.title.split('@')[0];
   const companyName = selectedExperience.title.split('@')[1];
   const styledName = (
-    <TitleLink href={selectedExperience.siteLink}>{companyName}</TitleLink>
+    <TitleLink href={selectedExperience.siteLink} bgSize="6px">
+      {companyName}
+    </TitleLink>
+  );
+
+  const contract = selectedExperience.subTitle
+    ? selectedExperience.subTitle.split(' ').slice(0, 2).join(' ')
+    : '';
+  console.log(contract);
+  const foundry = selectedExperience.subTitle
+    ? selectedExperience.subTitle.split('via')[1]
+    : '';
+  const styledFoundry = (
+    <TitleLink href="https://foundryinteractive.com" bgSize="3px">
+      {foundry}
+    </TitleLink>
   );
 
   return (
@@ -151,6 +177,12 @@ const Details = ({ isAboveSmall, currentButtonId }: DetailsProps) => {
         <DetailsTitle isAboveSmall={isAboveSmall}>
           {role} @ {styledName}
         </DetailsTitle>
+        {selectedExperience.subTitle ? (
+          <DetailsSubTitle isAboveSmall={isAboveSmall}>
+            {contract} {styledFoundry}
+          </DetailsSubTitle>
+        ) : null}
+
         <DetailsDates isAboveSmall={isAboveSmall}>
           {selectedExperience.dates}
         </DetailsDates>
