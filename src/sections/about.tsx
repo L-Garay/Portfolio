@@ -441,6 +441,7 @@ const About = () => {
     <Section
       id="about"
       height={isMobile ? windowHeight : undefined}
+      marginTop={isAboveSmall ? 225 : 0}
       style={{ paddingBottom: 80 }}
     >
       <TopLeftBorder isAbove925={isAbove925} isAboveMobile={isAboveMobile} />

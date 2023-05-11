@@ -4,9 +4,11 @@ import theme from '../styles/theme';
 
 export const Section = styled.section<SectionProps>`
   min-height: ${(props) => (props.height ? `${props.height}px` : '100vh')};
+  margin-top: ${(props) => (props.marginTop ? `${props.marginTop}px` : '0')};
   color: white;
   position: relative;
   z-index: 1;
+  /* border-bottom: 1px solid white; // test */
 `;
 
 export const SectionContent = styled.div.attrs<SectionContentProps>(

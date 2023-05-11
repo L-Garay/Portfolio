@@ -2,6 +2,7 @@ import { SVGProps } from 'react';
 
 export type SectionProps = {
   height?: number;
+  marginTop?: number;
 };
 
 export type SectionContentProps = {

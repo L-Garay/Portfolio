@@ -24,7 +24,7 @@ type BorderProps = {
 
 const BottomLeftBorder = styled.div<BorderProps>`
   position: absolute;
-  bottom: 10%;
+  bottom: 13.5%;
   left: 15%;
   border-left: 1px solid ${theme.colors.ORANGE_1};
   border-bottom: 1px solid ${theme.colors.ORANGE_1};
@@ -61,7 +61,7 @@ const BottomLeftBorder = styled.div<BorderProps>`
 
 const TopRightBorder = styled.div<BorderProps>`
   position: absolute;
-  top: 7.5%;
+  top: 5%;
   right: 15%;
   border-right: 1px solid ${theme.colors.ORANGE_1};
   border-top: 1px solid ${theme.colors.ORANGE_1};
@@ -76,7 +76,7 @@ const TopRightBorder = styled.div<BorderProps>`
       return `
         height: 20%;
         width: 15%;
-        top: 10%;
+        top: 7%;
         right: 10%;
       `;
     } else if (isAbove925) {
@@ -147,7 +147,11 @@ const Experience = () => {
   const shouldChangeFlexDirection = windowWidth < flexWidthCutOff;
 
   return (
-    <Section id="experience" height={isMobile ? windowHeight : undefined}>
+    <Section
+      id="experience"
+      height={isMobile ? windowHeight : undefined}
+      marginTop={isAboveSmall ? 225 : 0}
+    >
       <BottomLeftBorder
         isAbove925={isAbove925}
         isAboveMedium={isAboveMedium}
