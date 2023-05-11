@@ -3,6 +3,7 @@ import { SVGProps } from 'react';
 export type SectionProps = {
   height?: number;
   marginTop?: number;
+  ref?: React.ForwardedRef<HTMLDivElement>;
 };
 
 export type SectionContentProps = {
@@ -21,4 +22,8 @@ export type SharedPageProps = {
 export type CustomSVGProps = SVGProps<SVGSVGElement> & {
   fill?: string;
   id?: string;
+};
+
+export type InViewProps = {
+  inView: boolean;
 };

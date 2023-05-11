@@ -9,7 +9,7 @@ import {
 import { useDeviceContext } from '../contexts/deviceContext';
 import SCREEN_SIZES from '../constants/screenSizes';
 import theme from '../styles/theme';
-import { SharedPageProps } from '../constants/sharedTypes';
+import { InViewProps, SharedPageProps } from '../constants/sharedTypes';
 import { Details, Menu } from '../components/Experiences/';
 
 export type ExperiencesProps = SharedPageProps & {
@@ -114,78 +114,85 @@ const ExperiencesWrapper = styled.div<ExperiencesProps>`
   transition: all 0.2s linear;
 `;
 
-const Experience = () => {
-  const [currentButtonId, setCurrentButtonId] = React.useState<string>(
-    'hinge-health-button'
-  );
-  const { windowWidth, windowHeight, isWindowWidthAboveOrBetweenThreshold } =
-    useDeviceContext();
+const Experience = React.forwardRef<HTMLDivElement, InViewProps>(
+  ({ inView }, ref) => {
+    const [currentButtonId, setCurrentButtonId] = React.useState<string>(
+      'hinge-health-button'
+    );
+    const { windowWidth, windowHeight, isWindowWidthAboveOrBetweenThreshold } =
+      useDeviceContext();
 
-  const isAboveMobile = isWindowWidthAboveOrBetweenThreshold(
-    SCREEN_SIZES.MOBILE
-  );
-  const isAboveSmall = isWindowWidthAboveOrBetweenThreshold(SCREEN_SIZES.SMALL);
-  const isAbove925 = isWindowWidthAboveOrBetweenThreshold(925);
-  const isAboveMedium = isWindowWidthAboveOrBetweenThreshold(
-    SCREEN_SIZES.MEDIUM
-  );
-  const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(SCREEN_SIZES.LARGE);
+    const isAboveMobile = isWindowWidthAboveOrBetweenThreshold(
+      SCREEN_SIZES.MOBILE
+    );
+    const isAboveSmall = isWindowWidthAboveOrBetweenThreshold(
+      SCREEN_SIZES.SMALL
+    );
+    const isAbove925 = isWindowWidthAboveOrBetweenThreshold(925);
+    const isAboveMedium = isWindowWidthAboveOrBetweenThreshold(
+      SCREEN_SIZES.MEDIUM
+    );
+    const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(
+      SCREEN_SIZES.LARGE
+    );
 
-  const isMobile = !isAboveSmall;
+    const isMobile = !isAboveSmall;
 
-  const widthDeduction = isAboveLarge
-    ? 650
-    : isAboveMedium
-    ? 300
-    : isAboveMobile
-    ? 200
-    : 100;
+    const widthDeduction = isAboveLarge
+      ? 650
+      : isAboveMedium
+      ? 300
+      : isAboveMobile
+      ? 200
+      : 100;
 
-  const calcluatedWidth = windowWidth - widthDeduction;
+    const calcluatedWidth = windowWidth - widthDeduction;
 
-  const flexWidthCutOff = SCREEN_SIZES.SMALL + 75;
-  const shouldChangeFlexDirection = windowWidth < flexWidthCutOff;
+    const flexWidthCutOff = SCREEN_SIZES.SMALL + 75;
+    const shouldChangeFlexDirection = windowWidth < flexWidthCutOff;
 
-  return (
-    <Section
-      id="experience"
-      height={isMobile ? windowHeight : undefined}
-      marginTop={isAboveSmall ? 225 : 0}
-    >
-      <BottomLeftBorder
-        isAbove925={isAbove925}
-        isAboveMedium={isAboveMedium}
-        isAboveLarge={isAboveLarge}
-      />
-      <TopRightBorder
-        isAbove925={isAbove925}
-        isAboveMedium={isAboveMedium}
-        isAboveLarge={isAboveLarge}
-      />
-      <SectionContent isMobile={isMobile} calculatedWidth={calcluatedWidth}>
-        <ExperiencesContainer
-          shouldChangeFlexDirection={shouldChangeFlexDirection}
-          calculatedWidth={calcluatedWidth}
-        >
-          <SectionTitleContainer>
-            <ExperiencesTitle>03. My Experiences</ExperiencesTitle>
-          </SectionTitleContainer>
+    return (
+      <Section
+        id="experience"
+        height={isMobile ? windowHeight : undefined}
+        marginTop={isAboveSmall ? 225 : 0}
+        ref={ref}
+      >
+        <BottomLeftBorder
+          isAbove925={isAbove925}
+          isAboveMedium={isAboveMedium}
+          isAboveLarge={isAboveLarge}
+        />
+        <TopRightBorder
+          isAbove925={isAbove925}
+          isAboveMedium={isAboveMedium}
+          isAboveLarge={isAboveLarge}
+        />
+        <SectionContent isMobile={isMobile} calculatedWidth={calcluatedWidth}>
+          <ExperiencesContainer
+            shouldChangeFlexDirection={shouldChangeFlexDirection}
+            calculatedWidth={calcluatedWidth}
+          >
+            <SectionTitleContainer>
+              <ExperiencesTitle>03. My Experiences</ExperiencesTitle>
+            </SectionTitleContainer>
 
-          <ExperiencesWrapper isAboveSmall={isAboveSmall}>
-            <Menu
-              isAboveSmall={isAboveSmall}
-              setCurrentButtonId={setCurrentButtonId}
-              currentButtonId={currentButtonId}
-            />
-            <Details
-              isAboveSmall={isAboveSmall}
-              currentButtonId={currentButtonId}
-            />
-          </ExperiencesWrapper>
-        </ExperiencesContainer>
-      </SectionContent>
-    </Section>
-  );
-};
+            <ExperiencesWrapper isAboveSmall={isAboveSmall}>
+              <Menu
+                isAboveSmall={isAboveSmall}
+                setCurrentButtonId={setCurrentButtonId}
+                currentButtonId={currentButtonId}
+              />
+              <Details
+                isAboveSmall={isAboveSmall}
+                currentButtonId={currentButtonId}
+              />
+            </ExperiencesWrapper>
+          </ExperiencesContainer>
+        </SectionContent>
+      </Section>
+    );
+  }
+);
 
 export default Experience;

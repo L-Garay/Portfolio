@@ -10,6 +10,7 @@ import { useDeviceContext } from '../contexts/deviceContext';
 import SCREEN_SIZES from '../constants/screenSizes';
 import theme from '../styles/theme';
 import { Languages, Qualities } from '../components/Skills/';
+import { InViewProps } from '../constants/sharedTypes';
 
 export type SkillsProps = {
   isAboveMobile?: boolean;
@@ -76,53 +77,64 @@ const SkillsContainer = styled.div<SkillsProps>`
   margin-bottom: 10px;
 `;
 
-const Skills = () => {
-  const { windowWidth, windowHeight, isWindowWidthAboveOrBetweenThreshold } =
-    useDeviceContext();
+const Skills = React.forwardRef<HTMLDivElement, InViewProps>(
+  ({ inView }, ref) => {
+    console.log(inView, 'inView');
+    const { windowWidth, windowHeight, isWindowWidthAboveOrBetweenThreshold } =
+      useDeviceContext();
 
-  const isAboveMobile = isWindowWidthAboveOrBetweenThreshold(
-    SCREEN_SIZES.MOBILE
-  );
-  const isAbove925 = isWindowWidthAboveOrBetweenThreshold(925);
-  const isAboveMedium = isWindowWidthAboveOrBetweenThreshold(
-    SCREEN_SIZES.MEDIUM
-  );
-  const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(SCREEN_SIZES.LARGE);
+    const isAboveMobile = isWindowWidthAboveOrBetweenThreshold(
+      SCREEN_SIZES.MOBILE
+    );
+    const isAbove925 = isWindowWidthAboveOrBetweenThreshold(925);
+    const isAboveMedium = isWindowWidthAboveOrBetweenThreshold(
+      SCREEN_SIZES.MEDIUM
+    );
+    const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(
+      SCREEN_SIZES.LARGE
+    );
 
-  const isMobile = !isAboveMobile;
+    const isMobile = !isAboveMobile;
 
-  const widthDeduction = isAboveLarge ? 450 : isAboveMedium ? 300 : 200;
+    const widthDeduction = isAboveLarge ? 450 : isAboveMedium ? 300 : 200;
 
-  const calcluatedWidth = windowWidth - widthDeduction;
+    const calcluatedWidth = windowWidth - widthDeduction;
 
-  const flexWidthCutOff = SCREEN_SIZES.SMALL + 75;
-  const shouldChangeFlexDirection = windowWidth < flexWidthCutOff;
+    const flexWidthCutOff = SCREEN_SIZES.SMALL + 75;
+    const shouldChangeFlexDirection = windowWidth < flexWidthCutOff;
 
-  return (
-    <Section id="skills" height={isMobile ? windowHeight : undefined}>
-      <BottomLeftBorder isAbove925={isAbove925} isAboveLarge={isAboveLarge} />
-      <TopRightBorder isAbove925={isAbove925} isAboveLarge={isAboveLarge} />
-      <SectionContent isMobile={isMobile} calculatedWidth={calcluatedWidth}>
-        <SkillsContainer shouldChangeFlexDirection={shouldChangeFlexDirection}>
-          <SectionTitleContainer>
-            <SectionTitle> 02. What I'm good at</SectionTitle>
-          </SectionTitleContainer>
-
-          <Qualities
-            isAboveMobile={isAboveMobile}
-            isAboveMedium={isAboveMedium}
-            isAboveLarge={isAboveLarge}
+    return (
+      <Section
+        id="skills"
+        height={isMobile ? windowHeight : undefined}
+        ref={ref}
+      >
+        <BottomLeftBorder isAbove925={isAbove925} isAboveLarge={isAboveLarge} />
+        <TopRightBorder isAbove925={isAbove925} isAboveLarge={isAboveLarge} />
+        <SectionContent isMobile={isMobile} calculatedWidth={calcluatedWidth}>
+          <SkillsContainer
             shouldChangeFlexDirection={shouldChangeFlexDirection}
-          />
-          <Languages
-            isAboveMobile={isAboveMobile}
-            isAboveMedium={isAboveMedium}
-            isAboveLarge={isAboveLarge}
-          />
-        </SkillsContainer>
-      </SectionContent>
-    </Section>
-  );
-};
+          >
+            <SectionTitleContainer>
+              <SectionTitle> 02. What I'm good at</SectionTitle>
+            </SectionTitleContainer>
+
+            <Qualities
+              isAboveMobile={isAboveMobile}
+              isAboveMedium={isAboveMedium}
+              isAboveLarge={isAboveLarge}
+              shouldChangeFlexDirection={shouldChangeFlexDirection}
+            />
+            <Languages
+              isAboveMobile={isAboveMobile}
+              isAboveMedium={isAboveMedium}
+              isAboveLarge={isAboveLarge}
+            />
+          </SkillsContainer>
+        </SectionContent>
+      </Section>
+    );
+  }
+);
 
 export default Skills;
