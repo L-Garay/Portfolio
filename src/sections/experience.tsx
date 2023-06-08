@@ -17,6 +17,7 @@ export type ExperiencesProps = SharedPageProps & {
 };
 
 type BorderProps = {
+  inView: boolean;
   isAbove925?: boolean;
   isAboveMedium?: boolean;
   isAboveLarge?: boolean;
@@ -57,6 +58,20 @@ const BottomLeftBorder = styled.div<BorderProps>`
       `;
     }
   }}
+  ${({ inView }) => {
+    if (inView) {
+      return `
+        opacity: 1;
+        transform: translateX(0);
+      `;
+    } else {
+      return `
+        opacity: 0;
+        transform: translateX(-50px);
+      `;
+    }
+  }}
+  transition: opacity 0.75s linear 0.25s, transform 0.75s linear 0.25s;
 `;
 
 const TopRightBorder = styled.div<BorderProps>`
@@ -93,6 +108,20 @@ const TopRightBorder = styled.div<BorderProps>`
       `;
     }
   }}
+  ${({ inView }) => {
+    if (inView) {
+      return `
+        opacity: 1;
+        transform: translateX(0);
+      `;
+    } else {
+      return `
+        opacity: 0;
+        transform: translateX(50px);
+      `;
+    }
+  }}
+  transition: opacity 0.75s linear 0.25s, transform 0.75s linear 0.25s;
 `;
 
 const ExperiencesContainer = styled.div<ExperiencesProps>`
@@ -102,20 +131,48 @@ const ExperiencesContainer = styled.div<ExperiencesProps>`
   flex-direction: column;
 `;
 
-const ExperiencesTitle = styled(SectionTitle)`
+const StyledSectionTitle = styled(SectionTitle)<InViewProps>`
   text-align: start;
+  ${({ inView }) => {
+    if (inView) {
+      return `
+        opacity: 1;
+        transform: translateY(0);
+      `;
+    } else {
+      return `
+        opacity: 0;
+        transform: translateY(-50px);
+      `;
+    }
+  }}
+  transition: all 0.75s linear 0.25s;
 `;
 
-const ExperiencesWrapper = styled.div<ExperiencesProps>`
+const ExperiencesWrapper = styled.div<ExperiencesProps & InViewProps>`
   display: flex;
   flex-direction: ${(props) => (props.isAboveSmall ? 'row' : 'column')};
   justify-content: end;
   max-width: 820px;
-  transition: all 0.2s linear;
+  ${({ inView }) => {
+    if (inView) {
+      return `
+      opacity: 1;
+      transform: translateY(0);
+      `;
+    } else {
+      return `
+      opacity: 0;
+      transform: translateY(50px);
+      `;
+    }
+  }}
+  transition: all 0.75s linear 0.25s;
 `;
 
 const Experience = React.forwardRef<HTMLDivElement, InViewProps>(
   ({ inView }, ref) => {
+    console.log('experience in view', inView);
     const [currentButtonId, setCurrentButtonId] = React.useState<string>(
       'hinge-health-button'
     );
@@ -159,11 +216,13 @@ const Experience = React.forwardRef<HTMLDivElement, InViewProps>(
         ref={ref}
       >
         <BottomLeftBorder
+          inView={inView}
           isAbove925={isAbove925}
           isAboveMedium={isAboveMedium}
           isAboveLarge={isAboveLarge}
         />
         <TopRightBorder
+          inView={inView}
           isAbove925={isAbove925}
           isAboveMedium={isAboveMedium}
           isAboveLarge={isAboveLarge}
@@ -174,10 +233,12 @@ const Experience = React.forwardRef<HTMLDivElement, InViewProps>(
             calculatedWidth={calcluatedWidth}
           >
             <SectionTitleContainer>
-              <ExperiencesTitle>03. My Experiences</ExperiencesTitle>
+              <StyledSectionTitle inView={inView}>
+                03. My Experiences
+              </StyledSectionTitle>
             </SectionTitleContainer>
 
-            <ExperiencesWrapper isAboveSmall={isAboveSmall}>
+            <ExperiencesWrapper isAboveSmall={isAboveSmall} inView={inView}>
               <Menu
                 isAboveSmall={isAboveSmall}
                 setCurrentButtonId={setCurrentButtonId}
