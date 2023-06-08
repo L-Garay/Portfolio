@@ -14,12 +14,15 @@ import { InViewProps } from '../constants/sharedTypes';
 
 export type SkillsProps = {
   isAboveMobile?: boolean;
+  isAboveSmall?: boolean;
   isAboveMedium?: boolean;
   isAboveLarge?: boolean;
   shouldChangeFlexDirection?: boolean;
+  inView?: boolean;
 };
 
 type BorderProps = {
+  inView: boolean;
   isAbove925?: boolean;
   isAboveLarge?: boolean;
 };
@@ -44,6 +47,20 @@ const BottomLeftBorder = styled.div<BorderProps>`
       `;
     }
   }}
+  ${({ inView }) => {
+    if (inView) {
+      return `
+        opacity: 1;
+        transform: translateY(0);
+      `;
+    } else {
+      return `
+        opacity: 0;
+        transform: translateY(50px);
+      `;
+    }
+  }}
+  transition: opacity 0.75s linear 0.25s, transform 0.75s linear 0.25s;
 `;
 
 const TopRightBorder = styled.div<BorderProps>`
@@ -70,6 +87,20 @@ const TopRightBorder = styled.div<BorderProps>`
       `;
     }
   }}
+  ${({ inView }) => {
+    if (inView) {
+      return `
+        opacity: 1;
+        transform: translateY(0);
+      `;
+    } else {
+      return `
+        opacity: 0;
+        transform: translateY(-50px);
+      `;
+    }
+  }}
+  transition: opacity 0.75s linear 0.25s, transform 0.75s linear 0.25s;
 `;
 
 const SkillsContainer = styled.div<SkillsProps>`
@@ -77,9 +108,26 @@ const SkillsContainer = styled.div<SkillsProps>`
   margin-bottom: 10px;
 `;
 
+const StyledSectionTitle = styled(SectionTitle)<InViewProps>`
+  ${({ inView }) => {
+    if (inView) {
+      return `
+        opacity: 1;
+        transform: translateX(0);
+      `;
+    } else {
+      return `
+        opacity: 0;
+        transform: translateX(-50px);
+      `;
+    }
+  }};
+  transition: all 0.5s linear 0.25s;
+`;
+
 const Skills = React.forwardRef<HTMLDivElement, InViewProps>(
   ({ inView }, ref) => {
-    console.log(inView, 'inView');
+    console.log('skills in view', inView);
     const { windowWidth, windowHeight, isWindowWidthAboveOrBetweenThreshold } =
       useDeviceContext();
 
@@ -109,14 +157,25 @@ const Skills = React.forwardRef<HTMLDivElement, InViewProps>(
         height={isMobile ? windowHeight : undefined}
         ref={ref}
       >
-        <BottomLeftBorder isAbove925={isAbove925} isAboveLarge={isAboveLarge} />
-        <TopRightBorder isAbove925={isAbove925} isAboveLarge={isAboveLarge} />
+        <BottomLeftBorder
+          inView={inView}
+          isAbove925={isAbove925}
+          isAboveLarge={isAboveLarge}
+        />
+        <TopRightBorder
+          inView={inView}
+          isAbove925={isAbove925}
+          isAboveLarge={isAboveLarge}
+        />
         <SectionContent isMobile={isMobile} calculatedWidth={calcluatedWidth}>
           <SkillsContainer
             shouldChangeFlexDirection={shouldChangeFlexDirection}
           >
             <SectionTitleContainer>
-              <SectionTitle> 02. What I'm good at</SectionTitle>
+              <StyledSectionTitle inView={inView}>
+                {' '}
+                02. What I'm good at
+              </StyledSectionTitle>
             </SectionTitleContainer>
 
             <Qualities
@@ -124,11 +183,13 @@ const Skills = React.forwardRef<HTMLDivElement, InViewProps>(
               isAboveMedium={isAboveMedium}
               isAboveLarge={isAboveLarge}
               shouldChangeFlexDirection={shouldChangeFlexDirection}
+              inView={inView}
             />
             <Languages
               isAboveMobile={isAboveMobile}
               isAboveMedium={isAboveMedium}
               isAboveLarge={isAboveLarge}
+              inView={inView}
             />
           </SkillsContainer>
         </SectionContent>

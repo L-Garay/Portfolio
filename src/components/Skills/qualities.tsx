@@ -34,6 +34,20 @@ const QualitiesContainer = styled.div<SkillsProps>`
   display: flex;
   flex-direction: ${({ shouldChangeFlexDirection }) =>
     shouldChangeFlexDirection ? 'column' : 'row'};
+  ${({ inView }) => {
+    if (inView) {
+      return `
+        opacity: 1;
+        transform: translateY(0);
+      `;
+    } else {
+      return `
+        opacity: 0;
+        transform: translateY(-50px);
+      `;
+    }
+  }};
+  transition: all 0.75s linear 0.25s;
 `;
 
 const QualitySection = styled.div<SkillsProps>`
@@ -115,6 +129,7 @@ const Qualities = ({
   isAboveMedium,
   isAboveLarge,
   shouldChangeFlexDirection,
+  inView,
 }: SkillsProps) => {
   const { isWindowWidthAboveOrBetweenThreshold } = useDeviceContext();
 
@@ -146,7 +161,10 @@ const Qualities = ({
   } = useStaticQuery(imageDataQuery);
 
   return (
-    <QualitiesContainer shouldChangeFlexDirection={shouldChangeFlexDirection}>
+    <QualitiesContainer
+      shouldChangeFlexDirection={shouldChangeFlexDirection}
+      inView={inView}
+    >
       {QualitiesList.map((quality) => {
         const img = images.find(
           (image: any) => image.node.base === quality.imgBase

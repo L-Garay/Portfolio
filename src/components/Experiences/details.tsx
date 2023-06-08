@@ -161,7 +161,6 @@ const Details = ({ isAboveSmall, currentButtonId }: DetailsProps) => {
   const contract = selectedExperience.subTitle
     ? selectedExperience.subTitle.split(' ').slice(0, 2).join(' ')
     : '';
-  console.log(contract);
   const foundry = selectedExperience.subTitle
     ? selectedExperience.subTitle.split('via')[1]
     : '';

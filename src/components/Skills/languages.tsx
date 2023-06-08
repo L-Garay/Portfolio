@@ -87,8 +87,20 @@ const LanguageContainer = styled.div<SkillsProps>`
   justify-content: space-evenly;
   width: ${({ isAboveLarge }) => (isAboveLarge ? '80%' : '100%')};
   margin: 60px auto 50px auto;
-
-  transition: all 0.2s linear;
+  ${({ inView }) => {
+    if (inView) {
+      return `
+        opacity: 1;
+        transform: translateY(0);
+      `;
+    } else {
+      return `
+        opacity: 0;
+        transform: translateY(50px);
+      `;
+    }
+  }}
+  transition: opacity 0.75s linear 0.25s, transform 0.75s linear 0.25s, width .2s linear;
 `;
 
 type ItemProps = SkillsProps & {
@@ -161,12 +173,13 @@ const Languages = ({
   isAboveLarge,
   isAboveMedium,
   isAboveSmall,
+  inView,
 }: SkillsProps) => {
   const [isHoveringIcon, setIsHoveringIcon] = React.useState<boolean>(false);
   const [currentHoverId, setCurrentHoverId] = React.useState<string>('');
 
   return (
-    <LanguageContainer isAboveLarge={isAboveLarge}>
+    <LanguageContainer isAboveLarge={isAboveLarge} inView={inView}>
       {LanguageList.map((language) => {
         return (
           <ItemLink url={language.link} key={language.name}>

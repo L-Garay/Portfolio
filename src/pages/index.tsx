@@ -17,17 +17,17 @@ const IndexPage = () => {
   defaultFallbackInView(true);
 
   const { ref: skillsRef, inView: skillsInView } = useInView({
-    threshold: 0.3,
+    threshold: 0.5,
     delay: 250,
     triggerOnce: true,
   });
   const { ref: experienceRef, inView: experienceInView } = useInView({
-    threshold: 0.3,
+    threshold: 0.5,
     delay: 250,
     triggerOnce: true,
   });
   const { ref: aboutRef, inView: aboutInView } = useInView({
-    threshold: 0.3,
+    threshold: 0.5,
     delay: 250,
     triggerOnce: true,
   });
