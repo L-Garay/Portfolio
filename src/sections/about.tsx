@@ -16,12 +16,28 @@ import {
   ContactCard,
   DonutCard,
 } from '../components/About/cards';
+import { InViewProps } from 'src/constants/sharedTypes';
 
-const AboutMeTitle = styled(SectionTitle)`
+const AboutMeTitle = styled(SectionTitle)<InViewProps>`
   text-align: start;
+  ${({ inView }) => {
+    if (inView) {
+      return `
+        opacity: 1;
+        transform: translateY(0);
+      `;
+    } else {
+      return `
+        opacity: 0;
+        transform: translateY(-50px);
+      `;
+    }
+  }}
+  transition: opacity .75s linear .25s, transform .75s linear .25s;
 `;
 
 type BorderProps = {
+  inView: boolean;
   isAboveMobile?: boolean;
   isAbove925?: boolean;
 };
@@ -47,6 +63,21 @@ const TopLeftBorder = styled.div<BorderProps>`
       `;
     }
   }}
+
+  ${({ inView }) => {
+    if (inView) {
+      return `
+        opacity: 1;
+        transform: translate(0, 0);
+      `;
+    } else {
+      return `
+        opacity: 0;
+        transform: translate(-50px, -50px);
+      `;
+    }
+  }}
+  transition: opacity .75s linear .25s, transform .75s linear .25s;
 `;
 
 const BottomLeftBorder = styled.div<BorderProps>`
@@ -70,6 +101,20 @@ const BottomLeftBorder = styled.div<BorderProps>`
       `;
     }
   }}
+  ${({ inView }) => {
+    if (inView) {
+      return `
+        opacity: 1;
+        transform: translateX(0);
+      `;
+    } else {
+      return `
+        opacity: 0;
+        transform: translateX(-50px);
+      `;
+    }
+  }}
+    transition: opacity .75s linear .25s, transform .75s linear .25s;
 `;
 
 const TopRightBorder = styled.div<BorderProps>`
@@ -93,6 +138,20 @@ const TopRightBorder = styled.div<BorderProps>`
       `;
     }
   }}
+  ${({ inView }) => {
+    if (inView) {
+      return `
+        opacity: 1;
+        transform: translate(0, 0);
+      `;
+    } else {
+      return `
+        opacity: 0;
+        transform: translate(50px, -50px);
+      `;
+    }
+  }}
+    transition: opacity .75s linear .25s, transform .75s linear .25s;
 `;
 
 const BottomRightBorder = styled.div<BorderProps>`
@@ -116,10 +175,36 @@ const BottomRightBorder = styled.div<BorderProps>`
       `;
     }
   }}
+  ${({ inView }) => {
+    if (inView) {
+      return `
+        opacity: 1;
+        transform: translateX(0);
+      `;
+    } else {
+      return `
+        opacity: 0;
+        transform: translateX(50px);
+      `;
+    }
+  }}
+    transition: opacity .75s linear .25s, transform .75s linear .25s;
 `;
 
-const CarouselContainer = styled.div`
+const CarouselContainer = styled.div<InViewProps>`
   height: 675px; // testing
+  ${({ inView }) => {
+    if (inView) {
+      return `
+        opacity: 1;
+      `;
+    } else {
+      return `
+        opacity: 0;
+      `;
+    }
+  }}
+  transition: opacity 1.25s linear .25s;
 `;
 
 type DeviceProps = {
@@ -152,33 +237,6 @@ const OverflowContainer = styled.div`
   border: 5px solid ${theme.colors.BLUE_5};
   background-color: rgb(80, 218, 252, 0.1);
   box-shadow: 0px 7.5px 20px 5px ${theme.colors.BLUE_5};
-
-  /* &:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 80px;
-    border-radius: 7.5px;
-    z-index: 1;
-    background: linear-gradient(to left, transparent, ${theme.colors.ORANGE_1});
-  }
-  &:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-    width: 80px;
-    border-radius: 7.5px;
-    z-index: 1;
-    background: linear-gradient(
-      to right,
-      transparent,
-      ${theme.colors.ORANGE_1}
-    );
-  } */
 `;
 
 const Carousel = styled.div`
@@ -384,158 +442,196 @@ const CarouselButton = styled.button`
   transition: all 0.2s linear;
 `;
 
-const StaticCardContainer = styled.div``;
+const StaticCardContainer = styled.div<InViewProps>`
+  ${({ inView }) => {
+    if (inView) {
+      return `
+        opacity: 1;
+      `;
+    } else {
+      return `
+        opacity: 0;
+      `;
+    }
+  }}
+  transition: opacity .75s linear .25s;
+`;
 
 const StaticCardWrapper = styled.div`
   margin: 30px 0;
 `;
 
-const About = () => {
-  const { windowWidth, windowHeight, isWindowWidthAboveOrBetweenThreshold } =
-    useDeviceContext();
+const About = React.forwardRef<HTMLDivElement, InViewProps>(
+  ({ inView }, ref) => {
+    const { windowWidth, windowHeight, isWindowWidthAboveOrBetweenThreshold } =
+      useDeviceContext();
 
-  const isAboveMobile = isWindowWidthAboveOrBetweenThreshold(
-    SCREEN_SIZES.MOBILE
-  );
-  const isAboveSmall = isWindowWidthAboveOrBetweenThreshold(SCREEN_SIZES.SMALL);
-  const isAboveMedium = isWindowWidthAboveOrBetweenThreshold(
-    SCREEN_SIZES.MEDIUM
-  );
-  const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(SCREEN_SIZES.LARGE);
-  const isAbove1450 = isWindowWidthAboveOrBetweenThreshold(1450);
-  const above1450 = isAbove1450 ? isAbove1450 : false;
-  const isAbove925 = isWindowWidthAboveOrBetweenThreshold(925);
-  const above925 = isAbove925 ? isAbove925 : false;
+    const isAboveMobile = isWindowWidthAboveOrBetweenThreshold(
+      SCREEN_SIZES.MOBILE
+    );
+    const isAboveSmall = isWindowWidthAboveOrBetweenThreshold(
+      SCREEN_SIZES.SMALL
+    );
+    const isAboveMedium = isWindowWidthAboveOrBetweenThreshold(
+      SCREEN_SIZES.MEDIUM
+    );
+    const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(
+      SCREEN_SIZES.LARGE
+    );
+    const isAbove1450 = isWindowWidthAboveOrBetweenThreshold(1450);
+    const above1450 = isAbove1450 ? isAbove1450 : false;
+    const isAbove925 = isWindowWidthAboveOrBetweenThreshold(925);
+    const above925 = isAbove925 ? isAbove925 : false;
 
-  const isMobile = !isAboveMobile;
+    const isMobile = !isAboveMobile;
 
-  const widthDeduction = isAboveLarge ? 450 : isAboveMedium ? 300 : 200;
+    const widthDeduction = isAboveLarge ? 450 : isAboveMedium ? 300 : 200;
 
-  const calcluatedWidth = windowWidth - widthDeduction;
+    const calcluatedWidth = windowWidth - widthDeduction;
 
-  const {
-    isAnimated,
-    action,
-    nextAction,
-    prevAction,
-    nextCloneElement,
-    nextElement,
-    animatedNextElement,
-    activeElement,
-    animatedActiveElement,
-    prevCloneElement,
-    prevElement,
-    animatedPrevElement,
-  } = useCaourselContext();
+    const {
+      isAnimated,
+      action,
+      nextAction,
+      prevAction,
+      nextCloneElement,
+      nextElement,
+      animatedNextElement,
+      activeElement,
+      animatedActiveElement,
+      prevCloneElement,
+      prevElement,
+      animatedPrevElement,
+    } = useCaourselContext();
 
-  const NextCloneElement = nextCloneElement();
-  const NextElement = nextElement();
-  const AnimatedNextElement = animatedNextElement();
-  const ActiveElment = activeElement();
-  const AnimatedActiveElement = animatedActiveElement();
-  const PrevCloneElement = prevCloneElement();
-  const PrevElement = prevElement();
-  const AnimatedPrevElement = animatedPrevElement();
+    const NextCloneElement = nextCloneElement();
+    const NextElement = nextElement();
+    const AnimatedNextElement = animatedNextElement();
+    const ActiveElment = activeElement();
+    const AnimatedActiveElement = animatedActiveElement();
+    const PrevCloneElement = prevCloneElement();
+    const PrevElement = prevElement();
+    const AnimatedPrevElement = animatedPrevElement();
 
-  return (
-    <Section
-      id="about"
-      height={isMobile ? windowHeight : undefined}
-      marginTop={isAboveSmall ? 225 : 0}
-      style={{ paddingBottom: 80 }}
-    >
-      <TopLeftBorder isAbove925={isAbove925} isAboveMobile={isAboveMobile} />
-      <BottomLeftBorder isAbove925={isAbove925} isAboveMobile={isAboveMobile} />
-      <TopRightBorder isAbove925={isAbove925} isAboveMobile={isAboveMobile} />
-      <BottomRightBorder
-        isAbove925={isAbove925}
-        isAboveMobile={isAboveMobile}
-      />
-      <SectionContent isMobile={isMobile} calculatedWidth={calcluatedWidth}>
-        <SectionTitleContainer>
-          <AboutMeTitle>04. About Me</AboutMeTitle>
-        </SectionTitleContainer>
-        {above925 ? (
-          <CarouselContainer>
-            <CarouselWrapper isAboveLarge={above1450}>
-              <OverflowContainer>
-                <Carousel>
-                  <NextItemClone
-                    action={action}
-                    isVisible={isAnimated}
-                    isAboveLarge={above1450}
-                  >
-                    <NextCloneElement />
-                  </NextItemClone>
-                  <NextItem isVisible={!isAnimated} isAboveLarge={above1450}>
-                    <NextElement />
-                  </NextItem>
-                  <AnimatedNextItem
-                    action={action}
-                    isVisible={isAnimated}
-                    isAboveLarge={above1450}
-                  >
-                    <AnimatedNextElement />
-                  </AnimatedNextItem>
-                  <ActiveItem isVisible={!isAnimated} isAboveLarge={above1450}>
-                    <ActiveElment isActive />
-                  </ActiveItem>
-                  <AnimatedActiveItem
-                    action={action}
-                    isVisible={isAnimated}
-                    isAboveLarge={above1450}
-                  >
-                    <AnimatedActiveElement />
-                  </AnimatedActiveItem>
-                  <PreviousItem
-                    isVisible={!isAnimated}
-                    isAboveLarge={above1450}
-                  >
-                    <PrevElement />
-                  </PreviousItem>
-                  <AnimatedPreviousItem
-                    action={action}
-                    isVisible={isAnimated}
-                    isAboveLarge={above1450}
-                  >
-                    <AnimatedPrevElement />
-                  </AnimatedPreviousItem>
-                  <PreviousItemClone
-                    action={action}
-                    isVisible={isAnimated}
-                    isAboveLarge={above1450}
-                  >
-                    <PrevCloneElement />
-                  </PreviousItemClone>
-                </Carousel>
-              </OverflowContainer>
-            </CarouselWrapper>
-            <ButtonWrapper>
-              <CarouselButton onClick={() => nextAction()}>
-                Previous
-              </CarouselButton>
-              <CarouselButton onClick={() => prevAction()}>Next</CarouselButton>
-            </ButtonWrapper>
-          </CarouselContainer>
-        ) : (
-          <StaticCardContainer>
-            <StaticCardWrapper>
-              <AboutCard />
-            </StaticCardWrapper>
-            <StaticCardWrapper>
-              <DonutCard isActive />
-            </StaticCardWrapper>
-            <StaticCardWrapper>
-              <BarCard isActive />
-            </StaticCardWrapper>
-            <StaticCardWrapper>
-              <ContactCard />
-            </StaticCardWrapper>
-          </StaticCardContainer>
-        )}
-      </SectionContent>
-    </Section>
-  );
-};
+    return (
+      <Section
+        id="about"
+        height={isMobile ? windowHeight : undefined}
+        marginTop={isAboveSmall ? 225 : 0}
+        style={{ paddingBottom: 80 }}
+        ref={ref}
+      >
+        <TopLeftBorder
+          inView={inView}
+          isAbove925={isAbove925}
+          isAboveMobile={isAboveMobile}
+        />
+        <BottomLeftBorder
+          inView={inView}
+          isAbove925={isAbove925}
+          isAboveMobile={isAboveMobile}
+        />
+        <TopRightBorder
+          inView={inView}
+          isAbove925={isAbove925}
+          isAboveMobile={isAboveMobile}
+        />
+        <BottomRightBorder
+          inView={inView}
+          isAbove925={isAbove925}
+          isAboveMobile={isAboveMobile}
+        />
+        <SectionContent isMobile={isMobile} calculatedWidth={calcluatedWidth}>
+          <SectionTitleContainer>
+            <AboutMeTitle inView={inView}>04. About Me</AboutMeTitle>
+          </SectionTitleContainer>
+          {above925 ? (
+            <CarouselContainer inView={inView}>
+              <CarouselWrapper isAboveLarge={above1450}>
+                <OverflowContainer>
+                  <Carousel>
+                    <NextItemClone
+                      action={action}
+                      isVisible={isAnimated}
+                      isAboveLarge={above1450}
+                    >
+                      <NextCloneElement />
+                    </NextItemClone>
+                    <NextItem isVisible={!isAnimated} isAboveLarge={above1450}>
+                      <NextElement />
+                    </NextItem>
+                    <AnimatedNextItem
+                      action={action}
+                      isVisible={isAnimated}
+                      isAboveLarge={above1450}
+                    >
+                      <AnimatedNextElement />
+                    </AnimatedNextItem>
+                    <ActiveItem
+                      isVisible={!isAnimated}
+                      isAboveLarge={above1450}
+                    >
+                      <ActiveElment isActive />
+                    </ActiveItem>
+                    <AnimatedActiveItem
+                      action={action}
+                      isVisible={isAnimated}
+                      isAboveLarge={above1450}
+                    >
+                      <AnimatedActiveElement />
+                    </AnimatedActiveItem>
+                    <PreviousItem
+                      isVisible={!isAnimated}
+                      isAboveLarge={above1450}
+                    >
+                      <PrevElement />
+                    </PreviousItem>
+                    <AnimatedPreviousItem
+                      action={action}
+                      isVisible={isAnimated}
+                      isAboveLarge={above1450}
+                    >
+                      <AnimatedPrevElement />
+                    </AnimatedPreviousItem>
+                    <PreviousItemClone
+                      action={action}
+                      isVisible={isAnimated}
+                      isAboveLarge={above1450}
+                    >
+                      <PrevCloneElement />
+                    </PreviousItemClone>
+                  </Carousel>
+                </OverflowContainer>
+              </CarouselWrapper>
+              <ButtonWrapper>
+                <CarouselButton onClick={() => nextAction()}>
+                  Previous
+                </CarouselButton>
+                <CarouselButton onClick={() => prevAction()}>
+                  Next
+                </CarouselButton>
+              </ButtonWrapper>
+            </CarouselContainer>
+          ) : (
+            <StaticCardContainer inView={inView}>
+              <StaticCardWrapper>
+                <AboutCard />
+              </StaticCardWrapper>
+              <StaticCardWrapper>
+                <DonutCard isActive />
+              </StaticCardWrapper>
+              <StaticCardWrapper>
+                <BarCard isActive />
+              </StaticCardWrapper>
+              <StaticCardWrapper>
+                <ContactCard />
+              </StaticCardWrapper>
+            </StaticCardContainer>
+          )}
+        </SectionContent>
+      </Section>
+    );
+  }
+);
 
 export default About;

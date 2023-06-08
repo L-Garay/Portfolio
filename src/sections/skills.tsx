@@ -10,15 +10,19 @@ import { useDeviceContext } from '../contexts/deviceContext';
 import SCREEN_SIZES from '../constants/screenSizes';
 import theme from '../styles/theme';
 import { Languages, Qualities } from '../components/Skills/';
+import { InViewProps } from '../constants/sharedTypes';
 
 export type SkillsProps = {
   isAboveMobile?: boolean;
+  isAboveSmall?: boolean;
   isAboveMedium?: boolean;
   isAboveLarge?: boolean;
   shouldChangeFlexDirection?: boolean;
+  inView?: boolean;
 };
 
 type BorderProps = {
+  inView: boolean;
   isAbove925?: boolean;
   isAboveLarge?: boolean;
 };
@@ -43,6 +47,20 @@ const BottomLeftBorder = styled.div<BorderProps>`
       `;
     }
   }}
+  ${({ inView }) => {
+    if (inView) {
+      return `
+        opacity: 1;
+        transform: translateY(0);
+      `;
+    } else {
+      return `
+        opacity: 0;
+        transform: translateY(50px);
+      `;
+    }
+  }}
+  transition: opacity 0.75s linear 0.25s, transform 0.75s linear 0.25s;
 `;
 
 const TopRightBorder = styled.div<BorderProps>`
@@ -69,6 +87,20 @@ const TopRightBorder = styled.div<BorderProps>`
       `;
     }
   }}
+  ${({ inView }) => {
+    if (inView) {
+      return `
+        opacity: 1;
+        transform: translateY(0);
+      `;
+    } else {
+      return `
+        opacity: 0;
+        transform: translateY(-50px);
+      `;
+    }
+  }}
+  transition: opacity 0.75s linear 0.25s, transform 0.75s linear 0.25s;
 `;
 
 const SkillsContainer = styled.div<SkillsProps>`
@@ -76,53 +108,93 @@ const SkillsContainer = styled.div<SkillsProps>`
   margin-bottom: 10px;
 `;
 
-const Skills = () => {
-  const { windowWidth, windowHeight, isWindowWidthAboveOrBetweenThreshold } =
-    useDeviceContext();
+const StyledSectionTitle = styled(SectionTitle)<InViewProps>`
+  ${({ inView }) => {
+    if (inView) {
+      return `
+        opacity: 1;
+        transform: translateX(0);
+      `;
+    } else {
+      return `
+        opacity: 0;
+        transform: translateX(-50px);
+      `;
+    }
+  }};
+  transition: all 0.5s linear 0.25s;
+`;
 
-  const isAboveMobile = isWindowWidthAboveOrBetweenThreshold(
-    SCREEN_SIZES.MOBILE
-  );
-  const isAbove925 = isWindowWidthAboveOrBetweenThreshold(925);
-  const isAboveMedium = isWindowWidthAboveOrBetweenThreshold(
-    SCREEN_SIZES.MEDIUM
-  );
-  const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(SCREEN_SIZES.LARGE);
+const Skills = React.forwardRef<HTMLDivElement, InViewProps>(
+  ({ inView }, ref) => {
+    const { windowWidth, windowHeight, isWindowWidthAboveOrBetweenThreshold } =
+      useDeviceContext();
 
-  const isMobile = !isAboveMobile;
+    const isAboveMobile = isWindowWidthAboveOrBetweenThreshold(
+      SCREEN_SIZES.MOBILE
+    );
+    const isAbove925 = isWindowWidthAboveOrBetweenThreshold(925);
+    const isAboveMedium = isWindowWidthAboveOrBetweenThreshold(
+      SCREEN_SIZES.MEDIUM
+    );
+    const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(
+      SCREEN_SIZES.LARGE
+    );
 
-  const widthDeduction = isAboveLarge ? 450 : isAboveMedium ? 300 : 200;
+    const isMobile = !isAboveMobile;
 
-  const calcluatedWidth = windowWidth - widthDeduction;
+    const widthDeduction = isAboveLarge ? 450 : isAboveMedium ? 300 : 200;
 
-  const flexWidthCutOff = SCREEN_SIZES.SMALL + 75;
-  const shouldChangeFlexDirection = windowWidth < flexWidthCutOff;
+    const calcluatedWidth = windowWidth - widthDeduction;
 
-  return (
-    <Section id="skills" height={isMobile ? windowHeight : undefined}>
-      <BottomLeftBorder isAbove925={isAbove925} isAboveLarge={isAboveLarge} />
-      <TopRightBorder isAbove925={isAbove925} isAboveLarge={isAboveLarge} />
-      <SectionContent isMobile={isMobile} calculatedWidth={calcluatedWidth}>
-        <SkillsContainer shouldChangeFlexDirection={shouldChangeFlexDirection}>
-          <SectionTitleContainer>
-            <SectionTitle> 02. What I'm good at</SectionTitle>
-          </SectionTitleContainer>
+    const flexWidthCutOff = SCREEN_SIZES.SMALL + 75;
+    const shouldChangeFlexDirection = windowWidth < flexWidthCutOff;
 
-          <Qualities
-            isAboveMobile={isAboveMobile}
-            isAboveMedium={isAboveMedium}
-            isAboveLarge={isAboveLarge}
+    return (
+      <Section
+        id="skills"
+        height={isMobile ? windowHeight : undefined}
+        ref={ref}
+      >
+        <BottomLeftBorder
+          inView={inView}
+          isAbove925={isAbove925}
+          isAboveLarge={isAboveLarge}
+        />
+        <TopRightBorder
+          inView={inView}
+          isAbove925={isAbove925}
+          isAboveLarge={isAboveLarge}
+        />
+        <SectionContent isMobile={isMobile} calculatedWidth={calcluatedWidth}>
+          <SkillsContainer
             shouldChangeFlexDirection={shouldChangeFlexDirection}
-          />
-          <Languages
-            isAboveMobile={isAboveMobile}
-            isAboveMedium={isAboveMedium}
-            isAboveLarge={isAboveLarge}
-          />
-        </SkillsContainer>
-      </SectionContent>
-    </Section>
-  );
-};
+          >
+            <SectionTitleContainer>
+              <StyledSectionTitle inView={inView}>
+                {' '}
+                02. What I'm good at
+              </StyledSectionTitle>
+            </SectionTitleContainer>
+
+            <Qualities
+              isAboveMobile={isAboveMobile}
+              isAboveMedium={isAboveMedium}
+              isAboveLarge={isAboveLarge}
+              shouldChangeFlexDirection={shouldChangeFlexDirection}
+              inView={inView}
+            />
+            <Languages
+              isAboveMobile={isAboveMobile}
+              isAboveMedium={isAboveMedium}
+              isAboveLarge={isAboveLarge}
+              inView={inView}
+            />
+          </SkillsContainer>
+        </SectionContent>
+      </Section>
+    );
+  }
+);
 
 export default Skills;
