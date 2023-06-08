@@ -127,7 +127,6 @@ const StyledSectionTitle = styled(SectionTitle)<InViewProps>`
 
 const Skills = React.forwardRef<HTMLDivElement, InViewProps>(
   ({ inView }, ref) => {
-    console.log('skills in view', inView);
     const { windowWidth, windowHeight, isWindowWidthAboveOrBetweenThreshold } =
       useDeviceContext();
 

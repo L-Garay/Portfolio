@@ -172,7 +172,6 @@ const ExperiencesWrapper = styled.div<ExperiencesProps & InViewProps>`
 
 const Experience = React.forwardRef<HTMLDivElement, InViewProps>(
   ({ inView }, ref) => {
-    console.log('experience in view', inView);
     const [currentButtonId, setCurrentButtonId] = React.useState<string>(
       'hinge-health-button'
     );

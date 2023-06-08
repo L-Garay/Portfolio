@@ -465,7 +465,7 @@ const About = React.forwardRef<HTMLDivElement, InViewProps>(
   ({ inView }, ref) => {
     const { windowWidth, windowHeight, isWindowWidthAboveOrBetweenThreshold } =
       useDeviceContext();
-    console.log('about in view', inView);
+
     const isAboveMobile = isWindowWidthAboveOrBetweenThreshold(
       SCREEN_SIZES.MOBILE
     );
