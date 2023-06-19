@@ -1,22 +1,25 @@
 import type { GatsbyConfig } from 'gatsby';
 import SCREEN_SIZES from './src/constants/screenSizes';
+require('dotenv').config({
+  path: `.env.${process.env.NODE_ENV}`
+});
 
 const config: GatsbyConfig = {
   siteMetadata: {
     title: `Logan Garay Portfolio`,
     description: `Software Developer on a mission to create beautifully simple web applications.`,
     auuthor: `@L-Garay`,
-    siteUrl: `https://www.yourdomain.tld`,
+    siteUrl: `https://www.yourdomain.tld`
   },
   flags: {
-    DEV_SSR: true, //testing
+    DEV_SSR: true //testing
   },
   // More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense.
   // If you use VSCode you can also use the GraphQL plugin
   // Learn more at: https://gatsby.dev/graphql-typegen
   graphqlTypegen: true,
   plugins: [
-    { resolve: 'gatsby-plugin-styled-components', options: { ssr: true } },
+    { resolve: 'gatsby-plugin-styled-components' },
     'gatsby-plugin-image',
     'gatsby-plugin-sharp',
     {
@@ -29,18 +32,25 @@ const config: GatsbyConfig = {
             SCREEN_SIZES.LARGE,
             SCREEN_SIZES.MEDIUM,
             SCREEN_SIZES.SMALL,
-            SCREEN_SIZES.MOBILE,
-          ],
-        },
-      },
+            SCREEN_SIZES.MOBILE
+          ]
+        }
+      }
+    },
+    {
+      resolve: 'gatsby-source-contentful',
+      options: {
+        spaceId: process.env.CONTENTFUL_SPACE_ID,
+        accessToken: process.env.CONTENTFUL_CONTENT_API_TOKEN
+      }
     },
     {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'images',
-        path: `${__dirname}/src/images/`,
+        path: `${__dirname}/src/images/`
       },
-      __key: 'images',
+      __key: 'images'
     },
     {
       resolve: `gatsby-plugin-webfonts`,
@@ -50,24 +60,24 @@ const config: GatsbyConfig = {
             // pairs found on (https://www.fontpair.co/all)
             {
               family: 'Roboto Mono',
-              strategy: 'selfHosted',
+              strategy: 'selfHosted'
             },
             {
               family: 'Rubik',
-              strategy: 'selfHosted',
+              strategy: 'selfHosted'
             },
             {
               family: 'Karla',
-              strategy: 'selfHosted',
-            },
-          ],
+              strategy: 'selfHosted'
+            }
+          ]
         },
         useMinify: true,
         usePreload: true,
-        usePreconnect: false,
-      },
-    },
-  ],
+        usePreconnect: false
+      }
+    }
+  ]
 };
 
 export default config;
