@@ -2,33 +2,22 @@ import * as React from 'react';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 import { useStaticQuery, graphql } from 'gatsby';
-import { GatsbyImage } from 'gatsby-plugin-image';
+import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image';
 import { SkillsProps } from '../../sections/skills';
 import { useDeviceContext } from '../../contexts/deviceContext';
 
-const QualitiesList = [
-  {
-    title: 'Software Development',
-    description:
-      'Highly proficient in functional programming with a focus on Frontend development. Experienced with a variety of technologies like React, TypeScript, GraphQL, Node and more.',
-    imgAlt: 'Man sitting at computer desk with colors coming from monitors',
-    imgBase: 'developmentImg.jpg',
-  },
-  {
-    title: 'Interpersonal Skills',
-    description:
-      'Excellent communicator with over 6+ years of customer service experience, able to effectively communicate with both team members and clients to ensure smooth and positive interactions.',
-    imgAlt: 'Animated sketch of people helping each other to climb objects',
-    imgBase: 'interpersonalImg.jpg',
-  },
-  {
-    title: 'Adaptability',
-    description: `Proven track record of adapting to new environments quickly and ramping up to speed with new technologies and processes.`,
-    imgAlt:
-      'Animated sketch of a man with many arms performing different tasks',
-    imgBase: 'adaptabilityImg.jpg',
-  },
-];
+type ContentfulQualitiesData = {
+  id: string;
+  title: string;
+  description: {
+    description: string;
+  };
+  image: {
+    title: string;
+    description: string;
+    gatsbyImageData: IGatsbyImageData;
+  };
+};
 
 const QualitiesContainer = styled.div<SkillsProps>`
   display: flex;
@@ -55,7 +44,7 @@ const QualitySection = styled.div<SkillsProps>`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  ${(props) => {
+  ${props => {
     if (props.shouldChangeFlexDirection) {
       return `
       width: 90%;
@@ -69,7 +58,7 @@ const QualitySection = styled.div<SkillsProps>`
     }
   }}
   div.gatsby-image-wrapper {
-    max-width: ${(props) => {
+    max-width: ${props => {
       if (props.isAboveLarge) return '250px';
       if (props.isAboveMedium) return '200px';
       if (props.isAboveMobile) return '150px';
@@ -92,7 +81,7 @@ const QualityTitle = styled.h4<SkillsProps>`
   text-align: center;
   font-size: clamp(1rem, 2vw, 1.35rem);
   color: ${theme.colors.BLUE_2};
-  margin: ${(props) => {
+  margin: ${props => {
     if (props.isAboveMedium) return '50px 0 10px 0';
     return '40px 0 10px 0';
   }};
@@ -107,7 +96,7 @@ const DescriptionWrapper = styled.div<DescriptionProps>`
   display: flex;
   align-items: start;
   padding-top: 10px;
-  min-height: ${(props) => {
+  min-height: ${props => {
     if (props.isAbove1450) return '145px';
     if (props.isAboveMedium) return '185px';
     if (props.isAboveMobile && !props.shouldChangeFlexDirection) return '175px';
@@ -129,26 +118,27 @@ const Qualities = ({
   isAboveMedium,
   isAboveLarge,
   shouldChangeFlexDirection,
-  inView,
+  inView
 }: SkillsProps) => {
   const { isWindowWidthAboveOrBetweenThreshold } = useDeviceContext();
 
   const isAbove1450 = isWindowWidthAboveOrBetweenThreshold(1450);
   const above1450 = isAbove1450 ? isAbove1450 : false;
 
-  const imageDataQuery = graphql`
+  const contentfulDataQuery = graphql`
     query {
-      allFile(
-        filter: {
-          extension: { regex: "/(jpg)|(png)|(jpeg)/" }
-          relativeDirectory: { eq: "skills" }
-        }
-      ) {
+      allContentfulSkillsQualities {
         edges {
           node {
-            base
-            childImageSharp {
-              gatsbyImageData
+            id
+            title
+            description {
+              description
+            }
+            image {
+              title
+              description
+              gatsbyImageData(placeholder: BLURRED, layout: CONSTRAINED)
             }
           }
         }
@@ -157,29 +147,28 @@ const Qualities = ({
   `;
 
   const {
-    allFile: { edges: images },
-  } = useStaticQuery(imageDataQuery);
+    allContentfulSkillsQualities: { edges: contentfulImages }
+  } = useStaticQuery(contentfulDataQuery);
 
   return (
     <QualitiesContainer
       shouldChangeFlexDirection={shouldChangeFlexDirection}
       inView={inView}
     >
-      {QualitiesList.map((quality) => {
-        const img = images.find(
-          (image: any) => image.node.base === quality.imgBase
-        );
+      {contentfulImages.map((gatsbyNode: { node: any }) => {
+        const { id, title, description, image } =
+          gatsbyNode.node as ContentfulQualitiesData;
         return (
           <QualitySection
-            key={quality.title}
+            key={id}
             shouldChangeFlexDirection={shouldChangeFlexDirection}
             isAboveMobile={isAboveMobile}
             isAboveMedium={isAboveMedium}
             isAboveLarge={isAboveLarge}
           >
             <GatsbyImage
-              image={img.node.childImageSharp.gatsbyImageData}
-              alt={quality.imgAlt}
+              image={image.gatsbyImageData}
+              alt={image.description}
             />
             <QualityTitle
               isAboveLarge={isAboveLarge}
@@ -187,7 +176,7 @@ const Qualities = ({
               isAboveMobile={isAboveMobile}
               shouldChangeFlexDirection={shouldChangeFlexDirection}
             >
-              {quality.title}
+              {title}
             </QualityTitle>
 
             <DescriptionWrapper
@@ -197,7 +186,7 @@ const Qualities = ({
               isAboveMobile={isAboveMobile}
               shouldChangeFlexDirection={shouldChangeFlexDirection}
             >
-              <QualityDescription>{quality.description}</QualityDescription>
+              <QualityDescription>{description.description}</QualityDescription>
             </DescriptionWrapper>
           </QualitySection>
         );
