@@ -155,9 +155,8 @@ const Qualities = ({
       shouldChangeFlexDirection={shouldChangeFlexDirection}
       inView={inView}
     >
-      {contentfulImages.map((gatsbyNode: { node: any }) => {
-        const { id, title, description, image } =
-          gatsbyNode.node as ContentfulQualitiesData;
+      {contentfulImages.map((gatsbyNode: { node: ContentfulQualitiesData }) => {
+        const { id, title, description, image } = gatsbyNode.node;
         return (
           <QualitySection
             key={id}
