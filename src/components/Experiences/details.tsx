@@ -4,73 +4,28 @@ import theme from '../../styles/theme';
 import { SharedPageProps } from '../../constants/sharedTypes';
 import { Paragraph } from '../../components/shared';
 import { ExperiencesProps } from '../../sections/experience';
+import { graphql, useStaticQuery } from 'gatsby';
 
-const EXPERIENCES_DETAILS = [
-  {
-    title: `Principal Developer @ Noble Intent, LLC`,
-    dates: 'August - September 2020',
-    listItems: [
-      `Principal designer and developer for mental health startup's company website`,
-      `Created using the Wix platform for quick development and ease of use for client`,
-      `Effectively and efficiently communicated with client to understand their needs and vision and then translated that into a functional and aesthetically pleasing website`,
-      `Utilized platform's built in tooling to connect personal domain to site, configure and increase SEO, link personal calendars and emails and implemnt blog functionality`,
-      `Managed and maintained site for less than 3 months before handing over responsiblity to internal company employee`,
-    ],
-    buttonId: 'noble-intent-button',
-    siteLink: 'https://www.nobleintentprograms.com/',
-  },
-  {
-    title: 'Software Developer @ Downwrite, Inc',
-    subTitle: '(Contract via Foundry Interactive)',
-    dates: 'April 2021 - March 2022',
-    listItems: [
-      `A small music startup where I helped oversee the launch of their new MVP website`,
-      `After launch I was the core contributer with ~50,000 lines of code touched, responsible for maintaining stability for the thousands of users while iterating and adding new features`,
-      `Worked closely with designers and key stakeholders to create responsive and elegant UI/UX`,
-      `Gained experience with cloud services from integrating with Firebase, utilizing their cloud storage, functions, analytics and authentication services`,
-      `Quickly and effeciently familiarized myself with a variety of new processes including, video and audio compression and conversion using FFmpeg and order processing and payment handling utilizing Paypal/Braintree`,
-      `Built new and extended existing administration panels and dashboards along with the functionality to generate and download PDF's of the data for use in reporting`,
-    ],
-    buttonId: 'downwrite-button',
-    siteLink: 'https://downwrite.com/',
-  },
-  {
-    title: 'Fronted Developer @ Hinge Health',
-    subTitle: '(Contract via Foundry Interactive)',
-    dates: 'April - September 2022',
-    listItems: [
-      `Embedded with an internal team of 6 responsible for the company's onboarding application for their healthcare services`,
-      `Touched ~15,000 lines of code touched across 4 different repositories`,
-      `Successfully increased application's onboarding conversion rate by a statistically significant amount`,
-      `Achieved by migrating pages from a legacy codebase to a modern React codebase following best practices and implementing new features and UI/UX changes to increase user engagement`,
-      `Focused on increasing web accessibility to ensure that the application was operable by all users`,
-      `Wrote extensive unit, component and end-to-end tests to ensure that the application was stable and reduce drop-offs due to errors`,
-      `Implemented A/B testing to measure effectivness and impact of new features and UI/UX changes on user engagement and conversion rate`,
-    ],
-    buttonId: 'hinge-health-button',
-    siteLink: 'https://my.hingehealth.com/onboarding/tamus/registration',
-  },
-  {
-    title: 'Developer @ Your company name',
-    dates: 'As soon as you need - Forever',
-    listItems: [
-      `Here is where I can put down all of the amazing and wonderful things I did for your company`,
-      `Whether that be Frontend, Backend or both, I can do it all`,
-      `Plus I'm told I'm a pretty cool guy to work with and I send some great memez`,
-      `So what are you waiting for?`,
-      `P.S. the link is to a non-profit that I support and believe is a good cause, check them out!`,
-    ],
-    buttonId: 'put-your-name-here-button',
-    siteLink: 'https://www.catf.us/',
-  },
-];
+type ContentfulExperiencesData = {
+  id: string;
+  companyName: string;
+  companyLink: string;
+  dates: string;
+  isContractPosition: boolean;
+  contractedThrough?: string;
+  contractedThroughLink?: string;
+  menuButtonId: string;
+  responsibilities: {
+    responsibilities: string;
+  };
+};
 
 type DetailsProps = SharedPageProps & {
   currentButtonId: string;
 };
 
 const DetailsContainer = styled.div<SharedPageProps>`
-  ${(props) => {
+  ${props => {
     return `
       max-width: ${props.isAboveSmall ? '75%' : '100%'};
       margin-left: ${props.isAboveSmall ? '10px' : '0'};
@@ -112,7 +67,7 @@ type TitleLinkProps = {
 
 const TitleLink = styled.a.attrs({
   target: '_blank',
-  rel: 'noopener noreferrer',
+  rel: 'noopener noreferrer'
 })<TitleLinkProps>`
   color: ${theme.colors.BLUE_1};
   text-decoration: none;
@@ -137,36 +92,65 @@ const TitleLink = styled.a.attrs({
 `;
 
 const Details = ({ isAboveSmall, currentButtonId }: DetailsProps) => {
-  const [selectedExperience, setSelectedExperience] = React.useState<
-    Record<string, any>
-  >(EXPERIENCES_DETAILS[0]);
+  const contentfulDataQuery = graphql`
+    query {
+      allContentfulExperiences {
+        edges {
+          node {
+            id
+            companyName
+            companyLink
+            dates
+            isContractPosition
+            contractedThrough
+            contractedThroughLink
+            menuButtonId
+            responsibilities {
+              responsibilities
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  const {
+    allContentfulExperiences: { edges: contentfulExperiences }
+  } = useStaticQuery(contentfulDataQuery);
+
+  const [selectedExperience, setSelectedExperience] =
+    React.useState<ContentfulExperiencesData>(
+      contentfulExperiences[contentfulExperiences.length - 1].node
+    );
 
   React.useEffect(() => {
-    const selectedExperience = EXPERIENCES_DETAILS.find(
-      (experience) => experience.buttonId === currentButtonId
+    const selectedExperience = contentfulExperiences.find(
+      (gatsbyNode: { node: ContentfulExperiencesData }) =>
+        gatsbyNode.node.menuButtonId === currentButtonId
     );
-    setSelectedExperience((prev) =>
-      selectedExperience ? selectedExperience : prev
+    setSelectedExperience(prev =>
+      selectedExperience.node ? selectedExperience.node : prev
     );
   }, [currentButtonId]);
 
-  const role = selectedExperience.title.split('@')[0];
-  const companyName = selectedExperience.title.split('@')[1];
+  const responsibilities =
+    selectedExperience.responsibilities.responsibilities.split('$$');
+
+  const role = selectedExperience.companyName.split('@')[0];
+  const companyName = selectedExperience.companyName.split('@')[1];
   const styledName = (
-    <TitleLink href={selectedExperience.siteLink} bgSize="6px">
+    <TitleLink href={selectedExperience.companyLink} bgSize="6px">
       {companyName}
     </TitleLink>
   );
 
-  const contract = selectedExperience.subTitle
-    ? selectedExperience.subTitle.split(' ').slice(0, 2).join(' ')
+  const contract = selectedExperience.isContractPosition ? '(Contract via' : '';
+  const contractThrough = selectedExperience.isContractPosition
+    ? `${selectedExperience.contractedThrough})`
     : '';
-  const foundry = selectedExperience.subTitle
-    ? selectedExperience.subTitle.split('via')[1]
-    : '';
-  const styledFoundry = (
+  const styledContractThrough = (
     <TitleLink href="https://foundryinteractive.com" bgSize="3px">
-      {foundry}
+      {contractThrough}
     </TitleLink>
   );
 
@@ -176,9 +160,9 @@ const Details = ({ isAboveSmall, currentButtonId }: DetailsProps) => {
         <DetailsTitle isAboveSmall={isAboveSmall}>
           {role} @ {styledName}
         </DetailsTitle>
-        {selectedExperience.subTitle ? (
+        {selectedExperience.isContractPosition ? (
           <DetailsSubTitle isAboveSmall={isAboveSmall}>
-            {contract} {styledFoundry}
+            {contract} {styledContractThrough}
           </DetailsSubTitle>
         ) : null}
 
@@ -188,7 +172,7 @@ const Details = ({ isAboveSmall, currentButtonId }: DetailsProps) => {
       </DetailsHeaderContainer>
       <DetailsDecriptionContainer isAboveSmall={isAboveSmall}>
         <DetailsDescriptionList isAboveSmall={isAboveSmall}>
-          {selectedExperience.listItems.map((item: string) => (
+          {responsibilities.map((item: string) => (
             <DescriptionListItem isAboveSmall={isAboveSmall} key={item}>
               {item}
             </DescriptionListItem>
