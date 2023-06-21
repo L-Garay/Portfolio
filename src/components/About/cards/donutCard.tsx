@@ -5,6 +5,7 @@ import { DonutConfig } from '../../../utils/configs/aboutConfigs';
 import SCREEN_SIZES from '../../../constants/screenSizes';
 import { useDeviceContext } from '../../../contexts/deviceContext';
 import theme from '../../../styles/theme';
+import { graphql, useStaticQuery } from 'gatsby';
 
 type DonutCardProps = {
   isActive: boolean;
@@ -101,6 +102,26 @@ const DonutCard = ({ isActive }: DonutCardProps) => {
   const aboveSmall = isAboveSmall ? isAboveSmall : false;
   const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(1450);
   const aboveLarge = isAboveLarge ? isAboveLarge : false;
+
+  const contentfulDonutChartQuery = graphql`
+    query {
+      contentfulAboutMeCards(title: { eq: "Skills I'd like to learn" }) {
+        id
+        title
+        descriptions {
+          descriptions
+        }
+      }
+    }
+  `;
+
+  const { contentfulAboutMeCards: contentfulContent } = useStaticQuery(
+    contentfulDonutChartQuery
+  );
+
+  const descriptionsArray =
+    contentfulContent.descriptions.descriptions.split('$$');
+
   return (
     <DonutCardContainer
       isAboveMobile={aboveMobile}
@@ -108,7 +129,7 @@ const DonutCard = ({ isActive }: DonutCardProps) => {
       isAboveLarge={aboveLarge}
     >
       <TitleContainer>
-        <Title>Skills I'd like to learn</Title>
+        <Title>{contentfulContent.title}</Title>
       </TitleContainer>
       <ContentContainer>
         {aboveSmall ? (
@@ -120,15 +141,8 @@ const DonutCard = ({ isActive }: DonutCardProps) => {
             >
               <Donut {...DonutConfig[0]} isActive={isActive} />
               <Description>
-                <p>
-                  These are some of the different languages, frameworks and
-                  tools I'd like to try out and learn.
-                </p>
-                <p>
-                  The values are a totally not arbitrary calculation of my
-                  personal interest in the tool, likelihood of me using it soon
-                  and the benefit I think it would bring to my work.
-                </p>
+                <p>{descriptionsArray[0]}</p>
+                <p>{descriptionsArray[1]}</p>
               </Description>
               <Donut {...DonutConfig[1]} isActive={isActive} />
             </Row1>
@@ -151,15 +165,8 @@ const DonutCard = ({ isActive }: DonutCardProps) => {
               isAboveLarge={aboveLarge}
             >
               <Description>
-                <p>
-                  These are some of the different languages, frameworks and
-                  tools I'd like to try out and learn.
-                </p>
-                <p>
-                  The values are a totally not arbitrary calculation of my
-                  personal interest in the tool, likelihood of me using it soon
-                  and the benefit I think it would bring to my work.
-                </p>
+                <p>{descriptionsArray[0]}</p>
+                <p>{descriptionsArray[1]}</p>
               </Description>
             </Row1>
             <Row2

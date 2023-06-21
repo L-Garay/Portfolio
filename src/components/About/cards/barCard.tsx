@@ -5,6 +5,7 @@ import { BarChartFMConfig } from '../../../utils/configs/aboutConfigs';
 import SCREEN_SIZES from '../../../constants/screenSizes';
 import { useDeviceContext } from '../../../contexts/deviceContext';
 import theme from '../../../styles/theme';
+import { graphql, useStaticQuery } from 'gatsby';
 
 type BarCardProps = {
   isActive: boolean;
@@ -142,6 +143,26 @@ const BarCard = ({ isActive }: BarCardProps) => {
   const aboveSmall = isAboveSmall ? isAboveSmall : false;
   const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(1450);
   const aboveLarge = isAboveLarge ? isAboveLarge : false;
+
+  const contentfulDonutChartQuery = graphql`
+    query {
+      contentfulAboutMeCards(title: { eq: "You could say I like 'Soccer'" }) {
+        id
+        title
+        descriptions {
+          descriptions
+        }
+      }
+    }
+  `;
+
+  const { contentfulAboutMeCards: contentfulContent } = useStaticQuery(
+    contentfulDonutChartQuery
+  );
+
+  const descriptionsArray =
+    contentfulContent.descriptions.descriptions.split('$$');
+
   return (
     <BarCardContainer
       isAboveMobile={aboveMobile}
@@ -149,7 +170,7 @@ const BarCard = ({ isActive }: BarCardProps) => {
       isAboveLarge={aboveLarge}
     >
       <TitleContainer>
-        <Title>You could say I like 'Soccer'</Title>
+        <Title>{contentfulContent.title}</Title>
       </TitleContainer>
       <ContentContainer
         isAboveMobile={aboveMobile}
@@ -160,19 +181,8 @@ const BarCard = ({ isActive }: BarCardProps) => {
           <>
             <Column1>
               <Description>
-                <p>
-                  One of my major hobbies is soccer/football/fusbal. I regularly
-                  watch it and I also have two collegiate intramural
-                  championships under my belt, but I spend the most time
-                  managing virtual teams in the Football Manager series.
-                </p>
-                <p>
-                  The chart to the right shows just how much I enjoy playing the
-                  different games in the series. For context, the reason there
-                  are two outliers is that I left my computer on in school and
-                  would often leave the game on overnight. I am not THAT obessed
-                  with the game (is what I tell myself).
-                </p>
+                <p>{descriptionsArray[0]}</p>
+                <p>{descriptionsArray[1]}</p>
               </Description>
               <ChartKey>
                 <KeyItem>'FM' = Football Manager</KeyItem>
@@ -240,18 +250,8 @@ const BarCard = ({ isActive }: BarCardProps) => {
           <>
             <Row1>
               <Description>
-                <p>
-                  I regularly watch it, I have two collegiate intramural
-                  championships under my belt, but I spend the most time
-                  managing virtual teams in the Football Manager series.
-                </p>
-                <p>
-                  {' '}
-                  For context, the reason there are two outliers is that I left
-                  my computer on in school and would often leave the game on
-                  overnight. I am not THAT obessed with the game (is what I tell
-                  myself).
-                </p>
+                <p>{descriptionsArray[0]}</p>
+                <p> {descriptionsArray[1]}</p>
               </Description>
             </Row1>
             <Row2>
