@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import theme from '../../../styles/theme';
 import SCREEN_SIZES from '../../../constants/screenSizes';
 import { useDeviceContext } from '../../../contexts/deviceContext';
+import { graphql, useStaticQuery } from 'gatsby';
 
 type ContactCardProps = {};
 
@@ -104,10 +105,10 @@ type ResumeButtonProps = {
   targetLink: string;
   targetType: string;
 };
-const ResmueButton = styled(ButtonAsLink).attrs<ResumeButtonProps>((props) => ({
+const ResmueButton = styled(ButtonAsLink).attrs<ResumeButtonProps>(props => ({
   href: props.targetLink,
   target: props.targetType,
-  download: props.targetType === '_self' ? true : undefined,
+  download: props.targetType === '_self' ? true : undefined
 }))<ResumeButtonProps>`
   text-align: center;
   cursor: pointer;
@@ -137,10 +138,30 @@ const ContactCard = ({}: ContactCardProps) => {
   const aboveSmall = isAboveSmall ? isAboveSmall : false;
   const isAboveLarge = isWindowWidthAboveOrBetweenThreshold(1450);
   const aboveLarge = isAboveLarge ? isAboveLarge : false;
+
+  const contentfulDonutChartQuery = graphql`
+    query {
+      contentfulAboutMeCards(title: { eq: "Get in touch" }) {
+        id
+        title
+        descriptions {
+          descriptions
+        }
+      }
+    }
+  `;
+
+  const { contentfulAboutMeCards: contentfulContent } = useStaticQuery(
+    contentfulDonutChartQuery
+  );
+
+  const descriptionsArray =
+    contentfulContent.descriptions.descriptions.split('$$');
+
   return (
     <ContactCardContainer>
       <TitleContainer>
-        <Title>Get in touch</Title>
+        <Title>{contentfulContent.title}</Title>
       </TitleContainer>
       <ContentContainer
         isAboveMobile={aboveMobile}
@@ -149,17 +170,9 @@ const ContactCard = ({}: ContactCardProps) => {
       >
         <Row1>
           <Description>
-            <p>Thank you for checking out my site!</p>
-            <p>
-              Obviously I can't tell you everything about myself or my
-              experiences through here, so if you'd like to know more or have
-              any questions (or just want to say hello), please feel free to
-              reach out.
-            </p>
-            <p>
-              You can use any of the methods found below and I'll respond as
-              quickly as I can!{' '}
-            </p>
+            <p>{descriptionsArray[0]}</p>
+            <p>{descriptionsArray[1]} </p>
+            <p>{descriptionsArray[2]}</p>
           </Description>
         </Row1>
         <Row2>
