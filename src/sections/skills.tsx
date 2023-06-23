@@ -4,13 +4,14 @@ import {
   Section,
   SectionContent,
   SectionTitle,
-  SectionTitleContainer,
+  SectionTitleContainer
 } from '../components/sections';
 import { useDeviceContext } from '../contexts/deviceContext';
 import SCREEN_SIZES from '../constants/screenSizes';
 import theme from '../styles/theme';
 import { Languages, Qualities } from '../components/Skills/';
 import { InViewProps } from '../constants/sharedTypes';
+import { graphql, useStaticQuery } from 'gatsby';
 
 export type SkillsProps = {
   isAboveMobile?: boolean;
@@ -150,6 +151,20 @@ const Skills = React.forwardRef<HTMLDivElement, InViewProps>(
     const flexWidthCutOff = SCREEN_SIZES.SMALL + 75;
     const shouldChangeFlexDirection = windowWidth < flexWidthCutOff;
 
+    const contentfulDonutChartQuery = graphql`
+      query {
+        contentfulSectionTitles(shortTitle: { eq: "Skills" }) {
+          id
+          longTitle
+          number
+        }
+      }
+    `;
+
+    const { contentfulSectionTitles: contentfulContent } = useStaticQuery(
+      contentfulDonutChartQuery
+    );
+
     return (
       <Section
         id="skills"
@@ -173,7 +188,7 @@ const Skills = React.forwardRef<HTMLDivElement, InViewProps>(
             <SectionTitleContainer>
               <StyledSectionTitle inView={inView}>
                 {' '}
-                02. What I'm good at
+                {contentfulContent.number} {contentfulContent.longTitle}
               </StyledSectionTitle>
             </SectionTitleContainer>
 

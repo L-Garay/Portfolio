@@ -4,7 +4,7 @@ import {
   Section,
   SectionContent,
   SectionTitleContainer,
-  SectionTitle,
+  SectionTitle
 } from '../components/sections';
 import { useDeviceContext } from '../contexts/deviceContext';
 import SCREEN_SIZES from '../constants/screenSizes';
@@ -14,9 +14,10 @@ import {
   AboutCard,
   BarCard,
   ContactCard,
-  DonutCard,
+  DonutCard
 } from '../components/About/cards';
 import { InViewProps } from 'src/constants/sharedTypes';
+import { graphql, useStaticQuery } from 'gatsby';
 
 const AboutMeTitle = styled(SectionTitle)<InViewProps>`
   text-align: start;
@@ -501,7 +502,7 @@ const About = React.forwardRef<HTMLDivElement, InViewProps>(
       animatedActiveElement,
       prevCloneElement,
       prevElement,
-      animatedPrevElement,
+      animatedPrevElement
     } = useCaourselContext();
 
     const NextCloneElement = nextCloneElement();
@@ -512,6 +513,20 @@ const About = React.forwardRef<HTMLDivElement, InViewProps>(
     const PrevCloneElement = prevCloneElement();
     const PrevElement = prevElement();
     const AnimatedPrevElement = animatedPrevElement();
+
+    const contentfulSectionTitles = graphql`
+      query {
+        contentfulSectionTitles(shortTitle: { eq: "About" }) {
+          id
+          longTitle
+          number
+        }
+      }
+    `;
+
+    const { contentfulSectionTitles: contentfulContent } = useStaticQuery(
+      contentfulSectionTitles
+    );
 
     return (
       <Section
@@ -543,7 +558,9 @@ const About = React.forwardRef<HTMLDivElement, InViewProps>(
         />
         <SectionContent isMobile={isMobile} calculatedWidth={calcluatedWidth}>
           <SectionTitleContainer>
-            <AboutMeTitle inView={inView}>04. About Me</AboutMeTitle>
+            <AboutMeTitle inView={inView}>
+              {contentfulContent.number} {contentfulContent.longTitle}
+            </AboutMeTitle>
           </SectionTitleContainer>
           {above925 ? (
             <CarouselContainer inView={inView}>
