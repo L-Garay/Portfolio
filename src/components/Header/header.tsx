@@ -278,8 +278,8 @@ const Header = () => {
                   const anchorLink = `#${sectionData.node.shortTitle.toLowerCase()}`;
 
                   return (
-                    <MobileMenuLinkWrapper>
-                      <MenuLinkNumber>{sectionData.node.number}</MenuLinkNumber>
+                    <MobileMenuLinkWrapper key={sectionData.node.shortTitle}>
+                      <MenuLinkNumber>{sectionData.node.id}</MenuLinkNumber>
                       <MobileMenuLink
                         href={anchorLink}
                         onClick={() => {
