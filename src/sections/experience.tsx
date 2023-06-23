@@ -4,13 +4,14 @@ import {
   Section,
   SectionContent,
   SectionTitle,
-  SectionTitleContainer,
+  SectionTitleContainer
 } from '../components/sections';
 import { useDeviceContext } from '../contexts/deviceContext';
 import SCREEN_SIZES from '../constants/screenSizes';
 import theme from '../styles/theme';
 import { InViewProps, SharedPageProps } from '../constants/sharedTypes';
 import { Details, Menu } from '../components/Experiences/';
+import { graphql, useStaticQuery } from 'gatsby';
 
 export type ExperiencesProps = SharedPageProps & {
   calculatedWidth?: number;
@@ -151,7 +152,7 @@ const StyledSectionTitle = styled(SectionTitle)<InViewProps>`
 
 const ExperiencesWrapper = styled.div<ExperiencesProps & InViewProps>`
   display: flex;
-  flex-direction: ${(props) => (props.isAboveSmall ? 'row' : 'column')};
+  flex-direction: ${props => (props.isAboveSmall ? 'row' : 'column')};
   justify-content: end;
   max-width: 820px;
   ${({ inView }) => {
@@ -207,9 +208,23 @@ const Experience = React.forwardRef<HTMLDivElement, InViewProps>(
     const flexWidthCutOff = SCREEN_SIZES.SMALL + 75;
     const shouldChangeFlexDirection = windowWidth < flexWidthCutOff;
 
+    const contentfulSectionTitles = graphql`
+      query {
+        contentfulSectionTitles(shortTitle: { eq: "Experiences" }) {
+          id
+          longTitle
+          number
+        }
+      }
+    `;
+
+    const { contentfulSectionTitles: contentfulContent } = useStaticQuery(
+      contentfulSectionTitles
+    );
+
     return (
       <Section
-        id="experience"
+        id="experiences"
         height={isMobile ? windowHeight : undefined}
         marginTop={isAboveSmall ? 225 : 0}
         ref={ref}
@@ -233,7 +248,7 @@ const Experience = React.forwardRef<HTMLDivElement, InViewProps>(
           >
             <SectionTitleContainer>
               <StyledSectionTitle inView={inView}>
-                03. My Experiences
+                {contentfulContent.number} {contentfulContent.longTitle}
               </StyledSectionTitle>
             </SectionTitleContainer>
 
