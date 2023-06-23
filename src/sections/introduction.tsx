@@ -6,6 +6,9 @@ import { Heading2, Paragraph } from '../components/shared';
 import { useDeviceContext } from '../contexts/deviceContext';
 import { useIntroContext } from '../contexts/introContext';
 import SCREEN_SIZES from '../constants/screenSizes';
+import { graphql, useStaticQuery } from 'gatsby';
+import { renderRichText } from 'gatsby-source-contentful/rich-text';
+import { BLOCKS } from '@contentful/rich-text-types';
 
 type IntroductionProps = {
   hasSeenIntro: boolean;
@@ -65,6 +68,42 @@ const Introduction = () => {
 
   const widthDeduction = isMobile ? 100 : 200;
 
+  const contentfulGreetingQuery = graphql`
+    query {
+      contentfulIntroductionGreeting(intro: { eq: "My name is," }) {
+        id
+        intro
+        name
+        roleDescription
+        summary {
+          raw
+        }
+      }
+    }
+  `;
+
+  const { contentfulIntroductionGreeting: contentfulContent } = useStaticQuery(
+    contentfulGreetingQuery
+  );
+
+  const { intro, name, roleDescription, summary } = contentfulContent;
+
+  const contentfuOptions = {
+    renderNode: {
+      [BLOCKS.PARAGRAPH]: (node: any, children: any) => {
+        const text = children[0];
+        const convertedText = text.replace('BREAK', '<br />');
+        return (
+          <IntroParagraph
+            hasSeenIntro={hasSeenIntro}
+            className="introduction2"
+            dangerouslySetInnerHTML={{ __html: convertedText }}
+          />
+        );
+      }
+    }
+  };
+
   return (
     <Section id="introduction" height={isMobile ? windowHeight : undefined}>
       <SectionContent
@@ -72,19 +111,12 @@ const Introduction = () => {
         calculatedWidth={windowWidth - widthDeduction}
       >
         <IntroductionContent>
-          <IntroParagraph hasSeenIntro={hasSeenIntro}>
-            My name is,{' '}
-          </IntroParagraph>
-          <Heading hasSeenIntro={hasSeenIntro}>Logan Garay</Heading>
+          <IntroParagraph hasSeenIntro={hasSeenIntro}>{intro} </IntroParagraph>
+          <Heading hasSeenIntro={hasSeenIntro}>{name}</Heading>
           <IntroHeading2 hasSeenIntro={hasSeenIntro}>
-            I am a Software Developer
+            {roleDescription}
           </IntroHeading2>
-          <IntroParagraph hasSeenIntro={hasSeenIntro} className="introduction2">
-            With a passion for creating simple and elogant digital experiences.
-            <br />
-            Looking to make tangible impact through code to better the world
-            around us.
-          </IntroParagraph>
+          {renderRichText(summary, contentfuOptions)}
         </IntroductionContent>
       </SectionContent>
     </Section>
