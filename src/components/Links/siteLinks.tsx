@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link, Paragraph } from '../shared';
 import theme from '../../styles/theme';
 import { useIntroContext } from '../../contexts/introContext';
+import { graphql, useStaticQuery } from 'gatsby';
 
 const SiteLinksContainer = styled.div`
   position: fixed;
@@ -46,7 +47,7 @@ const SiteLinkWrapper = styled.div<SiteLinkWrapperProps>`
   cursor: pointer;
   position: relative;
 
-  ${(props) => {
+  ${props => {
     if (props.isHovering) {
       return `
         border-radius: 0 12.5px 12.5px 0;
@@ -84,7 +85,7 @@ const SectionNameBanner = styled.div<SectionNameBannerProps>`
   align-items: center;
   border-radius: 12.5px 0 0 12.5px;
   border: none;
-  ${(props) => {
+  ${props => {
     if (props.isHovering) {
       return `
         width: 150px;
@@ -108,105 +109,92 @@ const SectionName = styled(Paragraph)`
   font-size: 1rem; // will change based on screen size
 `;
 
+const INITIAL_TRANSFORM_DELAY = 1.75;
+const TRANSFORM_DELAY_DECREMENT = 0.25;
+
 const SiteLinks = () => {
   const { hasSeenIntro } = useIntroContext();
 
-  const [isHoveringIntro, setIsHoveringIntro] = useState(false);
+  const [isHoveringIntroduction, setIsHoveringIntroduction] = useState(false);
   const [isHoveringSkills, setIsHoveringSkills] = useState(false);
-  const [isHoveringExperience, setIsHoveringExperience] = useState(false);
-  const [isHoveringJourney, setIsHoveringJourney] = useState(false);
+  const [isHoveringExperiences, setIsHoveringExperiences] = useState(false);
   const [isHoveringAbout, setIsHoveringAbout] = useState(false);
+
+  const contentfulDataQuery = graphql`
+    query {
+      allContentfulSectionTitles {
+        edges {
+          node {
+            id
+            shortTitle
+            number
+          }
+        }
+      }
+    }
+  `;
+
+  const {
+    allContentfulSectionTitles: { edges: contentfulSectionTitles }
+  } = useStaticQuery(contentfulDataQuery);
+
+  contentfulSectionTitles.sort(
+    (a: { node: { number: number } }, b: { node: { number: number } }) =>
+      a.node.number - b.node.number
+  );
 
   return (
     <SiteLinksContainer>
-      <TransformWrapper hasSeenIntro={hasSeenIntro} transformDelay={1.75}>
-        <SiteLinkWrapper
-          isHovering={isHoveringIntro}
-          onMouseEnter={() => {
-            setIsHoveringIntro(true);
-          }}
-          onMouseLeave={() => {
-            setIsHoveringIntro(false);
-          }}
-        >
-          <SiteLink href="#introduction">
-            01
-            <SectionNameBanner isHovering={isHoveringIntro}>
-              <SectionName>Introduction</SectionName>
-            </SectionNameBanner>
-          </SiteLink>
-        </SiteLinkWrapper>
-      </TransformWrapper>
-      <TransformWrapper hasSeenIntro={hasSeenIntro} transformDelay={1.5}>
-        <SiteLinkWrapper
-          isHovering={isHoveringSkills}
-          onMouseEnter={() => {
-            setIsHoveringSkills(true);
-          }}
-          onMouseLeave={() => {
-            setIsHoveringSkills(false);
-          }}
-        >
-          <SiteLink href="#skills">
-            02
-            <SectionNameBanner isHovering={isHoveringSkills}>
-              <SectionName>Skills</SectionName>
-            </SectionNameBanner>
-          </SiteLink>
-        </SiteLinkWrapper>
-      </TransformWrapper>
-      <TransformWrapper hasSeenIntro={hasSeenIntro} transformDelay={1.25}>
-        <SiteLinkWrapper
-          isHovering={isHoveringExperience}
-          onMouseEnter={() => {
-            setIsHoveringExperience(true);
-          }}
-          onMouseLeave={() => {
-            setIsHoveringExperience(false);
-          }}
-        >
-          <SiteLink href="#experience">
-            03
-            <SectionNameBanner isHovering={isHoveringExperience}>
-              <SectionName>Experience</SectionName>
-            </SectionNameBanner>
-          </SiteLink>
-        </SiteLinkWrapper>
-      </TransformWrapper>
-      {/* <TransformWrapper hasSeenIntro={hasSeenIntro} transformDelay={1.25}>
-        <SiteLinkWrapper
-          isHovering={isHoveringJourney}
-          onMouseEnter={() => {
-            setIsHoveringJourney(true);
-          }}
-          onMouseLeave={() => {
-            setIsHoveringJourney(false);
-          }}
-        >
-          <SiteLink href="#journey">04</SiteLink>
-          <SectionNameBanner isHovering={isHoveringJourney}>
-            <SectionName>Journey</SectionName>
-          </SectionNameBanner>
-        </SiteLinkWrapper>
-      </TransformWrapper> */}
-      <TransformWrapper hasSeenIntro={hasSeenIntro} transformDelay={1}>
-        <SiteLinkWrapper
-          isHovering={isHoveringAbout}
-          onMouseEnter={() => {
-            setIsHoveringAbout(true);
-          }}
-          onMouseLeave={() => {
-            setIsHoveringAbout(false);
-          }}
-        >
-          <SiteLink href="#about">
-            04
-            <SectionNameBanner isHovering={isHoveringAbout}>
-              <SectionName>About</SectionName>
-            </SectionNameBanner>
-          </SiteLink>
-        </SiteLinkWrapper>
-      </TransformWrapper>
+      {contentfulSectionTitles.map((sectionData: any, index: number) => {
+        const hoveringValue =
+          sectionData.node.shortTitle === 'Introduction'
+            ? isHoveringIntroduction
+            : sectionData.node.shortTitle === 'Skills'
+            ? isHoveringSkills
+            : sectionData.node.shortTitle === 'Experiences'
+            ? isHoveringExperiences
+            : isHoveringAbout;
+
+        const hoveringSetter =
+          sectionData.node.shortTitle === 'Introduction'
+            ? setIsHoveringIntroduction
+            : sectionData.node.shortTitle === 'Skills'
+            ? setIsHoveringSkills
+            : sectionData.node.shortTitle === 'Experiences'
+            ? setIsHoveringExperiences
+            : setIsHoveringAbout;
+
+        const transformDelay =
+          INITIAL_TRANSFORM_DELAY - TRANSFORM_DELAY_DECREMENT * index;
+
+        const anchorLink = `#${sectionData.node.shortTitle.toLowerCase()}`;
+
+        const noDecimalNumber = sectionData.node.number.slice(0, 2);
+
+        return (
+          <TransformWrapper
+            hasSeenIntro={hasSeenIntro}
+            transformDelay={transformDelay}
+          >
+            <SiteLinkWrapper
+              isHovering={hoveringValue}
+              onMouseEnter={() => {
+                hoveringSetter(true);
+              }}
+              onMouseLeave={() => {
+                hoveringSetter(false);
+              }}
+            >
+              <SiteLink href={anchorLink}>
+                {noDecimalNumber}
+                <SectionNameBanner isHovering={hoveringValue}>
+                  <SectionName>{sectionData.node.shortTitle}</SectionName>
+                </SectionNameBanner>
+              </SiteLink>
+            </SiteLinkWrapper>
+          </TransformWrapper>
+        );
+      })}
     </SiteLinksContainer>
   );
 };

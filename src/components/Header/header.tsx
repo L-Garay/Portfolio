@@ -8,6 +8,7 @@ import SCREEN_SIZES from '../../constants/screenSizes';
 import { useDeviceContext } from '../../contexts/deviceContext';
 import preventScroll from '../../utils/preventScroll';
 import { useIntroContext } from '../../contexts/introContext';
+import { graphql, useStaticQuery } from 'gatsby';
 
 type SharedHeaderProps = {
   isSmall: boolean;
@@ -39,8 +40,8 @@ const MobileMenu = styled.div<MobileMenuProps>`
   top: 62px; // height of header
   right: 0;
   width: 100%;
-  width: ${(props) => (props.isMenuOpen ? '80%' : '0')};
-  opacity: ${(props) => (props.isMenuOpen ? '1' : '0')};
+  width: ${props => (props.isMenuOpen ? '80%' : '0')};
+  opacity: ${props => (props.isMenuOpen ? '1' : '0')};
   background: ${theme.colors.ORANGE_3};
   height: calc(100vh - 62px);
   transition: all 0.2s linear;
@@ -98,10 +99,10 @@ type MobileExternalLinkProps = {
 };
 
 const MobileExternalLinks = styled(ButtonAsLink).attrs<MobileExternalLinkProps>(
-  (props) => ({
+  props => ({
     href: props.targetLink,
     target: props.targetType,
-    download: props.targetType === '_self' ? true : false,
+    download: props.targetType === '_self' ? true : false
   })
 )<MobileExternalLinkProps>`
   text-align: center;
@@ -132,8 +133,8 @@ const HomeIconContainer = styled.header<SharedHeaderProps>`
   z-index: 100;
   width: 100%;
   height: 62px;
-  top: ${(props) => (props.isSmall ? '0' : '3.5%')};
-  left: ${(props) => (props.isSmall ? '0' : '2.5%')};
+  top: ${props => (props.isSmall ? '0' : '3.5%')};
+  left: ${props => (props.isSmall ? '0' : '2.5%')};
 `;
 
 type IconWrapperProps = SharedHeaderProps & {
@@ -147,9 +148,9 @@ const IconWrapper = styled.div<IconWrapperProps>`
   align-items: center;
   border: 2px solid ${theme.colors.BLUE_1};
   border-radius: 12.5px;
-  width: ${(props) => (props.isSmall ? '60px' : '75px')};
-  height: ${(props) => (props.isSmall ? '45px' : '55px')};
-  margin: ${(props) => (props.isSmall ? 'auto auto auto 10px' : '0 auto 0 0')};
+  width: ${props => (props.isSmall ? '60px' : '75px')};
+  height: ${props => (props.isSmall ? '45px' : '55px')};
+  margin: ${props => (props.isSmall ? 'auto auto auto 10px' : '0 auto 0 0')};
   cursor: pointer;
   opacity: ${({ hasSeenIntro }) => (hasSeenIntro ? '1' : '0')};
   transform: ${({ hasSeenIntro }) =>
@@ -159,7 +160,7 @@ const IconWrapper = styled.div<IconWrapperProps>`
   transition-timing-function: linear;
   transition-delay: 0.75s;
 
-  ${(props) => {
+  ${props => {
     if (props.isHovering) {
       return `
         &:hover,
@@ -178,9 +179,9 @@ type IconLetterProps = SharedHeaderProps & {
 };
 
 const HomeIconLetter = styled(Paragraph)<IconLetterProps>`
-  color: ${(props) => props.color};
+  color: ${props => props.color};
   transition: color 0.2s linear;
-  font-size: ${(props) => (props.isSmall ? '1.5rem' : '2rem')};
+  font-size: ${props => (props.isSmall ? '1.5rem' : '2rem')};
   padding: 0;
   font-weight: 900;
   display: inline-block;
@@ -235,6 +236,29 @@ const Header = () => {
     }
   }, [isAboveSmall]);
 
+  const contentfulDataQuery = graphql`
+    query {
+      allContentfulSectionTitles {
+        edges {
+          node {
+            id
+            shortTitle
+            number
+          }
+        }
+      }
+    }
+  `;
+
+  const {
+    allContentfulSectionTitles: { edges: contentfulSectionTitles }
+  } = useStaticQuery(contentfulDataQuery);
+
+  contentfulSectionTitles.sort(
+    (a: { node: { number: number } }, b: { node: { number: number } }) =>
+      a.node.number - b.node.number
+  );
+
   return (
     <HomeIconContainer id="header" isSmall={isSmall}>
       {isSmall ? (
@@ -250,66 +274,24 @@ const Header = () => {
             <MobileMenuContainer>
               {/* Site Links */}
               <MenuSection>
-                <MobileMenuLinkWrapper>
-                  <MenuLinkNumber>01.</MenuLinkNumber>
-                  <MobileMenuLink
-                    href="#introduction"
-                    onClick={() => {
-                      setIsMenuOpen(false);
-                      preventScroll(false);
-                    }}
-                  >
-                    Intro
-                  </MobileMenuLink>
-                </MobileMenuLinkWrapper>
-                <MobileMenuLinkWrapper>
-                  <MenuLinkNumber>02.</MenuLinkNumber>
-                  <MobileMenuLink
-                    href="#skills"
-                    onClick={() => {
-                      setIsMenuOpen(false);
-                      preventScroll(false);
-                    }}
-                  >
-                    Skills
-                  </MobileMenuLink>
-                </MobileMenuLinkWrapper>
-                <MobileMenuLinkWrapper>
-                  <MenuLinkNumber>03.</MenuLinkNumber>
-                  <MobileMenuLink
-                    href="#experience"
-                    onClick={() => {
-                      setIsMenuOpen(false);
-                      preventScroll(false);
-                    }}
-                  >
-                    Experience
-                  </MobileMenuLink>
-                </MobileMenuLinkWrapper>
-                <MobileMenuLinkWrapper>
-                  <MenuLinkNumber>04.</MenuLinkNumber>
-                  <MobileMenuLink
-                    href="#journey"
-                    onClick={() => {
-                      setIsMenuOpen(false);
-                      preventScroll(false);
-                    }}
-                  >
-                    Journey
-                  </MobileMenuLink>
-                </MobileMenuLinkWrapper>
-                <MobileMenuLinkWrapper>
-                  <MenuLinkNumber>05.</MenuLinkNumber>
-                  <MobileMenuLink
-                    href="#about"
-                    onClick={() => {
-                      setIsMenuOpen(false);
-                      preventScroll(false);
-                    }}
-                  >
-                    About
-                  </MobileMenuLink>
-                </MobileMenuLinkWrapper>
+                {contentfulSectionTitles.map((sectionData: any) => {
+                  const anchorLink = `#${sectionData.node.shortTitle.toLowerCase()}`;
+
+                  return (
+                    <MobileMenuLinkWrapper>
+                      <MenuLinkNumber>{sectionData.node.number}</MenuLinkNumber>
+                      <MobileMenuLink
+                        href={anchorLink}
+                        onClick={() => {
+                          setIsMenuOpen(false);
+                          preventScroll(false);
+                        }}
+                      >
+                        {sectionData.node.shortTitle}
+                      </MobileMenuLink>
+                    </MobileMenuLinkWrapper>
+                  );
+                })}
               </MenuSection>
 
               {/* My Stuff */}
