@@ -175,6 +175,7 @@ const SiteLinks = () => {
           <TransformWrapper
             hasSeenIntro={hasSeenIntro}
             transformDelay={transformDelay}
+            key={sectionData.node.id}
           >
             <SiteLinkWrapper
               isHovering={hoveringValue}
