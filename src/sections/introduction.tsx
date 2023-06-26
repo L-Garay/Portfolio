@@ -68,6 +68,22 @@ const Introduction = () => {
 
   const widthDeduction = isMobile ? 100 : 200;
 
+  React.useEffect(() => {
+    const anchorLinkTimeout = setTimeout(() => {
+      const hash = window.location.hash;
+      if (hash && hasSeenIntro) {
+        const element = document.querySelector(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }, 2500);
+
+    return () => {
+      clearTimeout(anchorLinkTimeout);
+    };
+  }, [hasSeenIntro]);
+
   const contentfulGreetingQuery = graphql`
     query {
       contentfulIntroductionGreeting(intro: { eq: "My name is," }) {
