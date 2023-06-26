@@ -71,9 +71,11 @@ const Introduction = () => {
   React.useEffect(() => {
     const anchorLinkTimeout = setTimeout(() => {
       const hash = window.location.hash;
-      const element = document.querySelector(hash);
-      if (hash && element && hasSeenIntro) {
-        element.scrollIntoView({ behavior: 'smooth' });
+      if (hash && hasSeenIntro) {
+        const element = document.querySelector(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
       }
     }, 2500);
 
