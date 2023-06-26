@@ -41,7 +41,8 @@ const config: GatsbyConfig = {
       resolve: 'gatsby-source-contentful',
       options: {
         spaceId: process.env.CONTENTFUL_SPACE_ID,
-        accessToken: process.env.CONTENTFUL_CONTENT_API_TOKEN
+        accessToken: process.env.CONTENTFUL_CONTENT_API_TOKEN,
+        host: 'cdn.contentful.com' // this is the production host (default)
       }
     },
     {
