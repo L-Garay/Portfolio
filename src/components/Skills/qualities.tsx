@@ -5,6 +5,7 @@ import { useStaticQuery, graphql } from 'gatsby';
 import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image';
 import { SkillsProps } from '../../sections/skills';
 import { useDeviceContext } from '../../contexts/deviceContext';
+import { useContentfulLiveUpdates } from '@contentful/live-preview/react';
 
 type ContentfulQualitiesData = {
   id: string;
@@ -130,6 +131,8 @@ const Qualities = ({
       allContentfulSkillsQualities {
         edges {
           node {
+            __typename
+            contentful_id
             id
             title
             description {
@@ -147,15 +150,30 @@ const Qualities = ({
   `;
 
   const {
-    allContentfulSkillsQualities: { edges: contentfulImages }
+    allContentfulSkillsQualities: { edges: contentfulData }
   } = useStaticQuery(contentfulDataQuery);
+
+  console.log('contentfulData: ', contentfulData);
+
+  const livePreviewData = useContentfulLiveUpdates({
+    contentfulData
+    // sys: { id: contentfulData.node.contentful_id }
+  });
+
+  console.log('livePreviewData: ', livePreviewData);
+
+  const data = livePreviewData.contentfulData
+    ? livePreviewData.contentfulData
+    : contentfulData;
+
+  console.log('data: ', data);
 
   return (
     <QualitiesContainer
       shouldChangeFlexDirection={shouldChangeFlexDirection}
       inView={inView}
     >
-      {contentfulImages.map((gatsbyNode: { node: ContentfulQualitiesData }) => {
+      {data.map((gatsbyNode: { node: ContentfulQualitiesData }) => {
         const { id, title, description, image } = gatsbyNode.node;
         return (
           <QualitySection
