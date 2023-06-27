@@ -20,4 +20,8 @@ const ContentfulLivePreview = ({ element }: { element: ReactNode }) => {
 };
 
 export const wrapRootElement: GatsbyBrowser['wrapRootElement'] =
-  wrapRootWithProviders([wrapWithDeviceContext, wrapWithIntroContext]);
+  wrapRootWithProviders([
+    wrapWithDeviceContext,
+    wrapWithIntroContext,
+    ContentfulLivePreview
+  ]);
