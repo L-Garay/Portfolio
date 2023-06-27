@@ -16,6 +16,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@contentful/live-preview": "^2.4.3",
     "babel-plugin-styled-components": "^2.1.1",
     "dotenv": "^16.3.1",
     "gatsby": "^5.8.1",
