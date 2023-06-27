@@ -155,10 +155,7 @@ const Qualities = ({
 
   console.log('contentfulData: ', contentfulData);
 
-  const livePreviewData = useContentfulLiveUpdates({
-    contentfulData
-    // sys: { id: contentfulData.node.contentful_id }
-  });
+  const livePreviewData = useContentfulLiveUpdates(contentfulData);
 
   console.log('livePreviewData: ', livePreviewData);
 
