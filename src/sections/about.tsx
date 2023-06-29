@@ -523,6 +523,13 @@ const About = React.forwardRef<HTMLDivElement, InViewProps>(
           id
           longTitle
           number
+          sys {
+            contentType {
+              sys {
+                id
+              }
+            }
+          }
         }
       }
     `;
