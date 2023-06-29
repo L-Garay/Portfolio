@@ -164,20 +164,44 @@ const Qualities = ({
   const [data, setData] = useState(contentfulData);
   console.log('contentfulData: ', contentfulData);
 
-  const livePreviewData = useContentfulLiveUpdates({
-    contentfulData,
+  const livePreviewData1 = useContentfulLiveUpdates({
+    contentfulData: contentfulData[0],
     __typename: 'ContentfulSkillsQualities',
-    sys: { id: 'skillsDescriptions' }
+    sys: { id: contentfulData[0].contentful_id }
+  });
+  const livePreviewData2 = useContentfulLiveUpdates({
+    contentfulData: contentfulData[1],
+    __typename: 'ContentfulSkillsQualities',
+    sys: { id: contentfulData[1].contentful_id }
+  });
+  const livePreviewData3 = useContentfulLiveUpdates({
+    contentfulData: contentfulData[2],
+    __typename: 'ContentfulSkillsQualities',
+    sys: { id: contentfulData[2].contentful_id }
   });
 
-  console.log('livePreviewData: ', livePreviewData);
+  console.log(
+    'livePreviewData: ',
+    livePreviewData1,
+    livePreviewData2,
+    livePreviewData3
+  );
 
   useEffect(() => {
-    console.log('preview data from in useEffect', livePreviewData);
-    if (livePreviewData.contentfulData) {
-      setData(livePreviewData.contentfulData);
+    console.log(
+      'preview data from in useEffect',
+      livePreviewData1,
+      livePreviewData2,
+      livePreviewData3
+    );
+    if (livePreviewData1 || livePreviewData2 || livePreviewData3) {
+      setData([
+        livePreviewData1.contentfulData,
+        livePreviewData2.contentfulData,
+        livePreviewData3.contentfulData
+      ]);
     }
-  }, [livePreviewData]);
+  }, [livePreviewData1, livePreviewData2, livePreviewData3]);
 
   console.log('data: ', data);
 
