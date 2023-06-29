@@ -206,42 +206,67 @@ const Qualities = ({
     !!livePreviewData1.title ||
     !!livePreviewData1.image ||
     !!livePreviewData1.description;
+
+  useEffect(() => {
+    console.log('hasPreview1Changed: ', hasPreview1Changed);
+    if (hasPreview1Changed) {
+      const nonUpdated = data.filter(
+        (data: ContentfulQualitiesData) =>
+          data.id !== livePreviewData1.contentfulData.id
+      );
+      console.log('nonUpdated:', nonUpdated);
+      setData([
+        ...nonUpdated,
+        {
+          title: livePreviewData1.title,
+          description: livePreviewData1.description,
+          image: livePreviewData1.image,
+          id: livePreviewData1.contentfulData.id
+        }
+      ]);
+    }
+  }, [hasPreview1Changed]);
+
   const hasPreview2Changed =
     !!livePreviewData2.title ||
     !!livePreviewData2.image ||
     !!livePreviewData2.description;
+
+  useEffect(() => {
+    console.log('hasPreview2Changed: ', hasPreview2Changed);
+    if (hasPreview2Changed) {
+      const nonUpdated = data.filter(
+        (data: ContentfulQualitiesData) =>
+          data.id !== livePreviewData2.contentfulData.id
+      );
+      console.log('nonUpdated:', nonUpdated);
+      setData([
+        ...nonUpdated,
+        {
+          title: livePreviewData2.title,
+          description: livePreviewData2.description,
+          image: livePreviewData2.image,
+          id: livePreviewData2.contentfulData.id
+        }
+      ]);
+    }
+  }, [hasPreview2Changed]);
+
   const hasPreview3Changed =
     !!livePreviewData3.title ||
     !!livePreviewData3.image ||
     !!livePreviewData3.description;
 
   useEffect(() => {
-    console.log(
-      'preview data from in useEffect',
-      livePreviewData1,
-      livePreviewData2,
-      livePreviewData3
-    );
-    console.log(
-      'have any previews changed: ',
-      hasPreview1Changed,
-      hasPreview2Changed,
-      hasPreview3Changed
-    );
-    if (hasPreview1Changed || hasPreview2Changed || hasPreview3Changed) {
+    console.log('hasPreview3Changed: ', hasPreview3Changed);
+    if (hasPreview3Changed) {
+      const nonUpdated = data.filter(
+        (data: ContentfulQualitiesData) =>
+          data.id !== livePreviewData3.contentfulData.id
+      );
+      console.log('nonUpdated:', nonUpdated);
       setData([
-        {
-          title: livePreviewData1.title,
-          description: livePreviewData1.description,
-          image: livePreviewData1.image,
-          id: livePreviewData1.contentfulData.id
-        },
-        {
-          title: livePreviewData2.title,
-          description: livePreviewData2.description,
-          image: livePreviewData2.image,
-          id: livePreviewData2.contentfulData.id
-        },
+        ...nonUpdated,
         {
           title: livePreviewData3.title,
           description: livePreviewData3.description,
@@ -250,7 +275,7 @@ const Qualities = ({
         }
       ]);
     }
-  }, [livePreviewData1, livePreviewData2, livePreviewData3]);
+  }, [hasPreview3Changed]);
 
   console.log('data to be used: ', data);
 
