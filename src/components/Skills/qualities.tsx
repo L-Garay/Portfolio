@@ -209,11 +209,19 @@ const Qualities = ({
       livePreviewData2.contentfulData,
       livePreviewData3.contentfulData
     );
-    if (
+    const hasPreview1Changed =
       livePreviewData1.title ||
-      livePreviewData2.title ||
-      livePreviewData3.title
-    ) {
+      livePreviewData1.image ||
+      livePreviewData1.description;
+    const hasPreview2Changed =
+      livePreviewData1.title ||
+      livePreviewData1.image ||
+      livePreviewData1.description;
+    const hasPreview3Changed =
+      livePreviewData1.title ||
+      livePreviewData1.image ||
+      livePreviewData1.description;
+    if (hasPreview1Changed || hasPreview2Changed || hasPreview3Changed) {
       setData([
         {
           title: livePreviewData1.title,
