@@ -18,6 +18,7 @@ import {
 } from '../components/About/cards';
 import { InViewProps } from 'src/constants/sharedTypes';
 import { graphql, useStaticQuery } from 'gatsby';
+import { useContentfulLiveUpdates } from '@contentful/live-preview/react';
 
 const AboutMeTitle = styled(SectionTitle)<InViewProps>`
   text-align: start;
@@ -517,6 +518,8 @@ const About = React.forwardRef<HTMLDivElement, InViewProps>(
     const contentfulSectionTitles = graphql`
       query {
         contentfulSectionTitles(shortTitle: { eq: "About" }) {
+          __typename
+          contentful_id
           id
           longTitle
           number
@@ -527,6 +530,22 @@ const About = React.forwardRef<HTMLDivElement, InViewProps>(
     const { contentfulSectionTitles: contentfulContent } = useStaticQuery(
       contentfulSectionTitles
     );
+
+    console.log('contentfulContent: ', contentfulContent);
+
+    const livePreviewData = useContentfulLiveUpdates({
+      contentfulContent,
+      sys: { id: contentfulContent.contentful_id }
+    });
+
+    console.log('livePreviewData: ', livePreviewData);
+
+    const number = livePreviewData.contentfulContent.number
+      ? livePreviewData.contentfulContent.number
+      : contentfulContent.number;
+    const longTitle = livePreviewData.contentfulContent.longTitle
+      ? livePreviewData.contentfulContent.longTitle
+      : contentfulContent.longTitle;
 
     return (
       <Section
@@ -559,7 +578,7 @@ const About = React.forwardRef<HTMLDivElement, InViewProps>(
         <SectionContent isMobile={isMobile} calculatedWidth={calcluatedWidth}>
           <SectionTitleContainer>
             <AboutMeTitle inView={inView}>
-              {contentfulContent.number} {contentfulContent.longTitle}
+              {number} {longTitle}
             </AboutMeTitle>
           </SectionTitleContainer>
           {above925 ? (

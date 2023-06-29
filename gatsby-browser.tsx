@@ -11,7 +11,7 @@ const ContentfulLivePreview = ({ element }: { element: ReactNode }) => {
     <ContentfulLivePreviewProvider
       locale="en-US"
       enableInspectorMode={true}
-      enableLiveUpdates
+      enableLiveUpdates={true}
       debugMode={true}
     >
       {element}
