@@ -539,8 +539,6 @@ const About = React.forwardRef<HTMLDivElement, InViewProps>(
       contentfulSectionTitles
     );
 
-    console.log('contentfulContent: ', contentfulContent);
-
     const [number, setNumber] = useState(contentfulContent.number);
     const [longTitle, setLongTitle] = useState(contentfulContent.longTitle);
 
@@ -561,8 +559,6 @@ const About = React.forwardRef<HTMLDivElement, InViewProps>(
       __typename: contentfulContent.__typename
     }) as LivePreviewData;
 
-    console.log('livePreviewData: ', livePreviewData);
-
     useEffect(() => {
       if (livePreviewData.number) {
         setNumber(livePreviewData.number);
@@ -571,13 +567,6 @@ const About = React.forwardRef<HTMLDivElement, InViewProps>(
         setLongTitle(livePreviewData.longTitle);
       }
     }, [livePreviewData]);
-
-    // const number = livePreviewData.contentfulContent.number
-    //   ? livePreviewData.contentfulContent.number
-    //   : contentfulContent.number;
-    // const longTitle = livePreviewData.contentfulContent.longTitle
-    //   ? livePreviewData.contentfulContent.longTitle
-    //   : contentfulContent.longTitle;
 
     return (
       <Section
