@@ -143,6 +143,13 @@ const Qualities = ({
               description
               gatsbyImageData(placeholder: BLURRED, layout: CONSTRAINED)
             }
+            sys {
+              contentType {
+                sys {
+                  id
+                }
+              }
+            }
           }
         }
       }
