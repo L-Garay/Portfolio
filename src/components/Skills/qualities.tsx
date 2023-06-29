@@ -161,16 +161,16 @@ const Qualities = ({
     allContentfulSkillsQualities: { edges: contentfulData }
   } = useStaticQuery(contentfulDataQuery);
 
+  const [data, setData] = useState(contentfulData);
   console.log('contentfulData: ', contentfulData);
 
   const livePreviewData = useContentfulLiveUpdates({
     contentfulData,
-    __typename: 'ContentfulSkillsQualities'
+    __typename: 'ContentfulSkillsQualities',
+    sys: { id: 'skillsDescriptions' }
   });
 
   console.log('livePreviewData: ', livePreviewData);
-
-  const [data, setData] = useState(contentfulData);
 
   useEffect(() => {
     console.log('preview data from in useEffect', livePreviewData);
