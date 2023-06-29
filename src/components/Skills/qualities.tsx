@@ -161,10 +161,8 @@ const Qualities = ({
     allContentfulSkillsQualities: { edges: contentfulData }
   } = useStaticQuery(contentfulDataQuery);
 
-  console.log('contentfulData: ', contentfulData);
   const noNodeContentfulData = contentfulData.map((data: any) => data.node);
   const [data, setData] = useState(noNodeContentfulData);
-  console.log('noNodeContentfulData: ', noNodeContentfulData);
 
   type LivePreviewData = {
     contentfulData: any;
@@ -178,6 +176,7 @@ const Qualities = ({
     image: any;
   };
 
+  console.log('noNodeContentfulData: ', noNodeContentfulData);
   const livePreviewData1 = useContentfulLiveUpdates({
     contentfulData: noNodeContentfulData[0],
     __typename: 'ContentfulSkillsQualities',
@@ -253,7 +252,7 @@ const Qualities = ({
     }
   }, [livePreviewData1, livePreviewData2, livePreviewData3]);
 
-  console.log('data: ', data);
+  console.log('data to be used: ', data);
 
   return (
     <QualitiesContainer
