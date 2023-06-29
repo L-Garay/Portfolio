@@ -163,21 +163,21 @@ const Qualities = ({
 
   console.log('contentfulData: ', contentfulData);
 
-  const livePreviewData = useContentfulLiveUpdates(contentfulData);
+  const livePreviewData = useContentfulLiveUpdates({
+    contentfulData,
+    __typename: 'ContentfulSkillsQualities'
+  });
 
   console.log('livePreviewData: ', livePreviewData);
 
   const [data, setData] = useState(contentfulData);
 
   useEffect(() => {
+    console.log('preview data from in useEffect', livePreviewData);
     if (livePreviewData.contentfulData) {
       setData(livePreviewData.contentfulData);
     }
   }, [livePreviewData]);
-
-  // const data = livePreviewData.contentfulData
-  //   ? livePreviewData.contentfulData
-  //   : contentfulData;
 
   console.log('data: ', data);
 
