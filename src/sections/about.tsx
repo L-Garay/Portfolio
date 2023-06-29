@@ -544,20 +544,31 @@ const About = React.forwardRef<HTMLDivElement, InViewProps>(
     const [number, setNumber] = useState(contentfulContent.number);
     const [longTitle, setLongTitle] = useState(contentfulContent.longTitle);
 
+    type LivePreviewData = {
+      contentfulContent: any;
+      sys: {
+        id: any;
+      };
+      __typename: any;
+      longTitle: string;
+      shortTitle: string;
+      number: string;
+    };
+
     const livePreviewData = useContentfulLiveUpdates({
       contentfulContent,
       sys: { id: contentfulContent.contentful_id },
       __typename: contentfulContent.__typename
-    });
+    }) as LivePreviewData;
 
     console.log('livePreviewData: ', livePreviewData);
 
     useEffect(() => {
-      if (livePreviewData.contentfulContent.number) {
-        setNumber(livePreviewData.contentfulContent.number);
+      if (livePreviewData.number) {
+        setNumber(livePreviewData.number);
       }
-      if (livePreviewData.contentfulContent.longTitle) {
-        setLongTitle(livePreviewData.contentfulContent.longTitle);
+      if (livePreviewData.longTitle) {
+        setLongTitle(livePreviewData.longTitle);
       }
     }, [livePreviewData]);
 
