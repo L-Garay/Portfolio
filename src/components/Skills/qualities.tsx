@@ -161,23 +161,24 @@ const Qualities = ({
     allContentfulSkillsQualities: { edges: contentfulData }
   } = useStaticQuery(contentfulDataQuery);
 
-  const [data, setData] = useState(contentfulData);
-  console.log('contentfulData: ', contentfulData);
+  const noNodeContentfulData = contentfulData.map((data: any) => data.node);
+  const [data, setData] = useState(noNodeContentfulData);
+  console.log('noNodeContentfulData: ', noNodeContentfulData);
 
   const livePreviewData1 = useContentfulLiveUpdates({
-    contentfulData: contentfulData[0],
+    contentfulData: noNodeContentfulData[0],
     __typename: 'ContentfulSkillsQualities',
-    sys: { id: contentfulData[0].contentful_id }
+    sys: { id: noNodeContentfulData[0].contentful_id }
   });
   const livePreviewData2 = useContentfulLiveUpdates({
-    contentfulData: contentfulData[1],
+    contentfulData: noNodeContentfulData[1],
     __typename: 'ContentfulSkillsQualities',
-    sys: { id: contentfulData[1].contentful_id }
+    sys: { id: noNodeContentfulData[1].contentful_id }
   });
   const livePreviewData3 = useContentfulLiveUpdates({
-    contentfulData: contentfulData[2],
+    contentfulData: noNodeContentfulData[2],
     __typename: 'ContentfulSkillsQualities',
-    sys: { id: contentfulData[2].contentful_id }
+    sys: { id: noNodeContentfulData[2].contentful_id }
   });
 
   console.log(
@@ -190,9 +191,9 @@ const Qualities = ({
   useEffect(() => {
     console.log(
       'preview data from in useEffect',
-      livePreviewData1,
-      livePreviewData2,
-      livePreviewData3
+      livePreviewData1.contentfulData,
+      livePreviewData2.contentfulData,
+      livePreviewData3.contentfulData
     );
     if (livePreviewData1 || livePreviewData2 || livePreviewData3) {
       setData([
@@ -210,8 +211,8 @@ const Qualities = ({
       shouldChangeFlexDirection={shouldChangeFlexDirection}
       inView={inView}
     >
-      {data.map((gatsbyNode: { node: ContentfulQualitiesData }) => {
-        const { id, title, description, image } = gatsbyNode.node;
+      {data.map((data: ContentfulQualitiesData) => {
+        const { id, title, description, image } = data;
         return (
           <QualitySection
             key={id}
