@@ -11,7 +11,6 @@ import Experience from '../sections/experience';
 import Skills from '../sections/skills';
 import { CarouselProvider } from '../contexts/carouselContext';
 import AnimatedIntro from '../components/animatedIntro';
-import { ContentfulLivePreviewProvider } from '@contentful/live-preview/dist/react';
 
 // Step 2: Define your component
 const IndexPage = () => {
@@ -43,14 +42,7 @@ const IndexPage = () => {
         <Experience ref={experienceRef} inView={experienceInView} />
         {/* <Journey /> */}
         <CarouselProvider>
-          <ContentfulLivePreviewProvider
-            locale="en-US"
-            enableInspectorMode={true}
-            enableLiveUpdates={true}
-            debugMode={true}
-          >
-            <About ref={aboutRef} inView={aboutInView} />
-          </ContentfulLivePreviewProvider>
+          <About ref={aboutRef} inView={aboutInView} />
         </CarouselProvider>
       </Layout>
     </div>
