@@ -6,6 +6,7 @@ import { GatsbyImage, IGatsbyImageData } from 'gatsby-plugin-image';
 import { SkillsProps } from '../../sections/skills';
 import { useDeviceContext } from '../../contexts/deviceContext';
 import { useContentfulLiveUpdates } from '@contentful/live-preview/react';
+import { useEffect, useState } from 'react';
 
 type ContentfulQualitiesData = {
   id: string;
@@ -166,9 +167,17 @@ const Qualities = ({
 
   console.log('livePreviewData: ', livePreviewData);
 
-  const data = livePreviewData.contentfulData
-    ? livePreviewData.contentfulData
-    : contentfulData;
+  const [data, setData] = useState(contentfulData);
+
+  useEffect(() => {
+    if (livePreviewData.contentfulData) {
+      setData(livePreviewData.contentfulData);
+    }
+  }, [livePreviewData]);
+
+  // const data = livePreviewData.contentfulData
+  //   ? livePreviewData.contentfulData
+  //   : contentfulData;
 
   console.log('data: ', data);
 

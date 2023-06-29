@@ -19,6 +19,7 @@ import {
 import { InViewProps } from 'src/constants/sharedTypes';
 import { graphql, useStaticQuery } from 'gatsby';
 import { useContentfulLiveUpdates } from '@contentful/live-preview/react';
+import { useEffect, useState } from 'react';
 
 const AboutMeTitle = styled(SectionTitle)<InViewProps>`
   text-align: start;
@@ -540,6 +541,9 @@ const About = React.forwardRef<HTMLDivElement, InViewProps>(
 
     console.log('contentfulContent: ', contentfulContent);
 
+    const [number, setNumber] = useState(contentfulContent.number);
+    const [longTitle, setLongTitle] = useState(contentfulContent.longTitle);
+
     const livePreviewData = useContentfulLiveUpdates({
       contentfulContent,
       sys: { id: contentfulContent.contentful_id },
@@ -548,12 +552,21 @@ const About = React.forwardRef<HTMLDivElement, InViewProps>(
 
     console.log('livePreviewData: ', livePreviewData);
 
-    const number = livePreviewData.contentfulContent.number
-      ? livePreviewData.contentfulContent.number
-      : contentfulContent.number;
-    const longTitle = livePreviewData.contentfulContent.longTitle
-      ? livePreviewData.contentfulContent.longTitle
-      : contentfulContent.longTitle;
+    useEffect(() => {
+      if (livePreviewData.contentfulContent.number) {
+        setNumber(livePreviewData.contentfulContent.number);
+      }
+      if (livePreviewData.contentfulContent.longTitle) {
+        setLongTitle(livePreviewData.contentfulContent.longTitle);
+      }
+    }, [livePreviewData]);
+
+    // const number = livePreviewData.contentfulContent.number
+    //   ? livePreviewData.contentfulContent.number
+    //   : contentfulContent.number;
+    // const longTitle = livePreviewData.contentfulContent.longTitle
+    //   ? livePreviewData.contentfulContent.longTitle
+    //   : contentfulContent.longTitle;
 
     return (
       <Section
