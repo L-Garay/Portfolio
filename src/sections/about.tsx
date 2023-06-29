@@ -542,7 +542,8 @@ const About = React.forwardRef<HTMLDivElement, InViewProps>(
 
     const livePreviewData = useContentfulLiveUpdates({
       contentfulContent,
-      sys: { id: contentfulContent.contentful_id }
+      sys: { id: contentfulContent.contentful_id },
+      __typename: contentfulContent.__typename
     });
 
     console.log('livePreviewData: ', livePreviewData);
