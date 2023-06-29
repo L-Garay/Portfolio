@@ -165,21 +165,35 @@ const Qualities = ({
   const [data, setData] = useState(noNodeContentfulData);
   console.log('noNodeContentfulData: ', noNodeContentfulData);
 
+  type LivePreviewData = {
+    contentfulData: any;
+    sys: {
+      id: any;
+    };
+    __typename: any;
+    title: string;
+    description: string;
+    id: string;
+    image: any;
+  };
+
   const livePreviewData1 = useContentfulLiveUpdates({
     contentfulData: noNodeContentfulData[0],
     __typename: 'ContentfulSkillsQualities',
     sys: { id: noNodeContentfulData[0].contentful_id }
-  });
+  }) as LivePreviewData;
+
   const livePreviewData2 = useContentfulLiveUpdates({
     contentfulData: noNodeContentfulData[1],
     __typename: 'ContentfulSkillsQualities',
     sys: { id: noNodeContentfulData[1].contentful_id }
-  });
+  }) as LivePreviewData;
+
   const livePreviewData3 = useContentfulLiveUpdates({
     contentfulData: noNodeContentfulData[2],
     __typename: 'ContentfulSkillsQualities',
     sys: { id: noNodeContentfulData[2].contentful_id }
-  });
+  }) as LivePreviewData;
 
   console.log(
     'livePreviewData: ',
@@ -195,11 +209,30 @@ const Qualities = ({
       livePreviewData2.contentfulData,
       livePreviewData3.contentfulData
     );
-    if (livePreviewData1 || livePreviewData2 || livePreviewData3) {
+    if (
+      livePreviewData1.title ||
+      livePreviewData2.title ||
+      livePreviewData3.title
+    ) {
       setData([
-        livePreviewData1.contentfulData,
-        livePreviewData2.contentfulData,
-        livePreviewData3.contentfulData
+        {
+          title: livePreviewData1.title,
+          description: livePreviewData1.description,
+          image: livePreviewData1.image,
+          id: livePreviewData1.contentfulData.id
+        },
+        {
+          title: livePreviewData2.title,
+          description: livePreviewData2.description,
+          image: livePreviewData2.image,
+          id: livePreviewData2.contentfulData.id
+        },
+        {
+          title: livePreviewData3.title,
+          description: livePreviewData3.description,
+          image: livePreviewData3.image,
+          id: livePreviewData3.contentfulData.id
+        }
       ]);
     }
   }, [livePreviewData1, livePreviewData2, livePreviewData3]);
