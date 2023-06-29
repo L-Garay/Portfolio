@@ -161,6 +161,7 @@ const Qualities = ({
     allContentfulSkillsQualities: { edges: contentfulData }
   } = useStaticQuery(contentfulDataQuery);
 
+  console.log('contentfulData: ', contentfulData);
   const noNodeContentfulData = contentfulData.map((data: any) => data.node);
   const [data, setData] = useState(noNodeContentfulData);
   console.log('noNodeContentfulData: ', noNodeContentfulData);
@@ -202,25 +203,32 @@ const Qualities = ({
     livePreviewData3
   );
 
+  const hasPreview1Changed =
+    !!livePreviewData1.title ||
+    !!livePreviewData1.image ||
+    !!livePreviewData1.description;
+  const hasPreview2Changed =
+    !!livePreviewData2.title ||
+    !!livePreviewData2.image ||
+    !!livePreviewData2.description;
+  const hasPreview3Changed =
+    !!livePreviewData3.title ||
+    !!livePreviewData3.image ||
+    !!livePreviewData3.description;
+
   useEffect(() => {
     console.log(
       'preview data from in useEffect',
-      livePreviewData1.contentfulData,
-      livePreviewData2.contentfulData,
-      livePreviewData3.contentfulData
+      livePreviewData1,
+      livePreviewData2,
+      livePreviewData3
     );
-    const hasPreview1Changed =
-      livePreviewData1.title ||
-      livePreviewData1.image ||
-      livePreviewData1.description;
-    const hasPreview2Changed =
-      livePreviewData1.title ||
-      livePreviewData1.image ||
-      livePreviewData1.description;
-    const hasPreview3Changed =
-      livePreviewData1.title ||
-      livePreviewData1.image ||
-      livePreviewData1.description;
+    console.log(
+      'have any previews changed: ',
+      hasPreview1Changed,
+      hasPreview2Changed,
+      hasPreview3Changed
+    );
     if (hasPreview1Changed || hasPreview2Changed || hasPreview3Changed) {
       setData([
         {
