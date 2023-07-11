@@ -29,6 +29,10 @@ const TransformWrapper = styled.div<TransformWrapperProps>`
 
 const SiteLink = styled(Link)`
   text-shadow: 1px 1px 2px black;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
 `;
 
 type SiteLinkWrapperProps = {
@@ -187,7 +191,7 @@ const SiteLinks = () => {
               }}
             >
               <SiteLink href={anchorLink}>
-                {noDecimalNumber}
+                <p>{noDecimalNumber}</p>
                 <SectionNameBanner isHovering={hoveringValue}>
                   <SectionName>{sectionData.node.shortTitle}</SectionName>
                 </SectionNameBanner>
