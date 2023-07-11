@@ -21,6 +21,7 @@ import { graphql, useStaticQuery } from 'gatsby';
 import { useContentfulLiveUpdates } from '@contentful/live-preview/react';
 import { useEffect, useState } from 'react';
 
+// #region STYLES
 const AboutMeTitle = styled(SectionTitle)<InViewProps>`
   text-align: start;
   ${({ inView }) => {
@@ -463,6 +464,7 @@ const StaticCardContainer = styled.div<InViewProps>`
 const StaticCardWrapper = styled.div`
   margin: 30px 0;
 `;
+// #endregion STYLES
 
 const About = React.forwardRef<HTMLDivElement, InViewProps>(
   ({ inView }, ref) => {
