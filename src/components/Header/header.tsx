@@ -10,6 +10,7 @@ import preventScroll from '../../utils/preventScroll';
 import { useIntroContext } from '../../contexts/introContext';
 import { graphql, useStaticQuery } from 'gatsby';
 
+// #region STYLES
 type SharedHeaderProps = {
   isSmall: boolean;
 };
@@ -196,6 +197,7 @@ type IconProps = {
   isSmall: boolean;
   hasSeenIntro: boolean;
 };
+// #endregion STYLES
 
 const Icon = ({ isSmall, hasSeenIntro }: IconProps) => {
   const [isHoveringIcon, setIsHoveringIcon] = React.useState(false);
@@ -278,8 +280,8 @@ const Header = () => {
                   const anchorLink = `#${sectionData.node.shortTitle.toLowerCase()}`;
 
                   return (
-                    <MobileMenuLinkWrapper key={sectionData.node.shortTitle}>
-                      <MenuLinkNumber>{sectionData.node.id}</MenuLinkNumber>
+                    <MobileMenuLinkWrapper key={sectionData.node.id}>
+                      <MenuLinkNumber>{sectionData.node.number}</MenuLinkNumber>
                       <MobileMenuLink
                         href={anchorLink}
                         onClick={() => {
