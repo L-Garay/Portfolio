@@ -104,6 +104,10 @@ const TopRightBorder = styled.div<BorderProps>`
   transition: opacity 0.75s linear 0.25s, transform 0.75s linear 0.25s;
 `;
 
+const StyledSection = styled(Section)`
+  scroll-margin-top: -50px;
+`;
+
 const SkillsContainer = styled.div<SkillsProps>`
   position: relative;
   margin-bottom: 10px;
@@ -166,7 +170,7 @@ const Skills = React.forwardRef<HTMLDivElement, InViewProps>(
     );
 
     return (
-      <Section
+      <StyledSection
         id="skills"
         height={isMobile ? windowHeight : undefined}
         ref={ref}
@@ -207,7 +211,7 @@ const Skills = React.forwardRef<HTMLDivElement, InViewProps>(
             />
           </SkillsContainer>
         </SectionContent>
-      </Section>
+      </StyledSection>
     );
   }
 );

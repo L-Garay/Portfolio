@@ -195,6 +195,10 @@ const BottomRightBorder = styled.div<BorderProps>`
     transition: opacity .75s linear .25s, transform .75s linear .25s;
 `;
 
+const StyledSection = styled(Section)`
+  scroll-margin-top: -30px;
+`;
+
 const CarouselContainer = styled.div<InViewProps>`
   height: 675px; // testing
   ${({ inView }) => {
@@ -571,7 +575,7 @@ const About = React.forwardRef<HTMLDivElement, InViewProps>(
     }, [livePreviewData]);
 
     return (
-      <Section
+      <StyledSection
         id="about"
         height={isMobile ? windowHeight : undefined}
         marginTop={isAboveSmall ? 225 : 0}
@@ -688,7 +692,7 @@ const About = React.forwardRef<HTMLDivElement, InViewProps>(
             </StaticCardContainer>
           )}
         </SectionContent>
-      </Section>
+      </StyledSection>
     );
   }
 );

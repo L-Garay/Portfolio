@@ -125,6 +125,10 @@ const TopRightBorder = styled.div<BorderProps>`
   transition: opacity 0.75s linear 0.25s, transform 0.75s linear 0.25s;
 `;
 
+const StyledSection = styled(Section)`
+  scroll-margin-top: 40px;
+`;
+
 const ExperiencesContainer = styled.div<ExperiencesProps>`
   position: relative;
   margin-bottom: 10px;
@@ -223,7 +227,7 @@ const Experience = React.forwardRef<HTMLDivElement, InViewProps>(
     );
 
     return (
-      <Section
+      <StyledSection
         id="experiences"
         height={isMobile ? windowHeight : undefined}
         marginTop={isAboveSmall ? 225 : 0}
@@ -265,7 +269,7 @@ const Experience = React.forwardRef<HTMLDivElement, InViewProps>(
             </ExperiencesWrapper>
           </ExperiencesContainer>
         </SectionContent>
-      </Section>
+      </StyledSection>
     );
   }
 );
