@@ -27,3 +27,19 @@ export type CustomSVGProps = SVGProps<SVGSVGElement> & {
 export type InViewProps = {
   inView: boolean;
 };
+
+export type ContentfulExperiencesData = {
+  id: string;
+  companyName: string;
+  companyLink: string;
+  dates: string;
+  isContractPosition: boolean;
+  contractedThrough?: string;
+  contractedThroughLink?: string;
+  menuButtonId: string;
+  responsibilities: {
+    internal: {
+      content: string;
+    };
+  };
+};

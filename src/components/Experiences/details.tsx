@@ -1,24 +1,13 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
-import { SharedPageProps } from '../../constants/sharedTypes';
+import {
+  SharedPageProps,
+  ContentfulExperiencesData
+} from '../../constants/sharedTypes';
 import { Paragraph } from '../../components/shared';
 import { ExperiencesProps } from '../../sections/experience';
 import { graphql, useStaticQuery } from 'gatsby';
-
-type ContentfulExperiencesData = {
-  id: string;
-  companyName: string;
-  companyLink: string;
-  dates: string;
-  isContractPosition: boolean;
-  contractedThrough?: string;
-  contractedThroughLink?: string;
-  menuButtonId: string;
-  responsibilities: {
-    responsibilities: string;
-  };
-};
 
 type DetailsProps = SharedPageProps & {
   currentButtonId: string;
@@ -94,9 +83,9 @@ const TitleLink = styled.a.attrs({
 const Details = ({ isAboveSmall, currentButtonId }: DetailsProps) => {
   const contentfulDataQuery = graphql`
     query {
-      allContentfulExperiences {
-        edges {
-          node {
+      allContentfulExperiencesList {
+        nodes {
+          references {
             id
             companyName
             companyLink
@@ -106,7 +95,9 @@ const Details = ({ isAboveSmall, currentButtonId }: DetailsProps) => {
             contractedThroughLink
             menuButtonId
             responsibilities {
-              responsibilities
+              internal {
+                content
+              }
             }
           }
         }
@@ -115,26 +106,26 @@ const Details = ({ isAboveSmall, currentButtonId }: DetailsProps) => {
   `;
 
   const {
-    allContentfulExperiences: { edges: contentfulExperiences }
+    allContentfulExperiencesList: { nodes: contentfulExperiences }
   } = useStaticQuery(contentfulDataQuery);
 
   const [selectedExperience, setSelectedExperience] =
     React.useState<ContentfulExperiencesData>(
-      contentfulExperiences[contentfulExperiences.length - 1].node
+      contentfulExperiences[0].references[contentfulExperiences.length - 1]
     );
 
   React.useEffect(() => {
-    const selectedExperience = contentfulExperiences.find(
-      (gatsbyNode: { node: ContentfulExperiencesData }) =>
-        gatsbyNode.node.menuButtonId === currentButtonId
+    const selectedExperience = contentfulExperiences[0].references.find(
+      (reference: ContentfulExperiencesData) =>
+        reference.menuButtonId === currentButtonId
     );
     setSelectedExperience(prev =>
-      selectedExperience.node ? selectedExperience.node : prev
+      selectedExperience ? selectedExperience : prev
     );
   }, [currentButtonId]);
 
   const responsibilities =
-    selectedExperience.responsibilities.responsibilities.split('$$');
+    selectedExperience.responsibilities.internal.content.split('$$');
 
   const role = selectedExperience.companyName.split('@')[0];
   const companyName = selectedExperience.companyName.split('@')[1];

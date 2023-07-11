@@ -2,25 +2,27 @@ import * as React from 'react';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 import { ExperiencesProps } from '../../sections/experience';
+import { graphql, useStaticQuery } from 'gatsby';
+import { ContentfulExperiencesData } from '../../constants/sharedTypes';
 
 const BUTTON_HEIGHT = 60;
 const EXPERIENCES_LIST = [
   {
     name: 'Hinge Health',
-    id: 'hinge-health-button',
+    id: 'hinge-health-button'
   },
   {
     name: 'Downwrite, Inc',
-    id: 'downwrite-button',
+    id: 'downwrite-button'
   },
   {
     name: 'Noble Intent, LLC',
-    id: 'noble-intent-button',
+    id: 'noble-intent-button'
   },
   {
     name: 'Put your name here',
-    id: 'put-your-name-here-button',
-  },
+    id: 'put-your-name-here-button'
+  }
 ];
 
 type MenuContainerProps = ExperiencesProps & {
@@ -29,11 +31,11 @@ type MenuContainerProps = ExperiencesProps & {
 
 const MenuContainer = styled.div<MenuContainerProps>`
   display: flex;
-  flex-direction: ${(props) => (props.isAboveSmall ? 'column' : 'row')};
+  flex-direction: ${props => (props.isAboveSmall ? 'column' : 'row')};
   position: relative;
 
   /* These styles will only ever apply to the current selected MenuButton */
-  ${(props) => {
+  ${props => {
     const id = `#${props.currentButtonId}`;
     return `
       button${id} {
@@ -56,7 +58,7 @@ type MenuLineProps = ExperiencesProps & {
 const MenuLine = styled.div<MenuLineProps>`
   position: absolute;
   left: 0;
-  ${(props) => {
+  ${props => {
     const buttonWidth = props.menuWidth / 4; // NOTE this needs to get updated whenever a new menu item is added
     if (props.isAboveSmall) {
       return `
@@ -94,7 +96,7 @@ const MenuButton = styled.button<MenuButtonProps>`
   cursor: pointer;
   outline: none;
   border: none;
-  ${(props) => {
+  ${props => {
     if (props.isAboveSmall) {
       return `
       height: ${props.buttonHeight}px;
@@ -126,12 +128,30 @@ type MenuProps = ExperiencesProps & {
 const Menu = ({
   isAboveSmall,
   currentButtonId,
-  setCurrentButtonId,
+  setCurrentButtonId
 }: MenuProps) => {
   const [currentButtonIndex, setCurrentButtonIndex] = React.useState<number>(0);
 
   const menuRef = React.useRef<HTMLDivElement>(null);
   const menuWidth = menuRef.current ? menuRef.current.offsetWidth : 0;
+
+  const contentfulDataQuery = graphql`
+    query {
+      allContentfulExperiencesList {
+        nodes {
+          references {
+            companyName
+            menuButtonId
+            contentful_id
+          }
+        }
+      }
+    }
+  `;
+
+  const {
+    allContentfulExperiencesList: { nodes: experiencesList }
+  } = useStaticQuery(contentfulDataQuery);
 
   return (
     <MenuContainer
@@ -139,22 +159,32 @@ const Menu = ({
       currentButtonId={currentButtonId}
       ref={menuRef}
     >
-      {EXPERIENCES_LIST.map((experience, index) => {
-        return (
-          <MenuButton
-            key={experience.id}
-            id={experience.id}
-            buttonHeight={BUTTON_HEIGHT}
-            isAboveSmall={isAboveSmall}
-            onClick={() => {
-              setCurrentButtonIndex(index);
-              setCurrentButtonId(experience.id);
-            }}
-          >
-            <span>{experience.name}</span>
-          </MenuButton>
-        );
-      })}
+      {experiencesList[0].references.map(
+        (
+          node: {
+            companyName: string;
+            menuButtonId: string;
+            contentful_id: string;
+          },
+          index: number
+        ) => {
+          const companyName = node.companyName.split('@')[1];
+          return (
+            <MenuButton
+              key={node.contentful_id}
+              id={node.contentful_id}
+              buttonHeight={BUTTON_HEIGHT}
+              isAboveSmall={isAboveSmall}
+              onClick={() => {
+                setCurrentButtonIndex(index);
+                setCurrentButtonId(node.menuButtonId);
+              }}
+            >
+              <span>{companyName}</span>
+            </MenuButton>
+          );
+        }
+      )}
       <MenuLine
         buttonHeight={BUTTON_HEIGHT}
         currentButtonIndex={currentButtonIndex}
