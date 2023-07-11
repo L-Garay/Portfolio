@@ -111,7 +111,7 @@ const Details = ({ isAboveSmall, currentButtonId }: DetailsProps) => {
 
   const [selectedExperience, setSelectedExperience] =
     React.useState<ContentfulExperiencesData>(
-      contentfulExperiences[0].references[contentfulExperiences.length - 1]
+      contentfulExperiences[0].references[0]
     );
 
   React.useEffect(() => {
