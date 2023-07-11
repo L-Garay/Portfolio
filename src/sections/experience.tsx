@@ -177,9 +177,8 @@ const ExperiencesWrapper = styled.div<ExperiencesProps & InViewProps>`
 
 const Experience = React.forwardRef<HTMLDivElement, InViewProps>(
   ({ inView }, ref) => {
-    const [currentButtonId, setCurrentButtonId] = React.useState<string>(
-      'hinge-health-button'
-    );
+    const [currentButtonId, setCurrentButtonId] =
+      React.useState<string>('riafox-button');
     const { windowWidth, windowHeight, isWindowWidthAboveOrBetweenThreshold } =
       useDeviceContext();
 
