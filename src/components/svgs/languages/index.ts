@@ -10,3 +10,5 @@ export { default as RemixSVG } from './remix';
 export { default as SassSVG } from './sass';
 export { default as TypeScriptSVG } from './typeScript';
 export { default as PostgresSVG } from './postgres';
+export { default as ContentfulSVG } from './contentful';
+export { default as GatsbySVG } from './gatsby';
