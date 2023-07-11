@@ -176,7 +176,7 @@ const Qualities = ({
     image: any;
   };
 
-  console.log('noNodeContentfulData: ', noNodeContentfulData);
+  // console.log('noNodeContentfulData: ', noNodeContentfulData);
   const livePreviewData1 = useContentfulLiveUpdates({
     contentfulData: noNodeContentfulData[0],
     __typename: 'ContentfulSkillsQualities',
@@ -195,12 +195,12 @@ const Qualities = ({
     sys: { id: noNodeContentfulData[2].contentful_id }
   }) as LivePreviewData;
 
-  console.log(
-    'livePreviewData: ',
-    livePreviewData1,
-    livePreviewData2,
-    livePreviewData3
-  );
+  // console.log(
+  //   'livePreviewData: ',
+  //   livePreviewData1,
+  //   livePreviewData2,
+  //   livePreviewData3
+  // );
 
   const hasPreview1Changed =
     !!livePreviewData1.title ||
@@ -208,13 +208,13 @@ const Qualities = ({
     !!livePreviewData1.description;
 
   useEffect(() => {
-    console.log('hasPreview1Changed: ', hasPreview1Changed);
+    // console.log('hasPreview1Changed: ', hasPreview1Changed);
     if (hasPreview1Changed) {
       const nonUpdated = data.filter(
         (data: ContentfulQualitiesData) =>
           data.id !== livePreviewData1.contentfulData.id
       );
-      console.log('nonUpdated:', nonUpdated);
+      // console.log('nonUpdated:', nonUpdated);
       setData([
         ...nonUpdated,
         {
@@ -233,13 +233,13 @@ const Qualities = ({
     !!livePreviewData2.description;
 
   useEffect(() => {
-    console.log('hasPreview2Changed: ', hasPreview2Changed);
+    // console.log('hasPreview2Changed: ', hasPreview2Changed);
     if (hasPreview2Changed) {
       const nonUpdated = data.filter(
         (data: ContentfulQualitiesData) =>
           data.id !== livePreviewData2.contentfulData.id
       );
-      console.log('nonUpdated:', nonUpdated);
+      // console.log('nonUpdated:', nonUpdated);
       setData([
         ...nonUpdated,
         {
@@ -258,13 +258,13 @@ const Qualities = ({
     !!livePreviewData3.description;
 
   useEffect(() => {
-    console.log('hasPreview3Changed: ', hasPreview3Changed);
+    // console.log('hasPreview3Changed: ', hasPreview3Changed);
     if (hasPreview3Changed) {
       const nonUpdated = data.filter(
         (data: ContentfulQualitiesData) =>
           data.id !== livePreviewData3.contentfulData.id
       );
-      console.log('nonUpdated:', nonUpdated);
+      // console.log('nonUpdated:', nonUpdated);
       setData([
         ...nonUpdated,
         {
@@ -277,7 +277,7 @@ const Qualities = ({
     }
   }, [hasPreview3Changed]);
 
-  console.log('data to be used: ', data);
+  // console.log('data to be used: ', data);
 
   return (
     <QualitiesContainer
