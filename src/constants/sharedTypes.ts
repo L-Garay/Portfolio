@@ -43,3 +43,14 @@ export type ContentfulExperiencesData = {
     };
   };
 };
+
+export type WeclomeData = {
+  id: number;
+  letter: string;
+  delays: {
+    enter: number | undefined;
+    leave: number | undefined;
+  };
+  skip?: boolean;
+  color?: string;
+};
