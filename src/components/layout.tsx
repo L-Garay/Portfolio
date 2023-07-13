@@ -4,10 +4,23 @@ import { SocialLinks, SiteLinks } from './Links';
 import { useDeviceContext } from '../contexts/deviceContext';
 import SCREEN_SIZES from '../constants/screenSizes';
 import { Header } from './Header';
+import { useIntroContext } from '../contexts/introContext';
 
-const Main = styled.main`
+type MainProps = {
+  hasSeenIntro: boolean;
+  shouldSkipIntro: boolean;
+};
+
+const Main = styled.main<MainProps>`
   position: relative;
   background-color: black;
+  visibility: ${({ hasSeenIntro, shouldSkipIntro }) => {
+    if (hasSeenIntro || shouldSkipIntro) {
+      return 'visible';
+    } else {
+      return 'hidden';
+    }
+  }};
 `;
 
 const Footer = styled.div`
@@ -25,10 +38,17 @@ const Footer = styled.div`
 const Layout = ({ pageTitle, children }: Record<string, any>) => {
   const { isWindowWidthAboveOrBetweenThreshold } = useDeviceContext();
   const isAboveSmall = isWindowWidthAboveOrBetweenThreshold(SCREEN_SIZES.SMALL);
+
+  const { hasSeenIntro, shouldSkipIntro } = useIntroContext();
+
   return (
     <>
       <Header />
-      <Main id="main">
+      <Main
+        id="main"
+        hasSeenIntro={hasSeenIntro}
+        shouldSkipIntro={shouldSkipIntro}
+      >
         {isAboveSmall ? <SocialLinks /> : null}
         {children}
         {isAboveSmall ? <SiteLinks /> : null}

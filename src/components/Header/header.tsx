@@ -138,10 +138,10 @@ const HomeIconContainer = styled.header<SharedHeaderProps>`
   left: ${props => (props.isSmall ? '0' : '2.5%')};
 `;
 
-type IconWrapperProps = SharedHeaderProps & {
-  isHovering: boolean;
-  hasSeenIntro: boolean;
-};
+type IconWrapperProps = SharedHeaderProps &
+  Pick<IconProps, 'hasSeenIntro' | 'shouldSkipIntro'> & {
+    isHovering: boolean;
+  };
 
 const IconWrapper = styled.div<IconWrapperProps>`
   display: flex;
@@ -153,9 +153,20 @@ const IconWrapper = styled.div<IconWrapperProps>`
   height: ${props => (props.isSmall ? '45px' : '55px')};
   margin: ${props => (props.isSmall ? 'auto auto auto 10px' : '0 auto 0 0')};
   cursor: pointer;
-  opacity: ${({ hasSeenIntro }) => (hasSeenIntro ? '1' : '0')};
-  transform: ${({ hasSeenIntro }) =>
-    hasSeenIntro ? 'translateY(0)' : 'translateY(-50px)'};
+  opacity: ${({ hasSeenIntro, shouldSkipIntro }) => {
+    if (hasSeenIntro || shouldSkipIntro) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }};
+  transform: ${({ hasSeenIntro, shouldSkipIntro }) => {
+    if (hasSeenIntro || shouldSkipIntro) {
+      return 'translateY(0)';
+    } else {
+      return 'translateY(-50px)';
+    }
+  }};
   transition: opacity, transform;
   transition-duration: 0.5s;
   transition-timing-function: linear;
@@ -196,10 +207,11 @@ const IconLink = styled(Link)`
 type IconProps = {
   isSmall: boolean;
   hasSeenIntro: boolean;
+  shouldSkipIntro: boolean;
 };
 // #endregion STYLES
 
-const Icon = ({ isSmall, hasSeenIntro }: IconProps) => {
+const Icon = ({ isSmall, hasSeenIntro, shouldSkipIntro }: IconProps) => {
   const [isHoveringIcon, setIsHoveringIcon] = React.useState(false);
 
   const fill = isHoveringIcon ? theme.colors.ORANGE_2 : theme.colors.BLUE_1;
@@ -209,6 +221,7 @@ const Icon = ({ isSmall, hasSeenIntro }: IconProps) => {
       isSmall={isSmall}
       isHovering={isHoveringIcon}
       hasSeenIntro={hasSeenIntro}
+      shouldSkipIntro={shouldSkipIntro}
       onMouseEnter={() => setIsHoveringIcon(true)}
       onMouseLeave={() => setIsHoveringIcon(false)}
     >
@@ -226,7 +239,7 @@ const Icon = ({ isSmall, hasSeenIntro }: IconProps) => {
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const { hasSeenIntro } = useIntroContext();
+  const { hasSeenIntro, shouldSkipIntro } = useIntroContext();
   const { isWindowWidthAboveOrBetweenThreshold } = useDeviceContext();
 
   const isAboveSmall = isWindowWidthAboveOrBetweenThreshold(SCREEN_SIZES.SMALL);
@@ -265,11 +278,16 @@ const Header = () => {
     <HomeIconContainer id="header" isSmall={isSmall}>
       {isSmall ? (
         <MobileNavContainer>
-          <Icon isSmall={isSmall} hasSeenIntro={hasSeenIntro} />
+          <Icon
+            isSmall={isSmall}
+            hasSeenIntro={hasSeenIntro}
+            shouldSkipIntro={shouldSkipIntro}
+          />
           <Hamburger
             isMenuOpen={isMenuOpen}
             setIsMenuOpen={setIsMenuOpen}
             hasSeenIntro={hasSeenIntro}
+            shouldSkipIntro={shouldSkipIntro}
           />
           {isMenuOpen ? <MobileMenuBG isMenuOpen={isMenuOpen} /> : null}
           <MobileMenu isMenuOpen={isMenuOpen}>
@@ -339,7 +357,11 @@ const Header = () => {
           </MobileMenu>
         </MobileNavContainer>
       ) : (
-        <Icon isSmall={isSmall} hasSeenIntro={hasSeenIntro} />
+        <Icon
+          isSmall={isSmall}
+          hasSeenIntro={hasSeenIntro}
+          shouldSkipIntro={shouldSkipIntro}
+        />
       )}
     </HomeIconContainer>
   );

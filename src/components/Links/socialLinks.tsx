@@ -10,17 +10,22 @@ import DownloadSVG from '../svgs/downloadSVG';
 import EmailSVG from '../svgs/emailSVG';
 import { useIntroContext } from '../../contexts/introContext';
 
+type IntroProps = {
+  hasSeenIntro: boolean;
+  shouldSkipIntro: boolean;
+};
+
+type WrapperProps = {
+  isHovering: boolean;
+  transformDelay: number;
+} & IntroProps;
+
 const LinksContainer = styled.div`
   position: fixed;
   bottom: 0;
   left: 0;
   z-index: 10;
 `;
-
-type WrapperProps = {
-  isHovering: boolean;
-  transformDelay: number;
-} & IntroProps;
 
 const LinkWrapper = styled.div<WrapperProps>`
   height: 40px;
@@ -30,11 +35,22 @@ const LinkWrapper = styled.div<WrapperProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: ${(props) => (props.isHovering ? '7px' : '0')};
+  padding-bottom: ${props => (props.isHovering ? '7px' : '0')};
   transition: padding-bottom 0.25s linear;
-  opacity: ${({ hasSeenIntro }) => (hasSeenIntro ? '1' : '0')};
-  transform: ${({ hasSeenIntro }) =>
-    hasSeenIntro ? 'translateX(0)' : 'translateX(-50px)'};
+  opacity: ${({ hasSeenIntro, shouldSkipIntro }) => {
+    if (hasSeenIntro || shouldSkipIntro) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }};
+  transform: ${({ hasSeenIntro, shouldSkipIntro }) => {
+    if (hasSeenIntro || shouldSkipIntro) {
+      return 'translateX(0)';
+    } else {
+      return 'translateX(-50px)';
+    }
+  }};
   transition: opacity, transform, padding-bottom;
   transition-duration: 0.5s, 0.35s, 0.25s;
   transition-timing-function: linear;
@@ -44,10 +60,6 @@ const LinkWrapper = styled.div<WrapperProps>`
     cursor: pointer;
   }
 `;
-
-type IntroProps = {
-  hasSeenIntro: boolean;
-};
 
 const LinkLine = styled.div<IntroProps>`
   height: 100px;
@@ -64,9 +76,15 @@ const LinkLine = styled.div<IntroProps>`
     background-color: white;
     height: 100%;
     transform: translateX(-50%);
-    opacity: ${({ hasSeenIntro }) => (hasSeenIntro ? '1' : '0')};
-    transform: ${({ hasSeenIntro }) => {
-      if (hasSeenIntro) {
+    opacity: ${({ hasSeenIntro, shouldSkipIntro }) => {
+      if (hasSeenIntro || shouldSkipIntro) {
+        return 1;
+      } else {
+        return 0;
+      }
+    }};
+    transform: ${({ hasSeenIntro, shouldSkipIntro }) => {
+      if (hasSeenIntro || shouldSkipIntro) {
         return 'translateX(-50%) translateY(0)';
       } else {
         return 'translateX(-50%) translateY(75px)';
@@ -82,7 +100,7 @@ const LinkLine = styled.div<IntroProps>`
 const SocialLink = styled(Link)``;
 
 const SocialLinks = () => {
-  const { hasSeenIntro } = useIntroContext();
+  const { hasSeenIntro, shouldSkipIntro } = useIntroContext();
 
   const [isHoveringGithub, setIsHoveringGithub] = useState(false);
   const [isHoveringLinkedIn, setIsHoveringLinkedIn] = useState(false);
@@ -97,6 +115,7 @@ const SocialLinks = () => {
       <LinkWrapper
         isHovering={isHoveringGithub}
         hasSeenIntro={hasSeenIntro}
+        shouldSkipIntro={shouldSkipIntro}
         transformDelay={1.75}
         onMouseEnter={() => {
           setIsHoveringGithub(true);
@@ -112,6 +131,7 @@ const SocialLinks = () => {
       <LinkWrapper
         isHovering={isHoveringLinkedIn}
         hasSeenIntro={hasSeenIntro}
+        shouldSkipIntro={shouldSkipIntro}
         transformDelay={1.5}
         onMouseEnter={() => {
           setIsHoveringLinkedIn(true);
@@ -127,6 +147,7 @@ const SocialLinks = () => {
       <LinkWrapper
         isHovering={isHoveringResume}
         hasSeenIntro={hasSeenIntro}
+        shouldSkipIntro={shouldSkipIntro}
         transformDelay={1.25}
         onMouseEnter={() => {
           setIsHoveringResume(true);
@@ -142,6 +163,7 @@ const SocialLinks = () => {
       <LinkWrapper
         isHovering={isHoveringEmail}
         hasSeenIntro={hasSeenIntro}
+        shouldSkipIntro={shouldSkipIntro}
         transformDelay={1}
         onMouseEnter={() => {
           setIsHoveringEmail(true);
@@ -154,7 +176,7 @@ const SocialLinks = () => {
           <EmailSVG fill={isHoveringEmail ? fillColor : defaultColor} />
         </SocialLink>
       </LinkWrapper>
-      <LinkLine hasSeenIntro={hasSeenIntro} />
+      <LinkLine hasSeenIntro={hasSeenIntro} shouldSkipIntro={shouldSkipIntro} />
     </LinksContainer>
   );
 };

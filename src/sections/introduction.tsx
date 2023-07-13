@@ -9,9 +9,11 @@ import SCREEN_SIZES from '../constants/screenSizes';
 import { graphql, useStaticQuery } from 'gatsby';
 import { renderRichText } from 'gatsby-source-contentful/rich-text';
 import { BLOCKS } from '@contentful/rich-text-types';
+import preventScroll from '../utils/preventScroll';
 
 type IntroductionProps = {
   hasSeenIntro: boolean;
+  shouldSkipIntro: boolean;
 };
 
 const IntroductionContent = styled.div`
@@ -27,17 +29,39 @@ const Heading = styled.h1<IntroductionProps>`
   font-size: clamp(2.5rem, 4vw, 4.5rem);
   color: ${theme.colors.BLUE_1};
   font-family: ${theme.fonts.robotoMono};
-  opacity: ${({ hasSeenIntro }) => (hasSeenIntro ? 1 : 0)};
-  transform: ${({ hasSeenIntro }) =>
-    hasSeenIntro ? 'translateY(0)' : 'translateY(50px)'};
+  opacity: ${({ hasSeenIntro, shouldSkipIntro }) => {
+    if (hasSeenIntro || shouldSkipIntro) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }};
+  transform: ${({ hasSeenIntro, shouldSkipIntro }) => {
+    if (hasSeenIntro || shouldSkipIntro) {
+      return 'translateY(0)';
+    } else {
+      return 'translateY(50px)';
+    }
+  }};
   transition: all 0.5s linear 1s;
 `;
 
 const IntroParagraph = styled(Paragraph)<IntroductionProps>`
   font-size: max(1rem, 1.1vw);
-  opacity: ${({ hasSeenIntro }) => (hasSeenIntro ? 1 : 0)};
-  transform: ${({ hasSeenIntro }) =>
-    hasSeenIntro ? 'translateY(0)' : 'translateY(50px)'};
+  opacity: ${({ hasSeenIntro, shouldSkipIntro }) => {
+    if (hasSeenIntro || shouldSkipIntro) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }};
+  transform: ${({ hasSeenIntro, shouldSkipIntro }) => {
+    if (hasSeenIntro || shouldSkipIntro) {
+      return 'translateY(0)';
+    } else {
+      return 'translateY(50px)';
+    }
+  }};
   transition: all 0.5s linear 0.75s;
 
   &.introduction2 {
@@ -49,14 +73,25 @@ const IntroParagraph = styled(Paragraph)<IntroductionProps>`
 const IntroHeading2 = styled(Heading2)<IntroductionProps>`
   font-size: clamp(1.75rem, 3vw, 3.5rem);
   color: ${theme.colors.ORANGE_1};
-  opacity: ${({ hasSeenIntro }) => (hasSeenIntro ? 1 : 0)};
-  transform: ${({ hasSeenIntro }) =>
-    hasSeenIntro ? 'translateY(0)' : 'translateY(50px)'};
+  opacity: ${({ hasSeenIntro, shouldSkipIntro }) => {
+    if (hasSeenIntro || shouldSkipIntro) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }};
+  transform: ${({ hasSeenIntro, shouldSkipIntro }) => {
+    if (hasSeenIntro || shouldSkipIntro) {
+      return 'translateY(0)';
+    } else {
+      return 'translateY(50px)';
+    }
+  }};
   transition: all 0.5s linear 1.25s;
 `;
 
 const Introduction = () => {
-  const { hasSeenIntro } = useIntroContext();
+  const { hasSeenIntro, shouldSkipIntro } = useIntroContext();
   const { windowWidth, windowHeight, isWindowWidthAboveOrBetweenThreshold } =
     useDeviceContext();
 
@@ -70,19 +105,22 @@ const Introduction = () => {
 
   React.useEffect(() => {
     const anchorLinkTimeout = setTimeout(() => {
+      if (shouldSkipIntro) {
+        preventScroll(false);
+      }
       const hash = window.location.hash;
-      if (hash && hasSeenIntro) {
+      if (hash && (hasSeenIntro || shouldSkipIntro)) {
         const element = document.querySelector(hash);
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
         }
       }
-    }, 2500);
+    }, 2500); // rough time it takes for intro transitions to finish
 
     return () => {
       clearTimeout(anchorLinkTimeout);
     };
-  }, [hasSeenIntro]);
+  }, [hasSeenIntro, shouldSkipIntro]);
 
   const contentfulGreetingQuery = graphql`
     query {
@@ -112,6 +150,7 @@ const Introduction = () => {
         return (
           <IntroParagraph
             hasSeenIntro={hasSeenIntro}
+            shouldSkipIntro={shouldSkipIntro}
             className="introduction2"
             dangerouslySetInnerHTML={{ __html: convertedText }}
           />
@@ -127,9 +166,22 @@ const Introduction = () => {
         calculatedWidth={windowWidth - widthDeduction}
       >
         <IntroductionContent>
-          <IntroParagraph hasSeenIntro={hasSeenIntro}>{intro} </IntroParagraph>
-          <Heading hasSeenIntro={hasSeenIntro}>{name}</Heading>
-          <IntroHeading2 hasSeenIntro={hasSeenIntro}>
+          <IntroParagraph
+            hasSeenIntro={hasSeenIntro}
+            shouldSkipIntro={shouldSkipIntro}
+          >
+            {intro}{' '}
+          </IntroParagraph>
+          <Heading
+            hasSeenIntro={hasSeenIntro}
+            shouldSkipIntro={shouldSkipIntro}
+          >
+            {name}
+          </Heading>
+          <IntroHeading2
+            hasSeenIntro={hasSeenIntro}
+            shouldSkipIntro={shouldSkipIntro}
+          >
             {roleDescription}
           </IntroHeading2>
           {renderRichText(summary, contentfuOptions)}

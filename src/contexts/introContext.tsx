@@ -3,7 +3,7 @@ import React, {
   ReactNode,
   useContext,
   useEffect,
-  useState,
+  useState
 } from 'react';
 import preventScroll from '../utils/preventScroll';
 
@@ -11,16 +11,21 @@ export interface IntroContextProps {
   hasMounted: boolean;
   hasSeenIntro: boolean;
   setHasSeenIntro: (hasSeenIntro: boolean) => void;
+  shouldSkipIntro: boolean;
+  setShouldSkipIntro: (shouldSkipIntro: boolean) => void;
 }
 
 export const IntroContext = createContext<IntroContextProps>({
   hasMounted: false,
   hasSeenIntro: false,
   setHasSeenIntro: () => {},
+  shouldSkipIntro: false,
+  setShouldSkipIntro: () => {}
 } as IntroContextProps);
 export const IntroProvider = ({ children }: { children: ReactNode }) => {
   const [hasMounted, setHasMounted] = useState(false);
   const [hasSeenIntro, setHasSeenIntro] = useState(false);
+  const [shouldSkipIntro, setShouldSkipIntro] = useState(false);
 
   useEffect(() => {
     setHasMounted(true);
@@ -36,6 +41,8 @@ export const IntroProvider = ({ children }: { children: ReactNode }) => {
     hasMounted,
     hasSeenIntro,
     setHasSeenIntro,
+    shouldSkipIntro,
+    setShouldSkipIntro
   };
 
   return (
