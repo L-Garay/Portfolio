@@ -15,12 +15,24 @@ const SiteLinksContainer = styled.div`
 type TransformWrapperProps = {
   hasSeenIntro: boolean;
   transformDelay: number;
+  shouldSkipIntro: boolean;
 };
 
 const TransformWrapper = styled.div<TransformWrapperProps>`
-  opacity: ${({ hasSeenIntro }) => (hasSeenIntro ? '1' : '0')};
-  transform: ${({ hasSeenIntro }) =>
-    hasSeenIntro ? 'translateX(0)' : 'translateX(75px)'};
+  opacity: ${({ hasSeenIntro, shouldSkipIntro }) => {
+    if (hasSeenIntro || shouldSkipIntro) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }};
+  transform: ${({ hasSeenIntro, shouldSkipIntro }) => {
+    if (hasSeenIntro || shouldSkipIntro) {
+      return 'translateX(0)';
+    } else {
+      return 'translateX(75px)';
+    }
+  }};
   transition: opacity, transform;
   transition-duration: 0.5s, 0.35s;
   transition-timing-function: linear;
@@ -117,7 +129,7 @@ const INITIAL_TRANSFORM_DELAY = 1.75;
 const TRANSFORM_DELAY_DECREMENT = 0.25;
 
 const SiteLinks = () => {
-  const { hasSeenIntro } = useIntroContext();
+  const { hasSeenIntro, shouldSkipIntro } = useIntroContext();
 
   const [isHoveringIntroduction, setIsHoveringIntroduction] = useState(false);
   const [isHoveringSkills, setIsHoveringSkills] = useState(false);
@@ -178,6 +190,7 @@ const SiteLinks = () => {
         return (
           <TransformWrapper
             hasSeenIntro={hasSeenIntro}
+            shouldSkipIntro={shouldSkipIntro}
             transformDelay={transformDelay}
             key={sectionData.node.id}
           >
