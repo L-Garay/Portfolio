@@ -164,6 +164,19 @@ const Qualities = ({
   const noNodeContentfulData = contentfulData.map((data: any) => data.node);
   const [data, setData] = useState(noNodeContentfulData);
 
+  // TODO fix all this shit....
+  // the returned data from the hook differs in structure than the original data in the sense that it adds the updated data to the top level
+  // it seems that 'updated' data is cached somehow, because even between preview builds in gatsby, when you start the preview again there will be 'updated' data still present
+  // which triggers the boolean checks and then we all of a sudden have a mix of updated vs non updated data at render time
+  // which causes issues (I would have thought that when a preview is closed all preview specific data is removed/deleted)
+  // so we need to figure out a way to better handle a mix of nonNodeContentfulData and livePreviewData
+  // we need to ensure that we are always storing the same structure of data, and that when live preivew data is not available, we properly use the original data
+  // we need to ensure that if only one peice of data is updated, it doesn't break the preview logic
+  // My recommendation is to comment/remove almost everything below
+  // then uncomment the hooks and the console logs to see what the returned data ACTUALLY looks like across different scenarios
+  // then we can figure out how to properly reconcile the updated data and the original data
+  // but until that point, just use the original data to render the component
+  // and we can check the updated/preview data in the dev tools console within the preview
   type LivePreviewData = {
     contentfulData: any;
     sys: {
