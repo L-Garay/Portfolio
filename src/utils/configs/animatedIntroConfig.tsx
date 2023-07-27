@@ -272,20 +272,41 @@ export const MEDIUM_WELCOME_DATA: WeclomeData[] = [
       leave: 6
     }
   },
+  // NOTE the values below for some god forsaken reason act differently than the values above depending on the browser
+  // Incrementing the values normally, results in the last two letters being rendered much later than their respective delays IN ALL BROWSERS
+  // Brave requires the last two letters to be exactly the same as the previous two for some reason
+  // Chrome, Firefox and Edge IT SEEMS require the second to last letter to match its predecessor, but the last letter can be incremented normally..for some reason
+  // THIS MAKES NO SENSE
   {
     id: 16,
     letter: 'L',
     delays: {
-      enter: 3.75, // NOTE no idea why these two values are acting different
-      leave: 5.75 // NOTE no idea why these two values are acting different
+      enter: 4, // NOTE no idea why these two values are acting different
+      leave: 6 // NOTE no idea why these two values are acting different
     }
   },
   {
     id: 17,
     letter: 'O',
     delays: {
-      enter: 4, // NOTE no idea why these two values are acting different
-      leave: 6 // NOTE no idea why these two values are acting different
+      enter: 4.25, // NOTE no idea why these two values are acting different
+      leave: 6.25 // NOTE no idea why these two values are acting different
     }
   }
+  // {
+  //   id: 16,
+  //   letter: 'L',
+  //   delays: {
+  //     enter: 3.75, // NOTE no idea why these two values are acting different
+  //     leave: 5.75 // NOTE no idea why these two values are acting different
+  //   }
+  // },
+  // {
+  //   id: 17,
+  //   letter: 'O',
+  //   delays: {
+  //     enter: 4, // NOTE no idea why these two values are acting different
+  //     leave: 6 // NOTE no idea why these two values are acting different
+  //   }
+  // }
 ];
