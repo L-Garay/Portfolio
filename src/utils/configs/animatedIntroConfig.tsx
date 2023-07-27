@@ -281,16 +281,16 @@ export const MEDIUM_WELCOME_DATA: WeclomeData[] = [
     id: 16,
     letter: 'L',
     delays: {
-      enter: 4, // NOTE no idea why these two values are acting different
-      leave: 6 // NOTE no idea why these two values are acting different
+      enter: 4.25, // NOTE no idea why these two values are acting different
+      leave: 6.25 // NOTE no idea why these two values are acting different
     }
   },
   {
     id: 17,
     letter: 'O',
     delays: {
-      enter: 4.25, // NOTE no idea why these two values are acting different
-      leave: 6.25 // NOTE no idea why these two values are acting different
+      enter: 4.5, // NOTE no idea why these two values are acting different
+      leave: 6.5 // NOTE no idea why these two values are acting different
     }
   }
   // {
